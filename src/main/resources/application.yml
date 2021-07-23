@@ -1,0 +1,33 @@
+server:
+  port: 9777
+spring:
+  datasource:
+    url: jdbc:oracle:thin:@localhost:1521/orcl
+    username: shop
+    password: shop
+    driver-class-name: oracle.jdbc.driver.OracleDriver
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+      # show_sql: true
+        format_sql: true
+
+#  thymeleaf:
+#    prefix: classpath:/templates/
+#    suffix: .html
+
+logging.level:
+  org.hibernate.SQL: debug
+  org.hibernate.type: trace
+
+
+# [ http 로그 ]
+#logging:
+#  level:
+#    org.apache.coyote.http11: debug
+
+file:
+  dir: C:/akinux/study/file/

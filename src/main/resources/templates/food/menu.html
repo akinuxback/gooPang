@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/nav-right :: nav-right"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Menu Section ======= -->
+<section id="menu" class="mt-5 menu section-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Menu</h2>
+            <p>Check Our Tasty Menu</p>
+            <div class="mt-2">
+                <a href="/admin/food/addFood"><button class="btn-primary ml-2">등록</button></a>
+                <button class="btn-primary ml-2">수정</button>
+                <button class="btn-primary ml-2">삭제</button>
+            </div>
+        </div>
+
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-lg-12 d-flex justify-content-center">
+                <ul id="menu-flters">
+                    <li data-filter="*" class="filter-active">All</li>
+                    <li data-filter=".filter-starters">Starters</li>
+                    <li data-filter=".filter-salads">Salads</li>
+                    <li data-filter=".filter-specialty">Specialty</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+
+            <div class="col-lg-6 menu-item filter-starters">
+                <img src="/my-custom/images/images.jpg" class="menu-img" alt="">
+                <img src="/my-custom/images/박보영2.jpg" class="menu-img" alt="">
+                <img src="/rest/assets/img/menu/bread-barrel.jpg" class="menu-img" alt="">
+                <div class="menu-content">
+                    <a href="#">Lobster Bisque</a><span>$5.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    Lorem, deren, trataro, filede, nerada
+                </div>
+            </div>
+
+            <div th:each="food : ${foodList}" class="col-lg-6 menu-item filter-starters">
+<!--                <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">-->
+                <img th:if="${food.getUploadFile().getDbFileName()} != null" th:src="|/test/images/${food.getUploadFile().getDbFileName()}|" class="menu-img" alt=""/>
+                <img th:if="${food.getUploadFile().getDbFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+                <div class="menu-content" th:onclick="|location.href='@{/food/getFood/{id}(id=${food.id})}'|">
+                    <a href="#" th:text="${food.itemName}">Lobster Bisque</a>
+                    <span th:text="'₩ ' + ${#numbers.formatInteger(food.price, 0, 'COMMA')}">$5.95</span>
+                </div>
+                <div class="menu-ingredients">
+                    <li th:text="${food.explains}"></li>
+                    <ul>
+                        <li th:text="${food.foodStatus}"></li>
+                        <li th:text="${food.foodKindStatus}"></li>
+                        <li th:text="${food.updateDate}"></li>
+                    </ul>
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </div>
+</section><!-- End Menu Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

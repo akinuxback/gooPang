@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/nav-right :: nav-right"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Book A Table Section ======= -->
+<section id="book-a-table" class="book-a-table">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+            <h2>Menu</h2>
+            <p>Check Our Tasty Menu</p>
+            <div class="mt-2">
+                <a href="/admin/food/foodList"><button class="btn-primary ml-2">전체</button></a>
+                <a href="/admin/food/addFood"><button class="btn-primary ml-2">등록</button></a>
+                <button class="btn-primary ml-2">수정</button>
+                <button class="btn-primary ml-2">삭제</button>
+            </div>
+        </div>
+
+<!--        <img th:src="|/test/images/${#request.getParameter('fileUri')}|" width="300" height="300"/>-->
+<!--        <img th:src="|/admin/food/display/${param.fileUri}|" width="300" height="300"/>-->
+        <div th:if="|${param.filename != null}|">
+            <img th:src="|/admin/food/addFood/${param.filename}|" width="300" height="300"/>
+        </div>
+        <form th:action
+              th:object="${foodItemDto}" method="post" enctype="multipart/form-data"
+              class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="form-group border-bottom mb-5">
+                <label>File upload</label></br>
+                <input type="file" name="file">
+            </div>
+
+            <div class="form-row">
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label>FoodName</label>
+                    <input type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="foodName">
+                </div>
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label>Price</label>
+                    <input type="text" th:field="${foodItemDto.price}" class="form-control" placeholder="1,000,000">
+                </div>
+                <div class="col-lg-4 col-md-6 form-group">
+                    <label>StockQuantity</label>
+                    <input type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="10000">
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Explains</label>
+                <textarea class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
+            </div>
+
+
+
+            <div class="form-row text-center mt-5 mb-5 border p-4">
+                <div class="col">
+                    <label class="ml-auto col-6">
+                        FoodStatus
+                    </label>
+                    <select th:field="${foodItemDto.foodStatus}" class="ml-auto col-6">
+                        <option value="">==상품상세구분==</option>
+                        <option th:each="status : ${modelFoodStatus}"
+                                th:value="${status.name()}"
+                                th:text="${status.name()}">status</option>
+                    </select>
+                </div>
+                <div class="col">
+                    <label class="ml-auto col-6">
+                        FoodKindStatus
+                    </label>
+                    <select th:field="${foodItemDto.foodKindStatus}" class="ml-auto col-6">
+                        <option value="">==상품상세구분==</option>
+                        <option th:each="status : ${modelFoodKindStatus}"
+                                th:value="${status.name()}"
+                                th:text="${status.foodName}">status</option>
+                    </select>
+                </div>
+            </div>
+
+
+
+
+
+
+            <!-- ./ end check box -->
+
+            <div class="mb-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
+            </div>
+            <div class="text-center"><button type="submit">Book a Table</button></div>
+        </form>
+
+    </div>
+</section><!-- End Book A Table Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    var query = [[${foodItemDto}]];
+    console.log(query);
+    /*]]>*/
+</script>

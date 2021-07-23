@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/nav-right :: nav-right"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Book A Table Section ======= -->
+<section id="book-a-table" class="book-a-table">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Menu</h2>
+      <p>Check Our Tasty Menu</p>
+      <div class="mt-2">
+        <a href="/admin/food/foodList"><button class="btn-primary ml-2">전체</button></a>
+        <a href="/admin/food/addFood"><button class="btn-primary ml-2">등록</button></a>
+        <button class="btn-primary ml-2">수정</button>
+        <button class="btn-primary ml-2">삭제</button>
+      </div>
+    </div>
+
+    <!-- ======= Events Section ======= -->
+    <section id="events" class="events">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2 th:text="${foodDto.foodStatus.name()}">상품</h2>
+          <p th:text="${foodDto.foodKindStatus.foodName}">Organize Your Events in our Restaurant</p>
+        </div>
+
+        <div class="owl-carousel events-carousel" data-aos="fade-up" data-aos-delay="100">
+
+          <div class="row event-item">
+            <div class="col-lg-6">
+              <img th:if="${foodDto.getUploadFile().getDbFileName()} != null" th:src="|/test/images/${foodDto.getUploadFile().getDbFileName()}|" class="menu-img" alt=""/>
+              <img th:if="${foodDto.getUploadFile().getDbFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+            </div>
+            <div class="col-lg-6 pt-4 pt-lg-0 content">
+              <h3 th:text="${foodDto.itemName}">Birthday Parties</h3>
+              <div class="price">
+                <p><span th:text="'₩ ' + |${#numbers.formatInteger(foodDto.price, 3, 'COMMA')}|">$189</span></p>
+              </div>
+              <p th:text="${foodDto.explains}" class="font-italic">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                magna aliqua.
+              </p>
+              <ul>
+                <li><i class="icofont-check-circled"></i> <span th:text="${foodDto.stockQuantity}"> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</span></li>
+                <li><i class="icofont-check-circled"></i> <span th:text="${foodDto.updateDate}"> spsapnDuis aute irure dolor in reprehenderit in voluptate velit.</span></li>
+                <li><i class="icofont-check-circled"></i> Ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+              </ul>
+              <p>
+                Ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+                velit esse cillum dolore eu fugiat nulla pariatur
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Events Section -->
+
+
+
+  </div>
+</section><!-- End Book A Table Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var query = [[${foodDto}]];
+  console.log(query);
+  /*]]>*/
+</script>
