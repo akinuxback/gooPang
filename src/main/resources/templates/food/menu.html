@@ -17,7 +17,7 @@
             <h2>Menu</h2>
             <p>Check Our Tasty Menu</p>
             <div class="mt-2">
-                <a href="/admin/food/addFood"><button class="btn-primary ml-2">등록</button></a>
+                <a href="/food/addFood"><button class="btn-primary ml-2">등록</button></a>
                 <button class="btn-primary ml-2">수정</button>
                 <button class="btn-primary ml-2">삭제</button>
             </div>
@@ -50,8 +50,8 @@
 
             <div th:each="food : ${foodList}" class="col-lg-6 menu-item filter-starters">
 <!--                <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">-->
-                <img th:if="${food.getUploadFile().getDbFileName()} != null" th:src="|/test/images/${food.getUploadFile().getDbFileName()}|" class="menu-img" alt=""/>
-                <img th:if="${food.getUploadFile().getDbFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+                <img th:if="${food.getUploadFile().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(food.getUploadFile().getFullPath())}|" class="menu-img" alt=""/>
+                <img th:if="${food.getUploadFile().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
                 <div class="menu-content" th:onclick="|location.href='@{/food/getFood/{id}(id=${food.id})}'|">
                     <a href="#" th:text="${food.itemName}">Lobster Bisque</a>
                     <span th:text="'₩ ' + ${#numbers.formatInteger(food.price, 0, 'COMMA')}">$5.95</span>
@@ -59,9 +59,9 @@
                 <div class="menu-ingredients">
                     <li th:text="${food.explains}"></li>
                     <ul>
-                        <li th:text="${food.foodStatus}"></li>
-                        <li th:text="${food.foodKindStatus}"></li>
-                        <li th:text="${food.updateDate}"></li>
+                        <li th:text="${food.id}"></li>
+                        <li th:text="${food.foodGroups}"></li>
+                        <li th:text="${food.stockQuantity}"></li>
                     </ul>
                 </div>
             </div>

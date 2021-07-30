@@ -15,8 +15,11 @@ public class FoodItemDto {
     private int price;
     private int stockQuantity;
     private String explains; // 메뉴 설명
-    private FoodStatus foodStatus; // 음식 종류 - 음료, 면, 탕, 고기
-    private FoodKindStatus foodKindStatus; // 음식 이름
+    private FoodGroups foodGroups; // 음식 종류 - 음료, 면, 탕, 고기
     private UploadFileDto uploadFileDto;
+
+    public void setUploadFileDto(UploadFileDto uploadFileDto) {
+        this.uploadFileDto = uploadFileDto;
+    }
 
 }

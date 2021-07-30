@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+
+<div th:fragment="appendFormToMenu">
+    <tr class="clone" data-index="0" height="70" style="color: wheat;">
+        <th class="align-middle" scope="row">
+            <div>
+                <button type="button" class="addBtn btn-primary mt-5" >+</button>
+                <span id="noVal">1</span>
+            </div>
+        </th>
+        <td class="align-middle">
+            <div>
+                <img th:src="@{/my-custom/images/images.jpg}" class="displaySingleFile" data-id="" width="60" height="60"/>
+            </div>
+        </td>
+        <td class="align-middle">
+            <div id="uploadDiv">
+<!--        onclick="document.getElementById('file').click();"        -->
+                <input class="upBtn btn-danger" type="button" value="UP"/>
+                <input class="upload-file" type="file" style="display:none;" id="file" name="singleFile"/>
+            </div>
+        </td>
+        <td class="align-middle">asd</td>
+        <td class="align-middle">@mdo</td>
+    </tr>
+</div>
+
+
+

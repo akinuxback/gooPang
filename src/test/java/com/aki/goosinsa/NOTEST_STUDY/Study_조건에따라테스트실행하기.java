@@ -33,7 +33,7 @@ public class Study_조건에따라테스트실행하기 {
         System.out.println("string = " + string);
 
         //when
-        assumingThat("AKINUX11".equalsIgnoreCase(string), ()->{
+        assumingThat(("AKINUX11").equalsIgnoreCase(string), ()->{
             assertThat("AKINUX").isEqualTo(string);
         });
 

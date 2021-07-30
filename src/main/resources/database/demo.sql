@@ -1,6 +1,7 @@
 drop table item;
 
 select * from ITEM;
+select * from UPLOAD_FILE;
 
 insert into item(id, DTYPE, PRICE, STOCK_QUANTITY)
 values (ITEM_SEQ.nextval,'F', 10000 , 10, 'aaa');

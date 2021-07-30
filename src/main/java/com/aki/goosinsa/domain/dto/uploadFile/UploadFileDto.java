@@ -11,14 +11,16 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.AccessDeniedException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.UUID;
 
 
 @Data
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@NoArgsConstructor
 @Slf4j
 public class UploadFileDto {
 
@@ -33,9 +35,13 @@ public class UploadFileDto {
 
 
     // 디렉토리에 파일저장과 동시에, +  dto 생성
-    public UploadFileDto(String UPLOAD_FOLDER, MultipartFile mf) throws IOException {
+    public UploadFileDto(String UPLOAD_FOLDER, MultipartFile mf, FileType fileType) throws IOException {
 
         createUploadFileDto(UPLOAD_FOLDER, mf);
+        if(this.fileType != fileType){
+            log.info("fileType = {}", this.fileType);
+            throw new AccessDeniedException("이미지 파일만 업로드 가능 합니다.");
+        }
 
         if(!mf.isEmpty()) {
             File uploadFolderPath = new File(uploadFolder, uploadPath);
@@ -57,7 +63,7 @@ public class UploadFileDto {
         this.clientFileName = mf.getOriginalFilename(); // 박보영.jpg - 업로드한 사용자에게 보여줄 파일이름
         this.extFileName = makeExtFileName(clientFileName); // 확장자명 추출 jpg
         this.fileType = makeFileExtType(this.extFileName); // 파일 확장자 타입 enum
-        this.serverFileName = makeServerFileName(extFileName); // uuid + extFileName -> 박보영.jpg
+        this.serverFileName = makeServerFileName(extFileName); // uuid + extFileName -> uuid + .jpg
     }
 
     // FileType
@@ -79,7 +85,7 @@ public class UploadFileDto {
         // image.jpg
         int pos = originalFilename.lastIndexOf(".");
         // return -> jpg
-        return originalFilename.substring(pos + 1);
+        return originalFilename.substring(pos + 1).toLowerCase();
     }
 
     // uuid + extFileName -> 박보영.jpg
