@@ -3,27 +3,28 @@
 
 
 <div th:fragment="appendFormToMenu">
-    <tr class="clone" data-index="0" height="70" style="color: wheat;">
-        <th class="align-middle" scope="row">
-            <div>
-                <button type="button" class="addBtn btn-primary mt-5" >+</button>
+    <tr class="clone" data-index="0">
+        <th class="align-middle">
+            <div id="add-rm-btn">
+                <button type="button" class="addBtn btn-primary">+</button>
                 <span id="noVal">1</span>
+                <button type="button" class="rmBtn btn-danger">-</button>
             </div>
         </th>
         <td class="align-middle">
             <div>
-                <img th:src="@{/my-custom/images/images.jpg}" class="displaySingleFile" data-id="" width="60" height="60"/>
+                <img th:src="@{/my-custom/images/images.jpg}" class="displaySingleFile" data-id=""/>
             </div>
         </td>
         <td class="align-middle">
             <div id="uploadDiv">
 <!--        onclick="document.getElementById('file').click();"        -->
-                <input class="upBtn btn-danger" type="button" value="UP"/>
+                <input class="upBtn" type="button" value="UP"/>
                 <input class="upload-file" type="file" style="display:none;" id="file" name="singleFile"/>
             </div>
         </td>
-        <td class="align-middle">asd</td>
-        <td class="align-middle">@mdo</td>
+        <td class="align-middle"><input type="text"/></td>
+        <td class="align-middle"><input type="text"/></td>
     </tr>
 </div>
 

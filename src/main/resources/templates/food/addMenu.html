@@ -3,15 +3,13 @@
 <head th:replace="fragments/header :: header">
     <meta charset="UTF-8">
     <title>Title</title>
-    <style>
-        form {
-            display: inline;
+    <style type="text/css">
+        input[type='text'] {
+            width: 300px;
+            height: 200px;
+            font-size: 30px;
         }
 
-        .testColor {
-            color: #0dcaf0;
-            background-color: #0f5132;
-        }
     </style>
 </head>
 <body>
@@ -26,7 +24,7 @@
             <thead>
             <tr>
                 <th class="col-lg-1">First</th>
-                <th class="col-lg-1">second</th>
+                <th class="col-lg-1.5">second</th>
                 <th class="col-lg-1">third</th>
                 <th class="col-lg-1">Handle</th>
                 <th class="col-lg-8">Last</th>
@@ -76,18 +74,20 @@
         });
 
         $mom.on("change", "td", function(e){
-            let thisParent = $(this).parent();
-            console.log("thisParent  =  " + thisParent.html());
-            var formData = new FormData();
-            var singleFile = thisParent.find($("input[name='singleFile']")); // 배열로 담는구나
-            var file = null;
-            changeFile(formData, singleFile, file);
+            if($(".upload-file").attr("class") == e.target.className) {
+                let thisParent = $(this).closest("td");
+                // console.log("thisParent  =  " + thisParent.html());
+                var formData = new FormData();
+                var singleFile = thisParent.find($("input[name='singleFile']")); // 배열로 담는구나
+                var file = null;
+                changeFile(formData, singleFile, file);
+            }
         });
 
 
         function addHtml(){
             const cloneId = $(".clone").clone();
-            const prefix = "<tr class='clone' data-index=\"0\" height=\"70\" style=\"color: wheat;\">";
+            const prefix = "<tr class='clone' data-index=\"0\" height='70x'>";
             const suffix = "</tr>";
 
             let appendTr = prefix + cloneId.html() + suffix;
@@ -138,192 +138,48 @@
     });
 </script>
 
-<!--<script type="application/javascript">-->
-<!--    /**-->
-<!--     *  구현시 왜??? tr을 상위로 div 에 trCopy 라는 아이디를 넣고,-->
-<!--     *  하위의 tr 태그부터를 클론해서 어펜드 하려니 클론을 하지를 못하고 div 만 리턴 한다....;;;;-->
-<!--     *  그래서 prefix , suffix 에 tr 태그를 담고 불필요하게 문자열로 만들어서 append 하고 있다;;;-->
-<!--     *  -> 나중에좀 해결해 보자 지금 아무리 검색해도 해결이 안된다.-->
-<!--     * */-->
-<!--    $(document).ready(function() {-->
-<!--        const mom = $("#mom");-->
-<!--        const addBtn = $(".addBtn");-->
-<!--        var noVal = 1;-->
+<script type="application/javascript">
+    $(document).ready(function(){
+        const table = $("table");
+        table.css("color", "#f07810");
+        table.css("margin-top", "100px");
+        table.css("margin-bottom", "250px");
+
+        const table_button = $("button");
+        table_button.css("border-bottom-left-radius", "50px");
+        table_button.css("border-bottom-right-radius", "50px");
+
+        const tr = $("tr");
+        tr.css("height", "70px");
+
+        const trInput = $("tr input")
+        trInput.css("width", "100%");
+        trInput.css("height", "35px");
+        trInput.css("background-color", "#414141");
+        trInput.css("color", "#e3e1c8");
+        trInput.css("border", "0");
+        trInput.css("font-size", "11px");
+        trInput.css("border", "3px solid gray");
 
 
-<!--        /**-->
-<!--         *  this 와 e.target 이 완전히 다른데 ???-->
-<!--         *  this 는 이벤트 위임한 mom 의 태그가 출력되고 , e.target 은 클릭한 해당 태그가 출력되고 ???-->
-<!--         *  뭐지???-->
-<!--         * */-->
-<!--        // 이벤트 위임 #mom-->
-<!--        mom.on("click", function (e) {-->
-<!--            // console.log(e.target);-->
-<!--            var number = 0;-->
-<!--            //row 추가 이벤트-->
-<!--            if ($(".addBtn").attr("class") == e.target.className) {-->
-<!--                addHtml(number);-->
-<!--                // no 값 주기-->
-<!--                $("#noVal").each(function (i, obj) {-->
-<!--                    $(obj).html(parseInt($(obj).html()) + 1);-->
-<!--                });-->
+        const addrmbtn = $("#add-rm-btn > button, span");
+        addrmbtn.css("width", "33%");
+        addrmbtn.css("font-size", "5px");
+        addrmbtn.css("color", "#FFD034");
 
-<!--            }-->
+        const displayImage = $(".displaySingleFile");
+        displayImage.css("width", "70").css("height", "40");
+        displayImage.css("border-radius", "60%").css("overflow", "hidden");
+        displayImage.css("border", "3px solid gray");
 
+        const upBtn = $(".upBtn");
+        upBtn.css("background-color", "#221E1D");
+        upBtn.css("border-radius", "20%");
+        upBtn.css("border", "3px solid red");
+        upBtn.css("border-color", "");
+        upBtn.css("width", "45").css("height", "30");
+        upBtn.css("margin-left", "5px").css("height", "30");
 
 
-
-<!--            /**-->
-<!--             *  왜 여기서 ???-->
-<!--             *  .clone 의 하위노드인-->
-<!--             *  #noVal 의 html 의 값을 못바꾸지 ???-->
-<!--             * */-->
-<!--            // $(".clone").each(function(i, obj){-->
-<!--            //     $(obj).attr("data-index", i);-->
-<!--            // });-->
-
-<!--        });-->
-
-
-<!--        $("#upBtn").each(function(i, obj){-->
-<!--            $(obj).on("click", function (){-->
-<!--                alert("click ubBtn");-->
-<!--            });-->
-<!--        });-->
-
-
-
-<!--    //     mom.on("change click", function(e){-->
-<!--    //         //up 버튼 클릭시 file click 으로 변경 이벤트-->
-<!--    //         e.stopPropagation();-->
-<!--    //         // console.log("mom this == "+ $(this).html());-->
-<!--    //         var targetFile = $(this).parent().find("#file");-->
-<!--    //         if($(".upBtn").attr("class") == e.target.className) {-->
-<!--    //             targetFile.click();-->
-<!--    //         }-->
-<!--    //-->
-<!--    //         console.log(targetFile.parent().parent().parent().html());-->
-<!--    //-->
-<!--    //         change(e, targetFile);-->
-<!--    //     });-->
-<!--    //-->
-<!--    //     function change(e, targetFile){-->
-<!--    //         //파일 업로드 이벤트-->
-<!--    //         if($(".upload-file").attr("class") == e.target.className){-->
-<!--    //             var formData = new FormData();-->
-<!--    //             var singleFile = targetFile; // 배열로 담는구나-->
-<!--    //             var file = singleFile[0].files; // 배열로 담는구나-->
-<!--    //             formData.append("singleFile", file[0]);-->
-<!--    //-->
-<!--    //             // console.log(e.target.parentNode.parentNode.parentNode);-->
-<!--    //-->
-<!--    //             /**-->
-<!--    //              *  this 와 e.target 이 완전히 다른데 ???-->
-<!--    //              *  this 는 이벤트 위임한 mom 의 태그가 출력되고 , e.target 은 클릭한 해당 태그가 출력되고 ???-->
-<!--    //              *   뭐지???-->
-<!--    //              * 이거 원래 이렇게 하지 않을텐데 ;;;;;; 나중에좀 고쳐보자-->
-<!--    //              *  [ 클릭한 태그의 상위로 올라가서 자식 태그중 img 찾기 ]-->
-<!--    //              * */-->
-<!--    //             // var findCurrentDisplayTag = e.target.parentNode.parentNode.parentNode.querySelector("img");-->
-<!--    //             // console.log(findCurrentDisplayTag);-->
-<!--    //             // var random = Math.random();-->
-<!--    //             // console.log("random = " +random);-->
-<!--    //             // findCurrentDisplayTag.setAttribute("data-id", "" + random);-->
-<!--    //             // console.log("display id = " + findCurrentDisplayTag.getAttribute("id"));-->
-<!--    //-->
-<!--    //-->
-<!--    //-->
-<!--    //-->
-<!--    //             $.ajax({-->
-<!--    //                 type: "POST",-->
-<!--    //                 url: "/singleFileUpload",-->
-<!--    //                 enctype : "multipart/form-data",-->
-<!--    //                 processData : false,-->
-<!--    //                 contentType : false,-->
-<!--    //                 data : formData,-->
-<!--    //                 dataType : "json",-->
-<!--    //                 success :function(result){-->
-<!--    //                     showSingleFile(result);-->
-<!--    //                 }-->
-<!--    //             }); // end ajax-->
-<!--    //         } // end 파일 업로드 이벤트-->
-<!--    //     }; // end function change-->
-<!--    //-->
-<!--        function addHtml(number){-->
-<!--            let cloneId = $(".clone").clone();-->
-<!--            let prefix = "<tr class='clone' data-index=\"0\" height=\"70\" style=\"color: wheat;\">";-->
-<!--            let suffix = "</tr>";-->
-<!--            let appendTr = prefix + cloneId.html() + suffix;-->
-<!--            mom.prepend(appendTr);-->
-<!--        }-->
-<!--    //-->
-<!--    //     function showSingleFile(result){-->
-<!--    //-->
-<!--    //         var encodeFullPath =  encodeURIComponent(result.fullPath);-->
-<!--    //         // console.log("encodeFullPath = " + encodeFullPath);-->
-<!--    //-->
-<!--    //         $("#displaySingleFile").attr("src","/display?fullPath="+encodeFullPath);-->
-<!--    //-->
-<!--    //     }-->
-<!--    //-->
-<!--        function fileClick(){-->
-<!--            $(this).parent().find("input[name='singleFile']").click();-->
-<!--        }-->
-<!--    //-->
-
-
-<!--    }); // end document;;-->
-<!--</script>-->
-
-<!--<script type="application/javascript">-->
-<!--    $(document).ready(function(){-->
-
-
-<!--    })-->
-
-<!--</script>-->
-
-
-<!--&lt;!&ndash;원문 복사용 상관없는 코드&ndash;&gt;-->
-<!--<script type="application/javascript">-->
-<!--    $(document).ready(function(){-->
-<!--        /**-->
-<!--         * file 을 업로드 하면 사용자에 바로 이미지를 보여주도록 한다. rest 방식으로 응답값을 받아온다.-->
-<!--         * */-->
-<!--        // $("input[name='singleFile']").on("change", function(){-->
-<!--        //     var formData = new FormData();-->
-<!--        //     var singleFile = $("input[name='singleFile']"); // 배열로 담는구나-->
-<!--        //     var file = singleFile[0].files; // 배열로 담는구나-->
-<!--        //-->
-<!--        //     formData.append("singleFile", file[0]);-->
-<!--        //-->
-<!--        //     $.ajax({-->
-<!--        //         type: "POST",-->
-<!--        //         url: "/singleFileUpload",-->
-<!--        //         enctype : "multipart/form-data",-->
-<!--        //         processData : false,-->
-<!--        //         contentType : false,-->
-<!--        //         data : formData,-->
-<!--        //         dataType : "json",-->
-<!--        //         success :function(result){-->
-<!--        //-->
-<!--        //             showSingleFile(result);-->
-<!--        //-->
-<!--        //         }-->
-<!--        //     }); // end ajax-->
-<!--        //-->
-<!--        // }); // end singleFile upload event-->
-<!--        //-->
-<!--        //-->
-<!--        // // 싱글파일 이미지 보여주기 - rest 응답-->
-<!--        // function showSingleFile(result){-->
-<!--        //-->
-<!--        //     var encodeFullPath =  encodeURIComponent(result.fullPath);-->
-<!--        //     console.log("encodeFullPath = " + encodeFullPath);-->
-<!--        //-->
-<!--        //     $("#displaySingleFile").attr("src","/display?fullPath="+encodeFullPath);-->
-<!--        //-->
-<!--        // }-->
-
-<!--    })-->
-<!--</script>-->
+    });
+</script>
