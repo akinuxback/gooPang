@@ -75,8 +75,13 @@
             }
         });
 
-        $mom.on("change", function(){
-            changeFile()
+        $mom.on("change", "td", function(e){
+            let thisParent = $(this).parent();
+            console.log("thisParent  =  " + thisParent.html());
+            var formData = new FormData();
+            var singleFile = thisParent.find($("input[name='singleFile']")); // 배열로 담는구나
+            var file = null;
+            changeFile(formData, singleFile, file);
         });
 
 
@@ -93,20 +98,19 @@
             });
         }
 
-        function changeFile(){
+        function changeFile(formData, singleFile, file){
             //파일 업로드 이벤트
-
-            var formData = new FormData();
-            var singleFile = $("input[name='singleFile']"); // 배열로 담는구나
-            var file = null;
-
             singleFile.each(function (i, arr){
                 if(arr.files != null){
                     file = arr.files;
+                    formData.append("singleFile", file[0]);
                 }
+
+                console.log(file);
+
             });
 
-            formData.append("singleFile", file[0]);
+
 
             $.ajax({
                 type: "POST",
