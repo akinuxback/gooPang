@@ -1,4 +1,4 @@
-package com.aki.goosinsa.domain.entity;
+package com.aki.goosinsa.domain.entity.user;
 
 import javax.persistence.*;
 

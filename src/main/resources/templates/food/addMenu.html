@@ -40,6 +40,7 @@
         const $cloneDiv = $(".cloneDiv");
         const $clone = $(".clone").clone();
         const $addBtn = $(".addBtn");
+        const $rmBtn = $(".rmBtn");
         const $upBtn = $(".upBtn");
         let currentNo = 1; // 로우 증가, 감소, 로 인덱스 번호를 지정해주고, 이미지가 change 된 곳의 이미지를 반영할수 있다.
         let changeNo = 0; // change 이벤트 발생시 - display Image change 대상을 찾기 위한 변수
@@ -54,6 +55,20 @@
                 console.log("currentNo = " + currentNo);
             }
         });
+
+        $mom.on("click", "tr", function(e){
+            if($rmBtn.attr("class") == e.target.className){
+                let targetNo = $(this).find("#noVal").html();
+                if(currentNo != 1) {
+                    if (confirm("[ " + targetNo + " ]번 행을 삭제 하시겠습니다.")) {
+                        $(this).remove();
+                        alert("삭제 되었습니다.");
+                    }
+                }
+            }
+        });
+
+
 
         $mom.on("click", "td", function(e){
             if($upBtn.attr("class") == e.target.className){

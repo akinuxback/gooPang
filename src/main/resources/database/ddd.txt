@@ -1,0 +1,18 @@
+properties=
+    {
+    nickname=홍준호,
+    profile_image=http://k.kakaocdn.net/dn/ncikn/btq4s2fx9ad/QYsA7iou1pZLamtMUU2bC0/img_640x640.jpg,
+    thumbnail_image=http://k.kakaocdn.net/dn/ncikn/btq4s2fx9ad/QYsA7iou1pZLamtMUU2bC0/img_110x110.jpg},
+    kakao_account={profile_nickname_needs_agreement=false,
+    profile_image_needs_agreement=false,
+    profile={
+        nickname=홍준호,
+        thumbnail_image_url=http://k.kakaocdn.net/dn/ncikn/btq4s2fx9ad/QYsA7iou1pZLamtMUU2bC0/img_110x110.jpg,
+        profile_image_url=http://k.kakaocdn.net/dn/ncikn/btq4s2fx9ad/QYsA7iou1pZLamtMUU2bC0/img_640x640.jpg,
+        is_default_image=false},
+        has_email=true,
+        email_needs_agreement=false,
+        is_email_valid=true,
+        is_email_verified=true,
+        email=ggowek1004@gmail.com}
+    }

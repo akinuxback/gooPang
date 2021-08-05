@@ -18,3 +18,8 @@ FROM
 WHERE OBJECT_NAME LIKE '%item%';
 
 select * from upload_file;
+
+select * from users;
+
+update users set role = 'ROLE_ADMIN' where username = 'admin';
+commit;
