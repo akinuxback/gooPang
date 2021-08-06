@@ -1,8 +1,7 @@
-package com.aki.goosinsa.domain.dto.food;
+package com.aki.goosinsa.domain.dto.item;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
 
 public enum FoodGroups {
     DRINK("음료", Arrays.asList("커피", "쥬스")),

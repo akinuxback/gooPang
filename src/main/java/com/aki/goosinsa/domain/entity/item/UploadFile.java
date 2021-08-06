@@ -37,7 +37,7 @@ public class UploadFile {
     @OneToOne(mappedBy = "uploadFile")
     private Item item;
 
-    public static UploadFile toEntity(UploadFileDto dto){
+    public static UploadFile createUploadFile(UploadFileDto dto){
         UploadFile uf = new UploadFile();
         uf.uploadFolder = dto.getUploadFolder();
         uf.uploadPath = dto.getUploadPath();

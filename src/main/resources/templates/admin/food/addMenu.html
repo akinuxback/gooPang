@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/nav-right :: nav-right"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<div class="container mt-5 mb-5">
+    <form role="form" th:action th:method="post">
+        <div id="head_text">
+            <h5>멀티 등록이 가능한 페이지 입니다.</h5>
+            <ol>
+                <li>하단의 인덱스 [ + ] 버튼을 클릭하여 새로이 등록할 아이템을 추가 하세요</li>
+                <li>등록할 메뉴 구성이 완료 되시면 [ SUBMIT!!! ] 버튼을 눌러 주세요</li>
+            </ol>
+        </div>
+        <button type="submit">SUBMIT!!!</button>
+        <table class="table table-sm table-dark">
+            <thead>
+            <tr>
+                <th class="col-lg-1">인덱스</th>
+                <th class="col-lg-3">상품분류</th>
+                <th class="col-lg-1">이미지</th>
+                <th class="col-lg-1">업로드</th>
+                <th class="col-lg-1">파일이름</th>
+                <th class="col-lg-1">상품이름</th>
+                <th class="col-lg-1">상품가격</th>
+                <th class="col-lg-1">상품수량</th>
+                <th class="col-lg-1">상품설명</th>
+                <th class="col-lg-1">상품이름</th>
+            </tr>
+            </thead>
+            <tbody id="mom">
+                <div  th:replace="food/fragments/appendFormToMenu :: appendFormToMenu"/>
+            </tbody>
+        </table>
+    </form>
+
+</div>
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+<script type="application/javascript">
+
+    $("button[type='submit']").on("click", function(e){
+        console.log("submit btn click");
+        $(".clone").each(function(index){
+
+            $(this).find('select[name="foodGroups"]').attr("name", "foodItemDtoList["+ index +"].foodGroups")
+            $(this).find('select[name="foodGroupsOfTitle"]').attr("name", "foodItemDtoList["+ index +"].foodGroupsOfTitle")
+
+            $(this).find('input[name="itemName"]').attr("name", "foodItemDtoList["+ index +"].itemName")
+            $(this).find('input[name="price"]').attr("name", "foodItemDtoList["+ index +"].price")
+            $(this).find('input[name="stockQuantity"]').attr("name", "foodItemDtoList["+ index +"].stockQuantity")
+            $(this).find('input[name="explains"]').attr("name", "foodItemDtoList["+ index +"].explains")
+
+            $(this).find('input[name="uploadFileDto.clientFileName"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.clientFileName");
+            $(this).find('input[name="uploadFileDto.uploadFolder"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.uploadFolder");
+            $(this).find('input[name="uploadFileDto.uploadPath"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.uploadPath");
+            $(this).find('input[name="uploadFileDto.extFileName"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.extFileName");
+            $(this).find('input[name="uploadFileDto.fileType"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.fileType");
+            $(this).find('input[name="uploadFileDto.serverFileName"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.serverFileName");
+            $(this).find('input[name="uploadFileDto.fullPath"]').attr("name", "foodItemDtoList["+ index +"].uploadFileDto.fullPath");
+
+        });
+    });
+
+
+
+</script>
+
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        const $mom = $("#mom");
+        const $cloneDiv = $(".cloneDiv");
+        const $clone = $(".clone").clone();
+        const $addBtn = $(".addBtn");
+        const $rmBtn = $(".rmBtn");
+        const $upBtn = $(".upBtn");
+        let currentNo = 1; // 로우 증가, 감소, 로 인덱스 번호를 지정해주고, 이미지가 change 된 곳의 이미지를 반영할수 있다.
+        let changeNo = 0; // change 이벤트 발생시 - display Image change 대상을 찾기 위한 변수
+
+        /**
+         *  이벤트 버블링 방지를 tr, td 가 아닌 div 로 잡으면 인식을 못하는것인가???? 뭐지???
+         * */
+        $mom.on("click", "tr", function(e){
+            if($addBtn.attr("class") == e.target.className){
+                currentNo++;
+                addHtml($clone, currentNo); // 1. currentNo 증가 + 2. append 할 로우의 인덱스 번호 값넣기 + 3. append 할 이미지가 초기화 되어야 한다.
+                console.log("currentNo = " + currentNo);
+
+            }
+
+        });
+
+        $mom.on("click", "tr", function(e){
+            if($rmBtn.attr("class") == e.target.className){
+                let targetNo = $(this).find("#noVal").html();
+                if(currentNo != 1) {
+                    if (confirm("[ " + targetNo + " ]번 행을 삭제 하시겠습니다.")) {
+                        $(this).remove();
+                        alert("삭제 되었습니다.");
+                    }
+                }
+            }
+        });
+
+
+
+        $mom.on("click", "td", function(e){
+            if($upBtn.attr("class") == e.target.className){
+                console.log("upBtn click");
+                $(this).find("input[type='file']").click(); // 빨간색 UP 버튼을 클릭시 같은 위치 위임한 input file 이 클릭되도록 하는것;
+
+                makeChangeNo($(this));
+
+            }
+        });
+
+        $mom.on("change", "tr", function(e){
+            if($(".upload-file").attr("class") == e.target.className) {
+                let thisParent = $(this).closest("tr");
+                // console.log("thisParent  =  " + thisParent.html());
+                let formData = new FormData();
+                let singleFile = thisParent.find($("input[name='singleFile']")); // 배열로 담는구나
+                let file = null;
+                changeFile(formData, singleFile, file, thisParent);
+            }
+        });
+
+        $mom.on("change", "tr", function (e){
+            if($(".foodGroups").attr("class") == e.target.className) {
+                let groupVal = $(this).find("#foodGroups option:selected").val();
+                console.log(groupVal);
+                let $foodKindStatus = $(this).find("#foodKindStatus");
+
+                console.log($foodKindStatus.html());
+
+                $.ajax({
+                    type: "GET",
+                    url: "/food/getValues",
+                    data: {foodGroupsName: groupVal},
+                    success: function (data) {
+                        console.log("ajax 서버응답 data : " + data);
+                        let str = "";
+                        str += "<option value=''>" + "상품을 선택하세요" + "</option>";
+                        $.each(data, function (index, val) {
+                            str += "<option value='" + val + "'>" + val + "</option>";
+                        });
+
+                        console.log(str);
+
+                        $foodKindStatus.html(str);
+
+                    }// end .success
+                }); //end .ajax
+            } //end if
+        });
+
+<!-- ================================ [ function field ]======================================= -->
+
+        function addHtml(clone, currentNo){
+            const cloneId = clone;
+            cloneId.find("#noVal").html(currentNo);
+            cloneId.find(".displaySingleFile").attr("data-id", currentNo);
+
+            const prefix = "<tr class='clone' data-index=\"0\" height='70x'>";
+            const suffix = "</tr>";
+
+            let appendTr = prefix + cloneId.html() + suffix;
+
+            $mom.prepend(appendTr);
+
+        }
+
+        function makeChangeNo(thisEm){
+            let thisParent = thisEm.closest(".clone"); // 현재 위치의 부모 엘리먼트는 -> tr class = "clone"
+            const displaySingleFile = thisParent.find(".displaySingleFile");
+            changeNo = displaySingleFile.attr("data-id"); // 파일 change 시에 필요한 인덱스 번호
+        }
+
+        function changeFile(formData, singleFile, file, thisParent){
+            //파일 업로드 이벤트
+            singleFile.each(function (i, arr){
+                if(arr.files != null){
+                    file = arr.files;
+                    formData.append("singleFile", file[0]);
+                }
+
+                console.log(file);
+
+            });
+
+
+
+            $.ajax({
+                type: "POST",
+                url: "/singleFileUpload",
+                enctype : "multipart/form-data",
+                processData : false,
+                contentType : false,
+                data : formData,
+                dataType : "json",
+                success :function(result){
+                    showSingleFile(result);
+                    appendFileInputData(result, thisParent);
+                }
+            }); // end ajax
+        } // end changeFile function
+
+        function showSingleFile(result){
+
+            let encodeFullPath =  encodeURIComponent(result.fullPath);
+            console.log("encodeFullPath = " + encodeFullPath);
+            $("img[data-id='"+changeNo+"']").attr("src","/display?fullPath="+encodeFullPath);
+
+        }
+
+        function appendFileInputData(result, thisParent){
+
+            thisParent.find("input[name='uploadFileDto.uploadFolder']").attr("value", result.uploadFolder);
+            thisParent.find("input[name='uploadFileDto.uploadPath']").attr("value", result.uploadPath);
+            thisParent.find("input[name='uploadFileDto.clientFileName']").attr("value", result.clientFileName);
+            thisParent.find("input[name='uploadFileDto.extFileName']").attr("value", result.extFileName);
+            thisParent.find("input[name='uploadFileDto.fileType']").attr("value", result.fileType);
+            thisParent.find("input[name='uploadFileDto.serverFileName']").attr("value", result.serverFileName);
+            thisParent.find("input[name='uploadFileDto.fullPath']").attr("value", result.fullPath);
+
+        }
+
+    });
+</script>
+

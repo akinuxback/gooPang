@@ -1,9 +1,9 @@
 package com.aki.goosinsa.domain.entity.item;
 
+import com.aki.goosinsa.domain.dto.item.ItemDto;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter @Setter
+@Builder
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ_GEN")
@@ -29,5 +30,24 @@ public class Item {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private UploadFile uploadFile;
+
+//    public static Item createItem(ItemDto itemDto) {
+//        Item item = new Item();
+//        item.itemName = itemDto.getItemName();
+//        item.price = itemDto.getPrice();
+//        item.stockQuantity = itemDto.getStockQuantity();
+//        item.explains = itemDto.getExplains();
+//        item.uploadFile = UploadFile.createUploadFile(itemDto.getUploadFileDto());
+//
+//        return item;
+//    }
+
+    public Item(ItemDto itemDto) {
+        this.itemName = itemDto.getItemName();
+        this.price = itemDto.getPrice();
+        this.stockQuantity = itemDto.getStockQuantity();
+        this.explains = itemDto.getExplains();
+        this.uploadFile = UploadFile.createUploadFile(itemDto.getUploadFileDto());
+    }
 
 }

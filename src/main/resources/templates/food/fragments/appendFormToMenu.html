@@ -11,6 +11,18 @@
                 <button type="button" class="rmBtn btn-danger">-</button>
             </div>
         </th>
+        <td class="align-middle select-box">
+            <select id="foodGroups" name="foodGroups" class="foodGroups ml-auto col-6">
+                <option value="">=select1=</option>
+                <option th:each="group : ${foodGroups}"
+                        th:value="${group.name()}"
+                        th:text="${group.name()}">status</option>
+                <!--th:text="${group.getFoodGroupsName()}">status</option>-->
+            </select>
+            <select id="foodKindStatus" name="foodGroupsOfTitle" class="ml-auto col-6">
+                <option value="">=select2=</option>
+            </select>
+        </td>
         <td class="align-middle">
             <div>
                 <img th:src="@{/my-custom/images/images.jpg}" class="displaySingleFile" data-id="1"/>
@@ -23,8 +35,18 @@
                 <input class="upload-file" type="file" style="display:none;" id="file" name="singleFile"/>
             </div>
         </td>
-        <td class="align-middle"><input type="text"/></td>
-        <td class="align-middle"><input type="text"/></td>
+        <td class="align-middle"><input type="text" name="uploadFileDto.clientFileName" readonly/></td>
+        <td class="align-middle"><input type="text" name="itemName"/></td>
+        <td class="align-middle"><input type="text" name="price"/></td>
+        <td class="align-middle"><input type="text" name="stockQuantity"/></td>
+        <td class="align-middle"><input type="text" name="explains"/></td>
+
+        <input type="hidden" name="uploadFileDto.uploadFolder">
+        <input type="hidden" name="uploadFileDto.uploadPath">
+        <input type="hidden" name="uploadFileDto.extFileName">
+        <input type="hidden" name="uploadFileDto.fileType">
+        <input type="hidden" name="uploadFileDto.serverFileName">
+        <input type="hidden" name="uploadFileDto.fullPath">
     </tr>
 </div>
 
