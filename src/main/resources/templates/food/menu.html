@@ -51,8 +51,8 @@
 
             <div th:each="food : ${foodList}" class="col-lg-6 menu-item filter-starters">
 <!--                <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">-->
-                <img th:if="${food.getUploadFile().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(food.getUploadFile().getFullPath())}|" class="menu-img" alt=""/>
-                <img th:if="${food.getUploadFile().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+                <img th:if="${food.getUploadFileDto().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(food.getUploadFileDto().getFullPath())}|" class="menu-img" alt=""/>
+                <img th:if="${food.getUploadFileDto().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
                 <div class="menu-content" th:onclick="|location.href='@{/food/getFood/{id}(id=${food.id})}'|">
                     <a href="#" th:text="${food.itemName}">Lobster Bisque</a>
                     <span th:text="'₩ ' + ${#numbers.formatInteger(food.price, 0, 'COMMA')}">$5.95</span>
@@ -62,6 +62,7 @@
                     <ul>
                         <li th:text="${food.id}"></li>
                         <li th:text="${food.foodGroups}"></li>
+                        <li th:text="${food.foodGroupsOfTitle}"></li>
                         <li th:text="${food.stockQuantity}"></li>
                     </ul>
                 </div>
@@ -77,4 +78,4 @@
 
 <div th:replace="fragments/footer :: footer"/>
 </body>
-</html>
+<!--</html>-->

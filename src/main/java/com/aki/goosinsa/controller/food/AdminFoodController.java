@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/admin/food")
 @Slf4j
-public class adminFoodController {
+public class AdminFoodController {
 
     private final ItemRepository itemRepository;
     private final FoodItemRepository foodItemRepository;

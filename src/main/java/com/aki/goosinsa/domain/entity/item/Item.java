@@ -6,7 +6,6 @@ import lombok.*;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "dtype")
 @SequenceGenerator(
         name = "ITEM_SEQ_GEN",
@@ -14,11 +13,10 @@ import javax.persistence.*;
         initialValue = 1,
         allocationSize = 1
 )
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter @Setter
-@Builder
-public class Item {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Getter
+public abstract class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ_GEN")
     private Long id;
@@ -30,17 +28,6 @@ public class Item {
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
     private UploadFile uploadFile;
-
-//    public static Item createItem(ItemDto itemDto) {
-//        Item item = new Item();
-//        item.itemName = itemDto.getItemName();
-//        item.price = itemDto.getPrice();
-//        item.stockQuantity = itemDto.getStockQuantity();
-//        item.explains = itemDto.getExplains();
-//        item.uploadFile = UploadFile.createUploadFile(itemDto.getUploadFileDto());
-//
-//        return item;
-//    }
 
     public Item(ItemDto itemDto) {
         this.itemName = itemDto.getItemName();

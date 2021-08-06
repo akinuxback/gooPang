@@ -1,14 +1,17 @@
 package com.aki.goosinsa.repository;
 
 import com.aki.goosinsa.domain.entity.item.Item;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.transaction.annotation.Transactional;
 
-@Transactional
-public interface ItemRepository extends JpaRepository<Item, Long> {
+public interface ItemRepository<T extends Item> extends JpaRepository<T, Long> {
 
-//    @Query("select i from Item i where i.fileNameEmbedded.dbFileName = :dbFileName")
-//    Item findByDbFileName(String dbFileName);
+    @Query(value = "select i from Item i join fetch i.uploadFile u", countQuery = "select count(i) from Item i")
+    Page<T> findAllPaging(Pageable pageable);
 
+    @Query(value = "select i from Item i join fetch i.uploadFile u")
+    Slice<T> findAllSlice(Pageable pageable);
 }

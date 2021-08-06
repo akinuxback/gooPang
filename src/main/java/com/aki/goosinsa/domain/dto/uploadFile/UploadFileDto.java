@@ -1,9 +1,7 @@
 package com.aki.goosinsa.domain.dto.uploadFile;
 
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.aki.goosinsa.domain.entity.item.UploadFile;
+import lombok.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,8 +17,9 @@ import java.util.UUID;
 
 
 @Data
-@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Slf4j
 public class UploadFileDto {
 
@@ -33,6 +32,18 @@ public class UploadFileDto {
     private String serverFileName;
     private String fullPath;
 
+
+    public static UploadFileDto entityToDto(UploadFile uploadFile) {
+        return UploadFileDto.builder()
+                .uploadFolder(uploadFile.getUploadFolder())
+                .uploadPath(uploadFile.getUploadPath())
+                .clientFileName(uploadFile.getClientFileName())
+                .extFileName(uploadFile.getExtFileName())
+                .fileType(uploadFile.getFileType())
+                .serverFileName(uploadFile.getServerFileName())
+                .fullPath(uploadFile.getFullPath())
+                .build();
+    }
 
     // 디렉토리에 파일저장과 동시에, +  dto 생성
     public UploadFileDto(String UPLOAD_FOLDER, MultipartFile mf, FileType fileType) throws IOException {

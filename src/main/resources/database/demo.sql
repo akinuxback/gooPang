@@ -21,5 +21,7 @@ select * from upload_file;
 
 select * from users;
 
-update users set role = 'ROLE_ADMIN' where username = 'admin';
+update users set role = 'ROLE_ADMIN' where username = 'admin90';
 commit;
+
+select * from item;
