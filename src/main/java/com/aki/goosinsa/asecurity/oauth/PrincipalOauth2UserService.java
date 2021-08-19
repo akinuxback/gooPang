@@ -1,11 +1,10 @@
 package com.aki.goosinsa.asecurity.oauth;
 
-import com.aki.goosinsa.asecurity.UserRepository;
+import com.aki.goosinsa.repository.user.UserRepository;
 import com.aki.goosinsa.asecurity.auth.PrincipalDetails;
 import com.aki.goosinsa.asecurity.oauth.provider.*;
 import com.aki.goosinsa.domain.entity.user.User;
 import com.aki.goosinsa.domain.entity.user.UserRole;
-import com.nimbusds.openid.connect.sdk.claims.UserInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

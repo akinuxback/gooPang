@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
+<link href="/my-custom/css/menu.css?ver=1" rel="stylesheet">
 <body>
 <div th:replace="fragments/nav-right :: nav-right"/>
 <div th:replace="fragments/nav-top :: nav-top"/>
@@ -16,95 +17,89 @@
         <div class="section-title">
             <h2>Menu</h2>
             <p>Check Our Tasty Menu</p>
-            <div class="mt-2">
-                <a href="/admin/food/foodList"><button class="btn-primary ml-2">전체</button></a>
-                <a href="/admin/food/addFood"><button class="btn-primary ml-2">등록</button></a>
-                <button class="btn-primary ml-2">수정</button>
-                <button class="btn-primary ml-2">삭제</button>
+            <div class="mt-2 selectBtn">
+                <a href="/food/foodList"><button class="btn-primary ml-2">메 뉴</button></a>
+                <a href="/admin/food/addMenu"><button class="btn-primary ml-2">멀티등록</button></a>
+                <button class="btn-primary ml-2">수 정</button>
+                <button class="btn-primary ml-2">삭 제</button>
             </div>
         </div>
 
-        <img th:src="@{/my-custom/images/images.jpg}" id="displaySingleFile" width="300" height="300" class="mb-3"/>
-        <div class="form-group mb-5">
-            <label>File upload</label></br>
-            <input type="file" name="singleFile"></br>
-        </div>
-
-        <form role="form" th:action th:object="${foodItemDto}"
-               method="post" enctype="multipart/form-data"
-              class="php-email-form" data-aos="fade-up" data-aos-delay="100">
-
-            <div class="form-row text-center mt-5 mb-5 border p-4">
-                <div class="col">
-                    <label class="ml-auto col-6">
-                        분류 1
-                    </label>
-                    <select th:field="${foodItemDto.foodGroups}"
-                            class="ml-auto col-6">
-                        <option value="">==상품상세구분==</option>
-                        <option th:each="group : ${foodGroups}"
-                                th:value="${group.name()}"
-                                th:text="${group.name()}">status</option>
-                        <!--th:text="${group.getFoodGroupsName()}">status</option>-->
-                    </select>
-                </div>
-                <div class="col">
-                    <label class="ml-auto col-6">
-                        분류 2
-                    </label>
-                    <select id="foodKindStatus" name="foodGroupsOfTitle" class="ml-auto col-6">
-                        <option value="">select 1 을 먼저 선택 하세요=</option>
-                    </select>
+        <div class="row mt-5">
+            <div class="col-lg-4">
+                <figure>
+                    <img th:src="@{/my-custom/images/images.jpg}" id="displaySingleFile" class="mb-3"/>
+                </figure>
+                <div class="form-group mb-5">
+                    <label>File upload</label></br>
+                    <input type="file" name="singleFile"></br>
                 </div>
             </div>
+            <div class="col-lg-8">
+                <form role="form" th:action th:object="${foodItemDto}"
+                      method="post" enctype="multipart/form-data"
+                      class="php-email-form" data-aos="fade-up" data-aos-delay="100">
 
-            <div class="form-row">
-                <div class="col-lg-4 col-md-6 form-group">
-                    <label>FoodName</label>
-                    <input type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="foodName">
-                </div>
-                <div class="col-lg-4 col-md-6 form-group">
-                    <label>Price</label>
-                    <input type="text" th:field="${foodItemDto.price}" class="form-control" placeholder="1,000,000">
-                </div>
-                <div class="col-lg-4 col-md-6 form-group">
-                    <label>StockQuantity</label>
-                    <input type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="10000">
-                </div>
-            </div>
-            <div class="form-group">
-                <label>Explains</label>
-                <textarea class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
-            </div>
-
-            <!-- ./ end check box -->
-
-            <div class="text-center"><button type="submit">Book a Table</button></div>
-
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadFolder}">
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadPath}">
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.clientFileName}">
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.extFileName}">
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.fileType}">
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.serverFileName}">
-            <input type="hidden" th:field="${foodItemDto.uploadFileDto.fullPath}">
-
-        </form>
-
-        <div class="row">
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail">
-                    <img src="..." alt="...">
-                    <div class="caption">
-                        <h3>Thumbnail label</h3>
-                        <p>...</p>
-                        <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                    <div class="form-row text-center mb-5 border p-4">
+                        <div class="col">
+                            <label class="ml-auto col-6">
+                                분류 1
+                            </label>
+                            <select th:field="${foodItemDto.foodGroups}"
+                                    class="ml-auto col-6">
+                                <option value="">==상품상세구분==</option>
+                                <option th:each="group : ${foodGroups}"
+                                        th:value="${group.name()}"
+                                        th:text="${group.name()}">status</option>
+                                <!--th:text="${group.getFoodGroupsName()}">status</option>-->
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label class="ml-auto col-6">
+                                분류 2
+                            </label>
+                            <select id="foodKindStatus" name="foodGroupsOfTitle" class="ml-auto col-6">
+                                <option value="">select 1 을 먼저 선택 하세요=</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-            </div>
-        </div>
 
-    </div>
+                    <div class="form-row">
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <label>FoodName</label>
+                            <input type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="foodName">
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <label>Price</label>
+                            <input type="text" th:field="${foodItemDto.price}" class="form-control" placeholder="1,000,000">
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <label>StockQuantity</label>
+                            <input type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="10000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Explains</label>
+                        <textarea class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
+                    </div>
+
+                    <!-- ./ end check box -->
+
+                    <div class="text-center mt-5"><button type="submit">Item 등록</button></div>
+
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadFolder}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadPath}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.clientFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.extFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.fileType}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.serverFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.fullPath}">
+
+                </form>
+            </div>
+        </div> <!-- end row -->
+
+    </div> <!-- end container-->
 </section><!-- End Book A Table Section -->
 
 

@@ -3,6 +3,12 @@ drop table item;
 select * from ITEM;
 select * from UPLOAD_FILE;
 
+select * from orders;
+
+select * from ORDER_ITEM;
+
+select * from DELIVERY;
+
 insert into item(id, DTYPE, PRICE, STOCK_QUANTITY)
 values (ITEM_SEQ.nextval,'F', 10000 , 10, 'aaa');
 
@@ -21,7 +27,7 @@ select * from upload_file;
 
 select * from users;
 
-update users set role = 'ROLE_ADMIN' where username = 'admin90';
+update users set role = 'ROLE_ADMIN' where username = 'admin';
 commit;
 
 select * from item;

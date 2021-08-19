@@ -4,10 +4,18 @@ import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
-import com.aki.goosinsa.repository.FoodItemRepository;
-import com.aki.goosinsa.repository.ItemRepository;
+import com.aki.goosinsa.domain.entity.item.Item;
+import com.aki.goosinsa.repository.item.FoodItemRepository;
+import com.aki.goosinsa.repository.item.ItemRepository;
+import com.aki.goosinsa.repository.item.QDItemRepository;
+import com.aki.goosinsa.repository.item.QDItemRepositoryImpl;
+import com.aki.goosinsa.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +32,10 @@ public class AdminFoodController {
     private final ItemRepository itemRepository;
     private final FoodItemRepository foodItemRepository;
 
+    private final QDItemRepository qdItemRepository;
+
+    private final ItemService itemService;
+
     @ModelAttribute("foodGroups")
     public static FoodGroups[] foodGroups(){
         return FoodGroups.values();
@@ -34,6 +46,13 @@ public class AdminFoodController {
 
     @ModelAttribute("foodItemDto")
     public static FoodItemDto foodItemDto() {return new FoodItemDto();}
+
+
+    @GetMapping("/foodList")
+    public String foodList(Model model){
+//        model.addAttribute("foodList", qdItemRepository.findAll(PageRequest.of(0, 3)));
+        return "admin/food/foodList";
+    }
 
     @GetMapping("/addFood")
     public String addFood(Model model){

@@ -3,9 +3,10 @@
 <head th:replace="fragments/header :: header">
     <meta charset="UTF-8">
     <title>Title</title>
+    <!-- my-custom css -->
+    <link href="/my-custom/css/menu.css" rel="stylesheet">
 </head>
 <body>
-<div th:replace="fragments/nav-right :: nav-right"/>
 <div th:replace="fragments/nav-top :: nav-top"/>
 <div th:replace="fragments/bodyHeader :: bodyHeader"/>
 
@@ -67,10 +68,34 @@
                     </ul>
                 </div>
             </div>
-
-
-
         </div>
+
+        <div class="row mt-5">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center"
+                    th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                    end=(${(pages.totalPages == 0) ? 1 :
+                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
+
+                    <li class="page-item" th:if="${start > 1}">
+                        <a class="page-link" th:href="@{/food/menu?(pageNum=0)}">First</a>
+                    </li>
+                    <li class="page-item" th:if="${start > 1}">
+                        <a class="page-link" th:href="@{/food/menu?(pageNum=${start - maxPage})}">Prevoious</a>
+                    </li>
+                    <li th:each="page: ${#numbers.sequence(start, end)}">
+                        <a class="page-link" th:href="@{/food/menu?(pageNum=${page-1})}" th:text="${page}"></a>
+                    </li>
+
+                    <li th:if="${end < pages.totalPages}">
+                        <a class="page-link" th:href="@{/food/menu?(pageNum=${start + maxPage})}">Next</a>
+                    </li>
+
+                    <li th:if="${end < pages.totalPages}">
+                        <a class="page-link" th:href="@{/food/menu?(pageNum=${pages.totalPages-1})}">Last</a>
+                    </li>
+                </ul>
+            </nav>
 
     </div>
 </section><!-- End Menu Section -->

@@ -40,10 +40,15 @@ public class PrincipalDetails implements UserDetails, OAuth2User {
 
     // OAuth2User
 
+    public Long getId(){
+        return user.getId();
+    }
+
     @Override
     public Map<String, Object> getAttributes() {
         return attributes;
     }
+
     // OAuth2User
 
     @Override

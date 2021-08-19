@@ -1,4 +1,4 @@
-package com.aki.goosinsa.asecurity;
+package com.aki.goosinsa.repository.user;
 
 import com.aki.goosinsa.domain.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -5,7 +5,7 @@
 //import com.aki.goosinsa.domain.dto.uploadFile.FileType;
 //import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 //import com.aki.goosinsa.domain.entity.item.FoodItem;
-//import com.aki.goosinsa.repository.ItemRepository;
+//import com.aki.goosinsa.repository.item.ItemRepository;
 //import lombok.extern.slf4j.Slf4j;
 //import org.junit.jupiter.api.BeforeAll;
 //import org.junit.jupiter.api.Test;

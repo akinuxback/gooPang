@@ -1,4 +1,4 @@
-package com.aki.goosinsa.repository;
+package com.aki.goosinsa.repository.item;
 
 import com.aki.goosinsa.domain.entity.item.Item;
 import org.springframework.data.domain.Page;

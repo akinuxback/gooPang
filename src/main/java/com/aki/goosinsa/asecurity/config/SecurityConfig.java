@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/user/**").authenticated() // 인증만 되면 들어갈 수 있는 주소
                 .antMatchers("/manager/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")
-                .antMatchers("/admin/**/**").access("hasRole('ROLE_ADMIN')")
+//                .antMatchers("/admin/**/**").access("hasRole('ROLE_ADMIN')")
+                .antMatchers("/admin/**/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -52,5 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .userService(principalOauth2UserService); // 구글 로그인이 완료된 뒤의 후처리가 필요함. Tip. 코드 X (엑세스토큰 _ 사용자 프로필정보 O)
 
     }
+
+
 
 }

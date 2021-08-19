@@ -1,11 +1,15 @@
 package com.aki.goosinsa.domain.entity.user;
 
+import com.aki.goosinsa.domain.domain.Address;
+import com.aki.goosinsa.domain.entity.order.Order;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Entity
@@ -24,9 +28,12 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GEN")
     private Long id;
+    @Column(unique = true)
     private String username;
+    private String name;
     private String password;
     private String email;
+    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private UserRole role;
     private String provider;
@@ -34,25 +41,36 @@ public class User {
     @CreationTimestamp
     private Timestamp createDate;
 
+    @Embedded
+    private Address address;
+
+    @OneToMany(mappedBy = "user")
+    private List<Order> orders = new ArrayList<>();
+
 
     public static User toEntity(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder){
         return User.builder()
                 .role(UserRole.ROLE_USER)
                 .username(userDto.getUsername())
+                .name(userDto.getName())
                 .password(bCryptPasswordEncoder.encode(userDto.getPassword()))
                 .email(userDto.getEmail())
+                .phoneNumber(userDto.getPhoneNumber())
+                .address(new Address(userDto.getAddressDto()))
                 .build();
     }
 
-    @Builder
-    public User(String username, String password, String email, UserRole role, String provider, String providerId, Timestamp createDate) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.role = role;
-        this.provider = provider;
-        this.providerId = providerId;
-        this.createDate = createDate;
-    }
+
+
+//    @Builder
+//    public User(String username, String password, String email, UserRole role, String provider, String providerId, Timestamp createDate) {
+//        this.username = username;
+//        this.password = password;
+//        this.email = email;
+//        this.role = role;
+//        this.provider = provider;
+//        this.providerId = providerId;
+//        this.createDate = createDate;
+//    }
 
 }

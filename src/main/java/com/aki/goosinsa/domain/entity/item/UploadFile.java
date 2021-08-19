@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @SequenceGenerator(
@@ -17,7 +18,7 @@ import javax.persistence.*;
         allocationSize = 1
 )
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "ftype")
+@DiscriminatorValue(value = "ftype")
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -34,7 +35,7 @@ public class UploadFile {
     private FileType fileType;
     private String fullPath;
 
-    @OneToOne(mappedBy = "uploadFile")
+    @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
     private Item item;
 
     public static UploadFile createUploadFile(UploadFileDto dto){

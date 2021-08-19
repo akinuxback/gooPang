@@ -2,13 +2,17 @@ package com.aki.goosinsa.domain.dto.item;
 
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.item.Item;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
+
+import javax.persistence.FetchType;
+import javax.persistence.OneToOne;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public abstract class ItemDto {
+public class ItemDto {
 
     private Long id;
     private String itemName;
@@ -18,6 +22,7 @@ public abstract class ItemDto {
     private UploadFileDto uploadFileDto;
 
     public ItemDto(Item item) {
+        this.id = item.getId();
         this.itemName = item.getItemName();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();

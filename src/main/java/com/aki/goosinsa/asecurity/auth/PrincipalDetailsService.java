@@ -1,6 +1,6 @@
 package com.aki.goosinsa.asecurity.auth;
 
-import com.aki.goosinsa.asecurity.UserRepository;
+import com.aki.goosinsa.repository.user.UserRepository;
 import com.aki.goosinsa.domain.entity.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;

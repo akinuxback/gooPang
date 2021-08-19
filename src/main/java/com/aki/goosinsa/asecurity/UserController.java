@@ -3,6 +3,7 @@ package com.aki.goosinsa.asecurity;
 import com.aki.goosinsa.asecurity.auth.PrincipalDetails;
 import com.aki.goosinsa.domain.entity.user.User;
 import com.aki.goosinsa.domain.entity.user.UserDto;
+import com.aki.goosinsa.repository.user.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.annotation.Secured;
@@ -10,14 +11,17 @@ import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.validation.Valid;
 
 @Controller
 @Slf4j
@@ -33,12 +37,24 @@ public class UserController {
     }
 
     @GetMapping("/joinForm")
-    public String joinForm(){
+    public String joinForm(Model model){
+        model.addAttribute("userDto", new UserDto());
         return "user/joinForm";
     }
 
     @PostMapping("/join")
-    public String join(UserDto userDto){
+    public String join(@Valid UserDto userDto, BindingResult result){
+        if(userRepository.findByUsername(userDto.getUsername()) != null){
+            result.rejectValue("username", "invalid.username",
+                    new Object[]{userDto.getUsername()}, "동일한 아이디가 존재 합니다.");
+            return "user/joinForm";
+        };
+
+        if(result.hasErrors()){
+            return "user/joinForm";
+        }
+
+
         log.info("user = {}", userDto);
         User user = User.toEntity(userDto, bCryptPasswordEncoder);
         log.info("user entity = {}", user);

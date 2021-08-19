@@ -1,9 +1,8 @@
 package com.aki.goosinsa.repository;
 
-import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.Item;
-import lombok.extern.slf4j.Slf4j;
+import com.aki.goosinsa.repository.item.ItemRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
-import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -69,7 +65,7 @@ class ItemRepositoryTest {
     @Test
     public void 슬라이스() throws Exception{
 
-        PageRequest pageRequest = PageRequest.of(0, 3);
+        PageRequest pageRequest = PageRequest.of(2, 3);
 
         //when
         Slice<Item> page = itemRepository.findAllSlice(pageRequest);
