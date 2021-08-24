@@ -1,9 +1,10 @@
 package com.aki.goosinsa.repository.item;
 
+import com.aki.goosinsa.controller.food.FoodSearch;
+import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
-import com.aki.goosinsa.domain.dto.item.QItemDto;
-import com.aki.goosinsa.domain.entity.item.*;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,14 +13,12 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static com.aki.goosinsa.domain.entity.item.QFoodItem.foodItem;
-import static com.aki.goosinsa.domain.entity.item.QItem.item;
-import static com.aki.goosinsa.domain.entity.item.QUploadFile.uploadFile;
 
 @Repository
 public class QDItemRepositoryImpl implements QDItemRepository{
@@ -30,11 +29,34 @@ public class QDItemRepositoryImpl implements QDItemRepository{
         queryFactory = new JPAQueryFactory(em);
     }
 
-    public Page<FoodItemDto> findAllPaging(Pageable pageable) {
+    public Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch) {
+        String foodName = foodSearch.getFoodName();
+        int price = foodSearch.getPrice() == null ? 0 : foodSearch.getPrice();
+        String foodGroups = foodSearch.getFoodGroups();
+        String title = foodSearch.getFoodGroupsOfTitle();
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if(StringUtils.hasText(foodName)){
+            builder.and(foodItem.itemName.eq(foodName.trim()));
+        }
+
+        if(price > 0){
+            builder.and(foodItem.price.loe(price));
+        }
+
+        if(StringUtils.hasText(foodGroups)){
+            builder.and(foodItem.foodGroups.eq(FoodGroups.valueOf(foodGroups)));
+        }
+
+        if(StringUtils.hasText(title)){
+            builder.and(foodItem.foodGroupsOfTitle.eq(title));
+        }
+
         QueryResults<FoodItemDto> results = queryFactory
-//                .select(Projections.constructor(ItemDto.class, item)) -> 추상 클래스로 만들려하면
+//                .select(Projections.constructor(ItemDto.class, item)) -> abstract 로 만들려하면 오류남
                 .select(Projections.constructor(FoodItemDto.class, foodItem))
                 .from(foodItem)
+                .where(builder)
                 .join(foodItem.uploadFile)
                 .fetchJoin()
                 .offset(pageable.getOffset())

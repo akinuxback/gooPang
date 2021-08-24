@@ -24,4 +24,5 @@ public class FoodItem extends Item {
         this.foodGroupsOfTitle = foodItemDto.getFoodGroupsOfTitle();
     }
 
+
 }

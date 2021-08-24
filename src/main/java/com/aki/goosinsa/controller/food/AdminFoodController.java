@@ -5,6 +5,7 @@ import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.Item;
+import com.aki.goosinsa.domain.entity.user.UserRole;
 import com.aki.goosinsa.repository.item.FoodItemRepository;
 import com.aki.goosinsa.repository.item.ItemRepository;
 import com.aki.goosinsa.repository.item.QDItemRepository;
@@ -49,8 +50,16 @@ public class AdminFoodController {
 
 
     @GetMapping("/foodList")
-    public String foodList(Model model){
-//        model.addAttribute("foodList", qdItemRepository.findAll(PageRequest.of(0, 3)));
+    public String foodList(Model model, @RequestParam(defaultValue = "0") int pageNum,
+                           FoodSearch foodSearch){
+
+        PageRequest pageable = PageRequest.of(pageNum, 10);
+        Page<FoodItemDto> pages = qdItemRepository.findAllPaging(pageable, foodSearch);
+        List<FoodItemDto> content = pages.getContent();
+        model.addAttribute("foodItemDtoList", content);
+        model.addAttribute("pages", pages);
+        model.addAttribute("maxPage", 10);
+
         return "admin/food/foodList";
     }
 

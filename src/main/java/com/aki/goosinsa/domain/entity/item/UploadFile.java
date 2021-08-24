@@ -2,10 +2,7 @@ package com.aki.goosinsa.domain.entity.item;
 
 import com.aki.goosinsa.domain.dto.uploadFile.FileType;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -22,6 +19,7 @@ import java.util.List;
 @Getter
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
 public class UploadFile {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UPLOAD_FILE_SEQ_GEN")
@@ -49,6 +47,5 @@ public class UploadFile {
         uf.fullPath = dto.getFullPath();
         return uf;
     }
-
 
 }

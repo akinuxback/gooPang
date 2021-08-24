@@ -1,5 +1,6 @@
 package com.aki.goosinsa.service.item;
 
+import com.aki.goosinsa.controller.food.FoodSearch;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
 import com.aki.goosinsa.domain.entity.item.Item;
@@ -13,7 +14,7 @@ public interface ItemService {
 
 //    public Page<Item> itemAllPage(int pageNum);
 
-    Page<FoodItemDto> findAllPaging(Pageable pageable);
+    Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch);
 
     public void saveItem(Item item);
 

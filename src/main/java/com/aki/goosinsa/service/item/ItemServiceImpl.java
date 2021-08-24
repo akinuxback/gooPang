@@ -1,7 +1,7 @@
 package com.aki.goosinsa.service.item;
 
+import com.aki.goosinsa.controller.food.FoodSearch;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
-import com.aki.goosinsa.domain.dto.item.ItemDto;
 import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.repository.item.ItemRepository;
 import com.aki.goosinsa.repository.item.QDItemRepository;
@@ -10,8 +10,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional(readOnly = true)
@@ -22,8 +20,8 @@ public class ItemServiceImpl implements ItemService {
     public final QDItemRepository qdItemRepository;
 
     @Override
-    public Page<FoodItemDto> findAllPaging(Pageable pageable) {
-        return qdItemRepository.findAllPaging(pageable);
+    public Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch) {
+        return qdItemRepository.findAllPaging(pageable, foodSearch);
     }
 
     @Override

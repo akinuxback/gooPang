@@ -1,5 +1,7 @@
 drop table item;
 
+select * from users;
+
 select * from ITEM;
 select * from UPLOAD_FILE;
 

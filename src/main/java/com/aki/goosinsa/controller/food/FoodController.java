@@ -74,9 +74,10 @@ public class FoodController {
 //    }
 
     @GetMapping("/menu")
-    public String menu(Model model, @RequestParam(defaultValue = "0") int pageNum){
+    public String menu(Model model, @RequestParam(defaultValue = "0") int pageNum,
+                       FoodSearch foodSearch){
         PageRequest pageable = PageRequest.of(pageNum, 3);
-        Page<FoodItemDto> pages = itemService.findAllPaging(pageable);
+        Page<FoodItemDto> pages = itemService.findAllPaging(pageable, foodSearch);
         model.addAttribute("pages", pages);
         model.addAttribute("maxPage", 5);
 

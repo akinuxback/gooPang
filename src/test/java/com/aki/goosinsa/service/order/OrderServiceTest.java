@@ -4,6 +4,7 @@ import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.order.Order;
 import com.aki.goosinsa.domain.entity.order.OrderStatus;
 import com.aki.goosinsa.domain.entity.user.User;
+import com.aki.goosinsa.domain.entity.user.UserRole;
 import com.aki.goosinsa.exception.NotEnoughStockException;
 import com.aki.goosinsa.repository.item.ItemRepository;
 import com.aki.goosinsa.repository.order.OrderRepository;
@@ -21,6 +22,7 @@ import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
+import java.util.Arrays;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
@@ -121,8 +123,5 @@ class OrderServiceTest {
         assertEquals("주문 취소된 상품은 그만큼 재고가 증가해야 한다.", 6, item1.getStockQuantity());
 
     }
-
-
-
 
 }

@@ -1,0 +1,34 @@
+@charset "UTF-8";
+
+.baseSelect {
+    color: gray !important;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select ,input {
+    border-color: #0dcaf0 !important;
+
+    margin-right: 5px;
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    width: 150px;
+    height: 35px;
+    background: url('https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png') calc(100% - 5px) center no-repeat;
+    background-size: 20px;
+    padding: 5px 30px 5px 10px;
+    border-radius: 4px;
+    outline: 0 none;
+}
+
+select option {
+    background: black;
+    color: #fff;
+    padding: 3px 0;
+}
+

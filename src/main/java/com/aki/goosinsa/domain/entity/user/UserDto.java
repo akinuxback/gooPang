@@ -51,5 +51,29 @@ public class UserDto {
                 .addressDto(AddressDto.toDto(user.getAddress()))
                 .build();
     }
+//
+//    public UserDto(User user){
+//        UserDto.builder()
+//                .id(user.getId())
+//                .username(user.getUsername())
+//                .name(user.getName())
+//                .password(user.getPassword())
+//                .email(user.getEmail())
+//                .role(user.getRole())
+//                .phoneNumber(user.getPhoneNumber())
+//                .addressDto(AddressDto.toDto(user.getAddress()))
+//                .build();
+//    }
+
+    public UserDto(User user){
+        this.id = user.getId();
+        this.username = user.getUsername();
+        this.name = user.getName();
+        this.password = user.getPassword();
+        this.email = user.getEmail();
+        this.role = user.getRole();
+        this.phoneNumber = user.getPhoneNumber();
+        this.addressDto = AddressDto.toDto(user.getAddress());
+    }
 
 }

@@ -23,10 +23,10 @@ public class ItemDto {
 
     public ItemDto(Item item) {
         this.id = item.getId();
-        this.itemName = item.getItemName();
+        this.itemName = item.getItemName().trim();
         this.price = item.getPrice();
         this.stockQuantity = item.getStockQuantity();
-        this.explains = item.getExplains();
+        this.explains = item.getExplains().trim();
         this.uploadFileDto = UploadFileDto.entityToDto(item.getUploadFile());
     }
 
