@@ -1,7 +1,10 @@
 @charset "UTF-8";
 
-.baseSelect {
-    color: gray !important;
+.searchBtn {
+    color: #ff3f34;
+    font-weight: bold;
+    border: 1px solid #0dcaf0 !important;
+    background-color: #05c46b;
 }
 
 select::-ms-expand {
@@ -24,6 +27,9 @@ select ,input {
     padding: 5px 30px 5px 10px;
     border-radius: 4px;
     outline: 0 none;
+
+    background-color: black !important;
+    color: greenyellow !important;
 }
 
 select option {

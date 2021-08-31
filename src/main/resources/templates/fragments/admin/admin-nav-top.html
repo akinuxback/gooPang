@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
-<div th:fragment="nav-top">
+<div th:fragment="admin-nav-top">
 
     <!-- ======= Header ======= -->
     <header id="header" class="fixed-top">
         <div class="container d-flex align-items-center">
 
-            <h1 class=""><a href="index.html">ADMIN</a></h1>
+            <h1 class=""><a href="/admin/adminHome">ADMIN</a></h1>
             <!-- Uncomment below if you prefer to use an image logo -->
             <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -15,9 +15,9 @@
                     <li class="book-a-table text-center"><a href="/">HOME</a></li>
                     <li><a href="/admin/user/users">회원목록</a></li>
                     <li><a href="/admin/food/foodList">푸드리스트</a></li>
-                    <li><a href="#events">푸드단일등록</a></li>
-                    <li><a href="/admin/addMenu">푸드멀티등록</a></li>
-                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="/admin/food/addFood">푸드단일등록</a></li>
+                    <li><a href="/admin/food/addMenu">푸드멀티등록</a></li>
+                    <li><a href="/admin/manager/managerEdit">매니저-edit</a></li>
                     <li><a href="#chefs">Chefs</a></li>
                     <li><a href="#contact">Contact</a></li>
                 </ul>

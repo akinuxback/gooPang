@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+
+
+figure{
+    width: 400px;
+    height: 300px;
+}
+
+img {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+}
+
+.fileUploadDiv {
+    display: flex;
+    justify-content: space-between;
+    align-items: center !important;
+}
+
+.fileUploadDiv-label, .fileUploadDiv-input {
+
+}
+
+.p-div {
+    display: flex;
+    flex-direction: column;
+}
+
+.c-div {
+    display: block;
+}
+
+input:read-only {
+    background-color: darkgray !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+label {
+    color: #fa8231;
+    margin-bottom: 20px;
+}
+
+select::-ms-expand {
+    display: none;
+}
+
+select ,input, textarea {
+    border-color: #0dcaf0 !important;
+    margin-right: 5px;
+    -o-appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+
+    width: 150px;
+    height: 35px;
+    background: url('https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png') calc(100% - 5px) center no-repeat;
+    background-size: 20px;
+    padding: 5px 30px 5px 10px;
+    border-radius: 4px;
+    outline: 0 none;
+
+    background-color: black !important;
+    color: greenyellow !important;
+}
+
+select option {
+    background: black;
+    color: #fff !important;
+    padding: 3px 0;
+}

@@ -1,0 +1,26 @@
+@charset "UTF-8";
+
+.searchLabel {
+    padding: 5px;
+    font-weight: bold !important;
+    color: yellow !important;
+}
+
+.searchDiv {
+    width: auto;
+    height: 40px;
+}
+
+.searchDiv > button {
+    font-size: 5px;
+}
+
+.pageDiv {
+    margin-top: 15px;
+    display: flex;
+}
+
+.companyEM {
+    display: flex;
+    flex-direction: column;
+}

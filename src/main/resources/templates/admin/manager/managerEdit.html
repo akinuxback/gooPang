@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/manager/manager-header :: manager-header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- my-custom css -->
+</head>
+<link href="/my-custom/css/admin/managerEdit.css" rel="stylesheet">
+
+<body>
+<div th:replace="fragments/admin/admin-bodyHeader :: admin-bodyHeader"/>
+<style>
+    #home {
+        margin-top: 30px;
+    }
+</style>
+<main id="main">
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div id="home" class="d-flex justify-content-between align-items-center">
+                <h2>Inner Page</h2>
+                <ol>
+                    <li><a href="index.html">Home</a></li>
+                    <li>Inner Page</li>
+                </ol>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="inner-page">
+        <div class="container">
+            <div class="row">
+                <div class="col-4">
+                    <div class="row">
+
+                            <div>
+                                <label class="searchLabel">검색조건 선택</label>
+                            </div>
+                            <div class="searchDiv d-flex justify-content-center">
+                                <select id="searchBox" name="">
+                                    <option value="companyNo">사업자번호</option>
+                                    <option value="companyName">거래처명</option>
+                                    <option value="username">회원아이디</option>
+                                    <option value="name">회원명</option>
+                                </select>
+                                <input id="searchInput" type="text" name="companyNo" value="">
+                                <button type="submit" class="searchBtn btn btn-success">조회</button>
+                            </div>
+
+                    </div>
+                    <div class="row pageDiv">
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination"
+                                th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                    end=(${(pages.totalPages == 0) ? 1 :
+                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
+
+                                <li class="page-item" th:if="${start > 1}">
+                                    <a class="page-link" th:data-page="0">처음</a>
+                                </li>
+                                <li class="page-item" th:if="${start > 1}">
+                                    <a class="page-link" th:data-page="${start - maxPage}">이전</a>
+                                </li>
+                                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
+                                    <a th:class="${pages.number eq page -1 ? 'active page-link' : 'page-link'}" th:text="${page}" th:data-page="${page} -1"></a>
+                                </li>
+
+                                <li class="page-item" th:if="${end < pages.totalPages}">
+                                    <a class="page-link" th:data-page="${start + maxPage -1}">다음!</a>
+                                </li>
+
+                                <li class="page-item" th:if="${end < pages.totalPages}">
+                                    <a class="page-link" th:data-page="${pages.totalPages-1}">끝!</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+                    <div class="row">
+                        <table>
+                            <tr>
+                                <th>사업자번호</th>
+                                <th>거래처명</th>
+                                <th>ceo아이디</th>
+                                <th>ceo성함</th>
+                            </tr>
+                            <div th:each="company : ${pages.getContent()}">
+                                <tr>
+                                    <td th:text="${company.companyNo}">1</td>
+                                    <td th:text="${company.companyName}">2</td>
+                                    <td th:text="${company.user.username}">3</td>
+                                    <td th:text="${company.user.name}">4</td>
+                                </tr>
+                            </div>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-8">
+                    <div th:if="${pages.getContent().size() == 1}" th:each="company : ${pages.getContent()}">
+                        <div class="row">
+                            <div class="col-6 companyEM">
+                                <label>사업자번호</label>
+                                <input type="text" name="companyNo" th:value="${company.companyNo}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 companyEM">
+                                <label>거래처명</label>
+                                <input type="text" name="companyName" th:value="${company.companyName}">
+                            </div>
+                            <div class="col-6 companyEM">
+                                <label>거래처약칭</label>
+                                <input type="text" name="abbr" th:value="${company.abbr}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 companyEM">
+                                <label>대표자</label>
+                                <input type="text" th:value="${company.user.name}" readonly>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 companyEM">
+                                <label></label>
+                                <input type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6 companyEM">
+                                <label></label>
+                                <input type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div th:if="${pages.getContent().size() > 1}">
+                        <div>
+                            <h5>단일 검색 결과가 없습니다.</h5>
+                            <h5>사업자 번호로 조회시 결과 조회가 가능 합니다.</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main><!-- End #main -->
+
+<form role="searchForm" action="">
+    <input class="searchInput" type="hidden" name="companyNo" value="">
+    <input type="hidden" name="page" value="">
+    <input type="hidden" name="size" value="">
+    <input type="hidden" name="maxPage" value="">
+</form>
+
+
+<div th:replace="fragments/admin/admin-footer :: admin-footer"/>
+<!--<div th:replace="fragments/footer :: footer"/>-->
+</body>
+</html>
+
+
+<script type="application/javascript">
+$(document).ready(function(){
+
+    const form = $("form[role='searchForm']");
+
+    $("#searchBox").on("click change", function(){
+        let selectedVal = $(this).find("option:selected").val();
+        $("#searchInput").attr("name", selectedVal);
+    });
+});
+</script>
+
+<script type="application/javascript">
+$(document).ready(function(){
+    const searchForm = $("form[role='searchForm']");
+    const inputPage = $("input[name='page']");
+    const IsearchInput = $("#searchInput");
+    const CsearchInput = $(".searchInput");
+
+    $(".searchBtn, .page-link").on("click", function(e){
+        e.preventDefault();
+        let dataPage = $(this).attr("data-page");
+        if(dataPage != null || "") inputPage.val(dataPage);
+
+        let nameVal = IsearchInput.attr("name");
+        let val = IsearchInput.val();
+
+        CsearchInput.attr("name", nameVal).val(val);
+        searchForm.submit();
+
+    });
+
+});
+</script>

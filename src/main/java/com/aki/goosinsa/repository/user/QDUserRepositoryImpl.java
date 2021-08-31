@@ -1,6 +1,7 @@
 package com.aki.goosinsa.repository.user;
 
 import com.aki.goosinsa.controller.user.UserSearch;
+import com.aki.goosinsa.domain.entity.company.QCompany;
 import com.aki.goosinsa.domain.entity.user.QUser;
 import com.aki.goosinsa.domain.entity.user.User;
 import com.aki.goosinsa.domain.entity.user.UserDto;
@@ -20,6 +21,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.aki.goosinsa.domain.entity.company.QCompany.company;
 import static com.aki.goosinsa.domain.entity.user.QUser.user;
 
 @Repository
@@ -38,6 +40,16 @@ public class QDUserRepositoryImpl implements QDUserRepository{
                 .selectFrom(user)
                 .fetch();
         return userList;
+    }
+
+    @Override
+    public User userLeftJoinCompanyFindById(Long id) {
+        return queryFactory
+                .select(user)
+                .from(user)
+                .leftJoin(user.companyList).fetchJoin()
+                .where(user.id.eq(id))
+                .fetchOne();
     }
 
     @Override

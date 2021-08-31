@@ -2,6 +2,8 @@ package com.aki.goosinsa.service.item;
 
 import com.aki.goosinsa.controller.food.FoodSearch;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
+import com.aki.goosinsa.domain.dto.item.ItemDto;
+import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.repository.item.ItemRepository;
 import com.aki.goosinsa.repository.item.QDItemRepository;
@@ -33,6 +35,13 @@ public class ItemServiceImpl implements ItemService {
     @Override
     public Item findById(Long id) {
         return (Item) itemRepository.findById(id).get();
+    }
+
+    @Override
+    @Transactional
+    public void updateItem(FoodItemDto foodItemDto) {
+        FoodItem findFoodItem = (FoodItem) itemRepository.findById(foodItemDto.getId()).get();
+        findFoodItem.updateFoodItem(foodItemDto);
     }
 
     //    @Override

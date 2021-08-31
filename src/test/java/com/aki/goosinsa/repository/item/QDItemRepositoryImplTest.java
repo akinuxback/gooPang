@@ -6,9 +6,12 @@ import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
 import com.aki.goosinsa.domain.dto.uploadFile.FileType;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
+import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.domain.entity.item.UploadFile;
+import com.aki.goosinsa.repository.company.CompanyRepository;
+import com.aki.goosinsa.repository.company.QDCompanyRepository;
 import lombok.extern.log4j.Log4j2;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,6 +37,9 @@ class QDItemRepositoryImplTest {
     QDItemRepository qdItemRepository;
 
     @Autowired
+    CompanyRepository companyRepository;
+
+    @Autowired
     ItemRepository itemRepository;
 
     @Autowired
@@ -51,7 +57,9 @@ class QDItemRepositoryImplTest {
                 .uploadPath("2021\\08\\24")
                 .build();
 
-        FoodItemDto foodItemDto1 = new FoodItemDto("스프링", 10000, 30, "상품설명 블라블라", uploadFile1,
+        Company company = companyRepository.findAll().get(0);
+
+        FoodItemDto foodItemDto1 = new FoodItemDto("스프링", 10000, 30, "상품설명 블라블라", uploadFile1, company,
                 FoodGroups.CHICKEN, "순살");
 
 
@@ -87,4 +95,10 @@ class QDItemRepositoryImplTest {
         content.forEach(c -> log.info(c.toString()));
     }
 
+    @Test
+    public void findByIdJoinUploadFile() throws Exception{
+        FoodItemDto byIdJoinUploadFile = qdItemRepository.findByIdJoinUploadFile(1L);
+        log.info("=================>" + byIdJoinUploadFile.getUploadFileDto().getFullPath());
+    }
+    
 }

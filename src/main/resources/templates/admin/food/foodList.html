@@ -1,18 +1,17 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/admin-header :: dataTable-header">
+<head th:replace="fragments/admin/admin-header :: admin-header">
   <meta charset="UTF-8">
   <title>Title</title>
   <!-- my-custom css -->
 </head>
-<link href="/my-custom/css/input_select.css" rel="stylesheet">
-<link href="/my-custom/css/paging.css" rel="stylesheet">
+<link href="/my-custom/css/admin/table.css" rel="stylesheet">
+<link href="/my-custom/css/admin/search.css" rel="stylesheet">
+<link href="/my-custom/css/admin/paging.css" rel="stylesheet">
 
 
 <body>
-<div th:replace="fragments/admin-nav-top :: nav-top"/>
-<div th:replace="fragments/nav-right :: nav-right"/>
-<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+<div th:replace="fragments/admin/admin-bodyHeader :: admin-bodyHeader"/>
 
 <div class="container tableDiv mt-5 mb-5">
   <div class="p-flex">
@@ -49,23 +48,29 @@
           <option value="">=select1=</option>
           <option th:each="group : ${foodGroups}"
                   th:value="${group.name()}"
+                  th:selected="${group.name() eq param?.foodGroups?.toString()}"
                   th:text="${group.name()}">status</option>
           <!--th:text="${group.getFoodGroupsName()}">status</option>-->
         </select>
       </div>
       <div>
         <select id="foodKindStatus" name="foodGroupsOfTitle" class="foodGroupsOfTitle ml-auto col-6">
-          <option value="">=select2=</option>
+          <div th:if="${param.foodGroupsOfTitle == '' || param.foodGroupsOfTitle == null}">
+            <option value="">=select2=</option>
+          </div>
+          <div th:if="${param.foodGroupsOfTitle != null}">
+            <option th:text="${param.foodGroupsOfTitle}">=select2=</option>
+          </div>
         </select>
       </div>
       <div>
-        <input type="search" class="SfoodName" placeholder="음식이름" value=""/>
+        <input type="search" class="SfoodName" placeholder="음식이름" th:value="${foodSearch.foodName}"/>
       </div>
       <div>
-        <input type="search" class="Sprice" placeholder="가격" value=""/>
+        <input type="search" class="Sprice" placeholder="가격" th:value="${foodSearch.price}"/>
       </div>
       <div>
-        <button type="button" class="btn btn-success searchBtn">search</button>
+        <button type="button" class="btn btn-success searchBtn">SEARCH</button>
       </div>
     </div>
   </div>
@@ -73,6 +78,7 @@
     <thead>
     <tr>
       <th>인덱스</th>
+      <th>업체명</th>
       <th>음식이름</th>
       <th>가격</th>
       <th>수량</th>
@@ -80,12 +86,16 @@
       <th>이미지등록파일명</th>
       <th>음식분류1</th>
       <th>음식분류2</th>
+      <th>보기</th>
+      <th>수정</th>
+      <th>삭제</th>
     </tr>
     </thead>
     <tbody>
     <div th:each="foodItemDto : ${foodItemDtoList}">
       <tr>
-        <td th:text="${foodItemDto.id}"></td>
+        <td id="deleteId" th:text="${foodItemDto.id}"></td>
+        <td id="deleteId" th:text="${foodItemDto.company.companyName}"></td>
         <td th:text="${foodItemDto.itemName}"></td>
         <td th:text="${foodItemDto.price}"></td>
         <td th:text="${foodItemDto.stockQuantity}"></td>
@@ -93,14 +103,27 @@
         <td th:text="${foodItemDto.uploadFileDto.getClientFileName()}"></td>
         <td th:text="${foodItemDto.foodGroups}"></td>
         <td th:text="${foodItemDto.foodGroupsOfTitle}"></td>
+        <td><a th:href="@{/admin/food/{id}/getFood (id=${foodItemDto.id})}" class="likeabutton showBtn">보기</a></td>
+        <td><a th:href="@{/admin/food/{id}/editFood (id=${foodItemDto.id})}" class="likeabutton modBtn">수정</a></td>
+        <td><a href="" class="likeabutton rmBtn">삭제</a></td>
       </tr>
     </div>
     </tbody>
   </table>
 
+  <form role=deleteForm action="/admin/food/deleteFood" method="post">
+    <input type="hidden" name="deleteId" value="">
+  </form>
+
 </div>
 
-<form class="foodSearchForm" action="" method="get">
+<form class="foodSearchForm" th:action="@{/admin/food/foodList}" method="get">
+<!--  <input type="hidden" name="pageNum" th:value="${param.pageNum}">-->
+<!--  <input type="hidden" name="foodGroups" th:value="${param.foodGroups}">-->
+<!--  <input type="hidden" name="foodGroupsOfTitle" th:value="${param.foodGroupsOfTitle}">-->
+<!--  <input type="hidden" name="foodName" th:value="${param.foodName}">-->
+<!--  <input type="hidden" name="price" th:value="${param.price}">-->
+
   <input type="hidden" name="pageNum" value="">
   <input type="hidden" name="foodGroups" value="">
   <input type="hidden" name="foodGroupsOfTitle" value="">
@@ -108,10 +131,37 @@
   <input type="hidden" name="price" value="">
 </form>
 
-<div th:replace="fragments/admin-footer :: dataTable-footer"/>
+<input id="messageVal" type="hidden" th:value="${message}">
+
+<div th:replace="fragments/admin/admin-footer :: admin-footer"/>
 <!--<div th:replace="fragments/footer :: footer"/>-->
 </body>
 </html>
+
+<script type="application/javascript">
+  const messageVal = $("#messageVal").val();
+  console.log(messageVal);
+  if(messageVal != null && messageVal != '') {
+    alert(messageVal);
+  };
+</script>
+
+<script type="application/javascript">
+$(document).ready(function(){
+  const deleteForm = $("form[role='deleteForm']");
+  const $deleteHiddenInput = $("input[name='deleteId']");
+
+  $(".rmBtn").on("click", function(e){
+    e.preventDefault();
+    let deleteId = $(this).closest("tr").find("#deleteId").html();
+    $deleteHiddenInput.val(deleteId);
+    if(confirm("해당 [" + deleteId + "] 번을 삭제 하시겠습니까?")){
+      deleteForm.submit();
+    }
+  });
+
+});
+</script>
 
 <script type="application/javascript">
   $(document).ready(function (){
@@ -148,7 +198,7 @@
 
 <script type="application/javascript">
 $(document).ready(function(){
-  $(".foodGroups").on("change", function (e){
+  $(".foodGroups").on("change click", function (e){
     if($(".foodGroups").attr("class") == e.target.className) {
       let groupVal = $(this).find("option:selected").val();
       // console.log($(this).html());

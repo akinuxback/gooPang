@@ -1,0 +1,19 @@
+@charset "UTF-8";
+
+input:read-only, select, textarea {
+    background-color: darkgray !important;
+    color: black !important;
+    font-weight: bold;
+}
+
+.editBtn, .editBtn a {
+    background-color: #22a6b3 !important;
+    color: black !important;
+    font-weight: bold !important;
+}
+
+.rmBtn, .rmBtn a {
+    background-color: #eb4d4b !important;
+    color: black !important;
+    font-weight: bold !important;
+}

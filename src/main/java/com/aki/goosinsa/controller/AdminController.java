@@ -40,27 +40,27 @@ public class AdminController {
         return "admin/adminHome";
     }
 
-    @PostMapping("/addFood")
-    public String addFood(@ModelAttribute FoodItemDto foodItemDto) throws IOException {
-        FoodItem foodItem = new FoodItem(foodItemDto);
-        itemRepository.save(foodItem);
-        return "redirect:/food/menu";
-    }
+//    @PostMapping("/addFood")
+//    public String addFood(@ModelAttribute FoodItemDto foodItemDto) throws IOException {
+//        FoodItem foodItem = new FoodItem(foodItemDto);
+//        itemRepository.save(foodItem);
+//        return "redirect:/food/menu";
+//    }
 
-    @GetMapping("/addMenu")
-    public String addMenu(){
-        return "admin/addMenu";
-    }
-
-    @PostMapping("/addMenu")
-    public String addMenuPost(AddMenuForm addMenuForm){
-
-        List<FoodItemDto> foodItemDtoList = addMenuForm.getFoodItemDtoList();
-        foodItemDtoList.forEach(foodItemDto -> {
-            FoodItem foodItem = new FoodItem(foodItemDto);
-            itemRepository.save(foodItem);
-        });
-
-        return "redirect:/food/menu";
-    }
+//    @GetMapping("/addMenu")
+//    public String addMenu(){
+//        return "admin/addMenu";
+//    }
+//
+//    @PostMapping("/addMenu")
+//    public String addMenuPost(AddMenuForm addMenuForm){
+//
+//        List<FoodItemDto> foodItemDtoList = addMenuForm.getFoodItemDtoList();
+//        foodItemDtoList.forEach(foodItemDto -> {
+//            FoodItem foodItem = new FoodItem(foodItemDto);
+//            itemRepository.save(foodItem);
+//        });
+//
+//        return "redirect:/food/menu";
+//    }
 }

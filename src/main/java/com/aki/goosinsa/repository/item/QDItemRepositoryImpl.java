@@ -29,6 +29,16 @@ public class QDItemRepositoryImpl implements QDItemRepository{
         queryFactory = new JPAQueryFactory(em);
     }
 
+    public FoodItemDto findByIdJoinUploadFile(Long id){
+        return queryFactory
+                .select(Projections.constructor(FoodItemDto.class, foodItem))
+                .from(foodItem)
+                .join(foodItem.uploadFile).fetchJoin()
+                .where(foodItem.id.eq(id))
+                .fetchOne();
+
+    }
+
     public Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch) {
         String foodName = foodSearch.getFoodName();
         int price = foodSearch.getPrice() == null ? 0 : foodSearch.getPrice();
@@ -57,8 +67,8 @@ public class QDItemRepositoryImpl implements QDItemRepository{
                 .select(Projections.constructor(FoodItemDto.class, foodItem))
                 .from(foodItem)
                 .where(builder)
-                .join(foodItem.uploadFile)
-                .fetchJoin()
+                .join(foodItem.uploadFile).fetchJoin()
+                .join(foodItem.company).fetchJoin()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .orderBy(foodItem.id.desc())

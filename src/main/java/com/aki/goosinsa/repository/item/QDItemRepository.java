@@ -13,4 +13,6 @@ public interface QDItemRepository {
 
     public Slice<ItemDto> findAllSlice(Pageable pageable);
 
+    public FoodItemDto findByIdJoinUploadFile(Long id);
+
 }

@@ -1,6 +1,7 @@
 package com.aki.goosinsa.domain.entity.user;
 
 import com.aki.goosinsa.domain.domain.Address;
+import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.order.Order;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -40,6 +41,9 @@ public class User {
     private String providerId;
     @CreationTimestamp
     private Timestamp createDate;
+
+    @OneToMany(mappedBy = "user")
+    private List<Company> companyList = new ArrayList<>();
 
     @Embedded
     private Address address;

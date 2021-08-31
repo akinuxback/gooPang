@@ -23,15 +23,15 @@ import java.util.List;
 public class UploadFile {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "UPLOAD_FILE_SEQ_GEN")
-    private Long id;
-    private String uploadFolder;
-    private String uploadPath;
-    private String clientFileName;
-    private String serverFileName;
-    private String extFileName; // 파일 확장자명
+    protected Long id;
+    protected String uploadFolder;
+    protected String uploadPath;
+    protected String clientFileName;
+    protected String serverFileName;
+    protected String extFileName; // 파일 확장자명
     @Enumerated(EnumType.STRING)
-    private FileType fileType;
-    private String fullPath;
+    protected FileType fileType;
+    protected String fullPath;
 
     @OneToOne(mappedBy = "uploadFile", fetch = FetchType.LAZY)
     private Item item;
@@ -46,6 +46,17 @@ public class UploadFile {
         uf.fileType = dto.getFileType();
         uf.fullPath = dto.getFullPath();
         return uf;
+    }
+
+    public UploadFile changeUploadFile(UploadFileDto dto){
+        this.uploadFolder = dto.getUploadFolder();
+        this.uploadPath = dto.getUploadPath();
+        this.clientFileName = dto.getClientFileName();
+        this.serverFileName = dto.getServerFileName();
+        this.extFileName = dto.getExtFileName();
+        this.fileType = dto.getFileType();
+        this.fullPath = dto.getFullPath();
+        return this;
     }
 
 }

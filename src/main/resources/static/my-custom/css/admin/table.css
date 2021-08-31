@@ -1,0 +1,77 @@
+.container {
+    margin-top: 30px;
+    margin-bottom: 50px !important;
+}
+
+table {
+    margin-bottom: 30px;
+}
+
+table, th, tr {
+    border-color: #0dcaf0 !important;
+}
+
+th {
+    background-color: black !important;
+    color: #fa8231;
+}
+
+tr, tfoot{
+    background-color: black !important;
+    color: #d1ccc0;
+}
+
+.fixed-top {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.Page, .p-flex {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.pagination .c-flex {
+    display: flex;
+    justify-content: center !important;
+}
+
+
+/*buttons*/
+.likeabutton {
+    text-decoration: none;
+    font: menu;
+    font-weight: bold;
+    display: inline-block;
+    padding: 2px 8px;
+    background: ButtonFace;
+    color: #130f40 !important;
+    border-style: solid;
+    border-width: 2px;
+    border-color: ButtonHighlight ButtonShadow ButtonShadow ButtonHighlight;
+
+    width: 100%;
+    text-align: center;
+}
+.likeabutton:active {
+    border-color: ButtonShadow ButtonHighlight ButtonHighlight ButtonShadow;
+}
+
+.showBtn {
+    background-color: #6ab04c;
+}
+
+.modBtn {
+    background-color: #22a6b3;
+}
+
+.rmBtn {
+    background-color: #eb4d4b;
+}
+
+
+
+

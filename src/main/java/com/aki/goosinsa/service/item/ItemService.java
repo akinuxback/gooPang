@@ -16,7 +16,9 @@ public interface ItemService {
 
     Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch);
 
+    public Item findById(Long id);
+
     public void saveItem(Item item);
 
-    public Item findById(Long id);
+    public void updateItem(FoodItemDto foodItemDto);
 }

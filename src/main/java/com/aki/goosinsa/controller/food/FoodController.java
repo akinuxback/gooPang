@@ -50,29 +50,6 @@ public class FoodController {
         return new ResponseEntity<>(group, HttpStatus.OK );
     }
 
-//    @GetMapping("/menu")
-//    public String menu(Model model, @RequestParam(defaultValue = "0") int pageNum){
-//        PageRequest pageable = PageRequest.of(pageNum, 3, Sort.by(Sort.Direction.DESC, "id"));
-//        Page<Item> pages = itemRepository.findAllPaging(pageable);
-//        model.addAttribute("pages", pages);
-//        model.addAttribute("maxPage", 5);
-//
-//        List<Item> content = pages.getContent();
-//        List<FoodItemDto> collect = content.stream()
-//                .map(c -> new FoodItemDto((FoodItem) c))
-//                .collect(Collectors.toList());
-//
-//        model.addAttribute("foodList", collect);
-//
-////        List<Item> foodEntityList = itemRepository.findAll();
-////
-////        List<FoodItemDto> foodDtoList = foodEntityList.stream()
-////                .map(f -> new FoodItemDto((FoodItem) f))
-////                .collect(Collectors.toList());
-////        model.addAttribute("foodList", foodDtoList);
-//        return "food/menu";
-//    }
-
     @GetMapping("/menu")
     public String menu(Model model, @RequestParam(defaultValue = "0") int pageNum,
                        FoodSearch foodSearch){

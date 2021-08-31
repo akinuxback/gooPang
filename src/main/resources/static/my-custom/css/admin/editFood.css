@@ -1,0 +1,13 @@
+@charset "UTF-8";
+
+input[name='singleFile'] {
+    margin-bottom: 20px;
+}
+
+.input-file-button{
+    padding: 6px 25px !important;
+    background-color:#FF6600 !important;
+    border-radius: 4px !important;
+    color: white !important;
+    cursor: pointer !important;
+}

@@ -1,10 +1,13 @@
 package com.aki.goosinsa.domain.entity.item;
 
 import com.aki.goosinsa.domain.dto.item.ItemDto;
+import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.category.Category;
+import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.orderItem.OrderItem;
 import com.aki.goosinsa.exception.NotEnoughStockException;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -22,19 +25,21 @@ import java.util.List;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @Getter
-@Builder
 public class Item {
 
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ_GEN")
-    private Long id;
-    private String itemName;
-    private int price;
-    private int stockQuantity;
-    private String explains;
+    protected Long id;
+    protected String itemName;
+    protected int price;
+    protected int stockQuantity;
+    protected String explains;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "id")
-    private UploadFile uploadFile;
+    protected UploadFile uploadFile;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    protected Company company;
 
     @ManyToMany(mappedBy = "items")
     private List<Category> categories = new ArrayList<>();
@@ -45,6 +50,7 @@ public class Item {
         this.stockQuantity = itemDto.getStockQuantity();
         this.explains = itemDto.getExplains().trim();
         this.uploadFile = UploadFile.createUploadFile(itemDto.getUploadFileDto());
+        this.company = itemDto.getCompany();
     }
 
 

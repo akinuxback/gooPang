@@ -13,6 +13,8 @@ public interface QDUserRepository {
 
     public List<User> findUsers();
 
+    public User userLeftJoinCompanyFindById(Long id);
+
     public User findById(Long id);
 
     public User findByUsername(String username);

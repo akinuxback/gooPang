@@ -36,26 +36,26 @@ class QDUserRepositoryImplTest {
     @Autowired
     EntityManager em;
 
-    @BeforeEach
-    public void before(){
-        Address address = new Address("서울시 송파구 방이동", "1701호", "123-123");
-        IntStream.rangeClosed(1, 100).forEach( i -> {
-            User user = User.builder()
-                    .username("username333" + i)
-                    .name("name1")
-                    .password("1234")
-                    .email("akinux100" + i + "@gmail.com")
-                    .role(UserRole.ROLE_ADMIN)
-                    .phoneNumber("010111111" + i)
-                    .address(address)
-                    .build();
-            userRepository.save(user);
-        });
-
-        em.flush();
-        em.clear();
-
-    }
+//    @BeforeEach
+//    public void before(){
+//        Address address = new Address("서울시 송파구 방이동", "1701호", "123-123");
+//        IntStream.rangeClosed(1, 100).forEach( i -> {
+//            User user = User.builder()
+//                    .username("username333" + i)
+//                    .name("name1")
+//                    .password("1234")
+//                    .email("akinux100" + i + "@gmail.com")
+//                    .role(UserRole.ROLE_ADMIN)
+//                    .phoneNumber("010111111" + i)
+//                    .address(address)
+//                    .build();
+//            userRepository.save(user);
+//        });
+//
+//        em.flush();
+//        em.clear();
+//
+//    }
 
     @Test
     public void findUsers() throws Exception{
@@ -78,6 +78,11 @@ class QDUserRepositoryImplTest {
     }
 
     @Test
+    public void findLoginUserById() throws Exception{
+        User loginUserById = qdUserRepository.userLeftJoinCompanyFindById(1L);
+    }
+
+    @Test
     @Rollback(value = false)
     public void usersPaging(){
         UserSearch userSearch = new UserSearch();
@@ -96,5 +101,8 @@ class QDUserRepositoryImplTest {
     public void userList(){
         List<User> all = userRepository.findAll();
         all.forEach(u -> log.info("user All " + u.getUsername()));
+        
     }
+    
+
 }

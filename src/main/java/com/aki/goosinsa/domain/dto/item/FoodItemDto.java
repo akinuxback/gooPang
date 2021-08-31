@@ -1,6 +1,7 @@
 package com.aki.goosinsa.domain.dto.item;
 
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
+import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.UploadFile;
 import lombok.*;
@@ -24,12 +25,11 @@ public class FoodItemDto extends ItemDto {
     // 더미 데이터 생성용 생성자
     // QDItemRepositoryImplTest -> before each 에서 사용
     public FoodItemDto (String itemName, int price, int stockQuantity, String explains,
-                        UploadFileDto uploadFileDto, FoodGroups foodGroups, String foodGroupsOfTitle){
-        super(null, itemName, price, stockQuantity, explains, uploadFileDto);
+                        UploadFileDto uploadFileDto, Company company,
+                        FoodGroups foodGroups, String foodGroupsOfTitle){
+        super(null, itemName, price, stockQuantity, explains, uploadFileDto, company);
         this.foodGroups = foodGroups;
         this.foodGroupsOfTitle = foodGroupsOfTitle;
     }
-
-
 
 }

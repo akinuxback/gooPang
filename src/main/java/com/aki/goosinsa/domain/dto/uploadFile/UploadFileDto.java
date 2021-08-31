@@ -23,6 +23,7 @@ import java.util.UUID;
 @Slf4j
 public class UploadFileDto {
 
+    private Long id;
     private String uploadFolder;
     private String uploadPath;
     private String clientFileName;
