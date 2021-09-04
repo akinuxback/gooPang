@@ -1,0 +1,74 @@
+@charset "UTF-8";
+
+.pppp {
+    margin-left: -100px;
+}
+
+figure{
+    margin-top: 30px;
+    width: 400px;
+    height: 200px;
+}
+
+img {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+}
+
+.form-row {
+    border: 3px solid #0a3d62;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.divLabel {
+    padding: 10px;
+    display: flex;
+    color: goldenrod;
+}
+
+.yn {
+    margin-left: 10px;
+    width: 30px;
+    height: 15px;
+    border: 1px solid crimson;
+}
+
+#btnAddr {
+    margin-left: 10px;
+    width: 60px;
+    height: 30px;
+
+}
+
+.searchDiv {
+    display: flex;
+    margin-left: -15px;
+    color: #0dcaf0;
+}
+
+.findUserBtn {
+    margin-left: 10px;
+    width: 80px;
+    height: 40px;
+    border: 3px solid crimson;
+    text-align: center;
+    align-items: center;
+}
+
+input:read-only, textarea:read-only {
+    background-color: black !important;
+    color: #0dcaf0 !important;
+}
+
+.formSelect , .findUser {
+    background-color: black;
+    color: #0dcaf0;
+}
+
+.formOption {
+    background-color: black;
+    color: #0dcaf0;
+}
+

@@ -1,5 +1,9 @@
 @charset "UTF-8";
 
+.searchDiv {
+    margin-left: 70px;
+}
+
 .searchBtn {
     color: #ff3f34;
     font-weight: bold;
@@ -11,9 +15,9 @@ select::-ms-expand {
     display: none;
 }
 
+
 select ,input {
     border-color: #0dcaf0 !important;
-
     margin-right: 5px;
     -o-appearance: none;
     -webkit-appearance: none;

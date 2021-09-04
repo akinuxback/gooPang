@@ -32,7 +32,7 @@ img {
     display: block;
 }
 
-input:read-only {
+input:read-only, select:disabled {
     background-color: darkgray !important;
     color: black !important;
     font-weight: bold;

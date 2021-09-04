@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/admin/admin-header :: admin-header">
+<head th:replace="fragments/header :: header">
   <meta charset="UTF-8">
   <title>Title</title>
   <!-- my-custom css -->
@@ -11,40 +11,14 @@
 
 
 <body>
-<div th:replace="fragments/admin/admin-bodyHeader :: admin-bodyHeader"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/adminFrag/admin-bodyHeader :: admin-bodyHeader"/>
 
 <div class="container tableDiv mt-5 mb-5">
   <div class="p-flex">
-    <div class="col-6">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination"
-            th:with="start=${(pages.number/maxPage)*maxPage + 1},
-                    end=(${(pages.totalPages == 0) ? 1 :
-                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
-
-          <li class="page-item" th:if="${start > 1}">
-            <a class="page-link" th:data-page="0">처음</a>
-          </li>
-          <li class="page-item" th:if="${start > 1}">
-            <a class="page-link" th:data-page="${start - maxPage}">이전</a>
-          </li>
-          <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
-            <a th:class="${pages.number eq page -1 ? 'active page-link' : 'page-link'}" th:text="${page}" th:data-page="${page} -1"></a>
-          </li>
-
-          <li class="page-item" th:if="${end < pages.totalPages}">
-            <a class="page-link" th:data-page="${start + maxPage -1}">다음!</a>
-          </li>
-
-          <li class="page-item" th:if="${end < pages.totalPages}">
-            <a class="page-link" th:data-page="${pages.totalPages-1}">끝!</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <div class="searchDiv p-flex">
+    <div class="searchDiv p-flex justify-content-center">
       <div>
-        <select id="foodGroups" name="foodGroups" class="foodGroups ml-auto col-6">
+        <select id="foodGroups" name="foodGroups" class="foodGroups">
           <option value="">=select1=</option>
           <option th:each="group : ${foodGroups}"
                   th:value="${group.name()}"
@@ -54,7 +28,7 @@
         </select>
       </div>
       <div>
-        <select id="foodKindStatus" name="foodGroupsOfTitle" class="foodGroupsOfTitle ml-auto col-6">
+        <select id="foodKindStatus" name="foodGroupsOfTitle" class="foodGroupsOfTitle">
           <div th:if="${param.foodGroupsOfTitle == '' || param.foodGroupsOfTitle == null}">
             <option value="">=select2=</option>
           </div>
@@ -79,6 +53,7 @@
     <tr>
       <th>인덱스</th>
       <th>업체명</th>
+      <th>사업자번호</th>
       <th>음식이름</th>
       <th>가격</th>
       <th>수량</th>
@@ -95,7 +70,8 @@
     <div th:each="foodItemDto : ${foodItemDtoList}">
       <tr>
         <td id="deleteId" th:text="${foodItemDto.id}"></td>
-        <td id="deleteId" th:text="${foodItemDto.company.companyName}"></td>
+        <td th:text="${foodItemDto.company.companyName}"></td>
+        <td th:text="${foodItemDto.company.companyNo}"></td>
         <td th:text="${foodItemDto.itemName}"></td>
         <td th:text="${foodItemDto.price}"></td>
         <td th:text="${foodItemDto.stockQuantity}"></td>
@@ -110,6 +86,33 @@
     </div>
     </tbody>
   </table>
+  <div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination"
+          th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                    end=(${(pages.totalPages == 0) ? 1 :
+                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
+
+        <li class="page-item" th:if="${start > 1}">
+          <a class="page-link" th:data-page="0">처음</a>
+        </li>
+        <li class="page-item" th:if="${start > 1}">
+          <a class="page-link" th:data-page="${start - maxPage}">이전</a>
+        </li>
+        <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
+          <a th:class="${pages.number eq page -1 ? 'active page-link' : 'page-link'}" th:text="${page}" th:data-page="${page} -1"></a>
+        </li>
+
+        <li class="page-item" th:if="${end < pages.totalPages}">
+          <a class="page-link" th:data-page="${start + maxPage -1}">다음!</a>
+        </li>
+
+        <li class="page-item" th:if="${end < pages.totalPages}">
+          <a class="page-link" th:data-page="${pages.totalPages-1}">끝!</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 
   <form role=deleteForm action="/admin/food/deleteFood" method="post">
     <input type="hidden" name="deleteId" value="">
@@ -133,7 +136,7 @@
 
 <input id="messageVal" type="hidden" th:value="${message}">
 
-<div th:replace="fragments/admin/admin-footer :: admin-footer"/>
+<div th:replace="fragments/footer :: footer"/>
 <!--<div th:replace="fragments/footer :: footer"/>-->
 </body>
 </html>

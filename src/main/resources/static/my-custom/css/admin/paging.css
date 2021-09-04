@@ -1,11 +1,12 @@
 @charset "UTF-8";
 
 .pagination {
-    display: inline-block;
+    display: flex;
+    justify-content: center;
 }
 
 .pagination a {
-    background-color: black !important;
+    background-color: #33d9b2 !important;
     color: black;
     float: left;
     padding: 8px 16px;

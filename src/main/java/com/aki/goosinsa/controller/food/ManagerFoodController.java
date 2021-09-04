@@ -6,38 +6,32 @@ import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
-import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.domain.entity.user.User;
-import com.aki.goosinsa.domain.entity.user.UserRole;
 import com.aki.goosinsa.repository.company.CompanyRepository;
 import com.aki.goosinsa.repository.item.FoodItemRepository;
 import com.aki.goosinsa.repository.item.ItemRepository;
 import com.aki.goosinsa.repository.item.QDItemRepository;
-import com.aki.goosinsa.repository.item.QDItemRepositoryImpl;
 import com.aki.goosinsa.repository.user.QDUserRepository;
 import com.aki.goosinsa.service.item.ItemService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/food")
+@RequestMapping("/manager/food")
 @Log4j2
-public class AdminFoodController {
+public class ManagerFoodController {
+
     private final QDUserRepository qdUserRepository;
 
     private final CompanyRepository companyRepository;
@@ -60,20 +54,6 @@ public class AdminFoodController {
     @ModelAttribute("foodItemDto")
     public static FoodItemDto foodItemDto() {return new FoodItemDto();}
 
-
-    @GetMapping("/foodList")
-    public String foodList(Model model, @RequestParam(defaultValue = "0") int pageNum,
-                           FoodSearch foodSearch){
-
-        PageRequest pageable = PageRequest.of(pageNum, 10);
-        Page<FoodItemDto> pages = qdItemRepository.findAllPaging(pageable, foodSearch);
-        List<FoodItemDto> content = pages.getContent();
-        model.addAttribute("foodItemDtoList", content);
-        model.addAttribute("pages", pages);
-        model.addAttribute("maxPage", 10);
-
-        return "admin/food/foodList";
-    }
 
     @GetMapping("/{id}/getFood")
     public String getFood(Model model, @PathVariable Long id){

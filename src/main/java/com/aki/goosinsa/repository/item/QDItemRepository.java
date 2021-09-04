@@ -1,8 +1,10 @@
 package com.aki.goosinsa.repository.item;
 
 import com.aki.goosinsa.controller.food.FoodSearch;
+import com.aki.goosinsa.domain.dto.company.CompanySearch;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
+import com.aki.goosinsa.domain.entity.item.FoodItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;

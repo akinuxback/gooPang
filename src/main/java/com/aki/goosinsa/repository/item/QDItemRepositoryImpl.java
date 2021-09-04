@@ -1,9 +1,12 @@
 package com.aki.goosinsa.repository.item;
 
 import com.aki.goosinsa.controller.food.FoodSearch;
+import com.aki.goosinsa.domain.dto.company.CompanySearch;
 import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
+import com.aki.goosinsa.domain.entity.company.QCompany;
+import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
@@ -18,6 +21,7 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.aki.goosinsa.domain.entity.company.QCompany.company;
 import static com.aki.goosinsa.domain.entity.item.QFoodItem.foodItem;
 
 @Repository

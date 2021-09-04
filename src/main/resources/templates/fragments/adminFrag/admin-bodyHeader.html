@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div class="header mt-5" th:fragment="admin-bodyHeader">
+    <section class="breadcrumbs">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Admin Page</h2>
+                <ol>
+                    <li><a href="/admin/company/managerEdit">업체리스트</a></li>
+                    <li><a href="/admin/company/addCompany">업체등록</a></li>
+                    <li><a href="/admin/food/foodList">상품리스트</a></li>
+                    <li><a href="/admin/food/addFood">상품등록</a></li>
+                    <li><a href="/admin/food/addMenu">멀티상품등록</a></li>
+                    <li><a href="/admin/user/users">회원리스트</a></li>
+                    <li>Inner Page</li>
+                </ol>
+            </div>
+
+        </div>
+    </section>
+</div>

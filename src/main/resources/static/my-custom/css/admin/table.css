@@ -1,10 +1,7 @@
-.container {
-    margin-top: 30px;
-    margin-bottom: 50px !important;
-}
+@charset "UTF-8";
 
 table {
-    margin-bottom: 30px;
+    margin-bottom: 30px !important;
 }
 
 table, th, tr {
@@ -18,7 +15,8 @@ th {
 
 tr, tfoot{
     background-color: black !important;
-    color: #d1ccc0;
+    color: #d1ccc0 !important;
+    font-size: 10px;
 }
 
 .fixed-top {
@@ -29,9 +27,10 @@ tr, tfoot{
 
 .Page, .p-flex {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
     margin-bottom: 10px;
+    margin-right: 60px;
 }
 
 .pagination .c-flex {

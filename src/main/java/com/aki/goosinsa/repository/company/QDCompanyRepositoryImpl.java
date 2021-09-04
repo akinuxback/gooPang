@@ -4,6 +4,7 @@ import com.aki.goosinsa.domain.dto.company.CompanyDto;
 import com.aki.goosinsa.domain.dto.company.CompanySearch;
 import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.company.QCompany;
+import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -20,6 +21,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.aki.goosinsa.domain.entity.company.QCompany.company;
+import static com.aki.goosinsa.domain.entity.item.QFoodItem.foodItem;
 
 @Repository
 @Log4j2
@@ -75,6 +77,41 @@ public class QDCompanyRepositoryImpl implements QDCompanyRepository{
         long total = results.getTotal();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    public Page<FoodItem> companyFindFoodItemList(String companyNo, CompanySearch companySearch){
+        QueryResults<FoodItem> results = queryFactory
+                .select(foodItem)
+                .from(foodItem)
+                .where(foodItem.company.companyNo.eq(companyNo))
+                .leftJoin(foodItem.company).fetchJoin()
+                .innerJoin(foodItem.uploadFile).fetchJoin()
+                .offset(companySearch.getPageable().getOffset())
+                .limit(companySearch.getPageable().getPageSize())
+                .fetchResults();
+
+        List<FoodItem> content = results.getResults();
+        long total = results.getTotal();
+
+        return new PageImpl<>(content, companySearch.getPageable(), total);
+    };
+
+    public List<Company> companyOfUserAndUploadFileJoin(Long userId){
+        return queryFactory
+                .select(company)
+                .from(company)
+                .join(company.user).fetchJoin()
+                .join(company.uploadFile).fetchJoin()
+                .where(company.user.id.eq(userId))
+                .fetch();
+    }
+
+    public List<FoodItem> joinCompany(){
+        return queryFactory
+                .select(foodItem)
+                .from(foodItem)
+                .join(foodItem.company).fetchJoin()
+                .fetch();
     }
 
 }

@@ -1,48 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/admin/admin-header :: admin-header">
+<head th:replace="fragments/header :: header">
   <meta charset="UTF-8">
   <title>Title</title>
   <!-- my-custom css -->
 </head>
 <link href="/my-custom/css/admin/table.css" rel="stylesheet">
-
-<!-- 현재 페이지에도 input , select css 적용 -> 삭제 하지 말것 -->
-<link href="/my-custom/css/admin/search.css?ver=1" rel="stylesheet">
+<link href="/my-custom/css/admin/search.css" rel="stylesheet">
 <link href="/my-custom/css/admin/paging.css" rel="stylesheet">
 
 <body>
-<div th:replace="fragments/admin/admin-bodyHeader :: admin-bodyHeader"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/adminFrag/admin-bodyHeader :: admin-bodyHeader"/>
 
 <div class="container tableDiv mt-5 mb-5">
   <div class="p-flex">
-    <div class="col-6">
-      <nav aria-label="Page navigation example">
-        <ul class="pagination"
-            th:with="start=${(pages.number/maxPage)*maxPage + 1},
-                    end=(${(pages.totalPages == 0) ? 1 :
-                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
-
-          <li class="page-item" th:if="${start > 1}">
-            <a class="page-link" th:href="@{/admin/user/users?(pageNum=0)}" th:data-page="0">처음</a>
-          </li>
-          <li class="page-item" th:if="${start > 1}">
-            <a class="page-link" th:href="@{/admin/user/users?(pageNum=${start - maxPage})}" th:data-page="${start - maxPage}">이전</a>
-          </li>
-          <li th:each="page: ${#numbers.sequence(start, end)}">
-            <a th:class="${pages.number eq page -1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/user/users?(pageNum=${page-1})}" th:text="${page}" th:data-page="${page -1}"></a>
-          </li>
-
-          <li th:if="${end < pages.totalPages}">
-            <a class="page-link" th:href="@{/admin/user/users?(pageNum=${start + maxPage -1})}" th:data-page="${start + maxPage -1}">다음</a>
-          </li>
-
-          <li th:if="${end < pages.totalPages}">
-            <a class="page-link" th:href="@{/admin/user/users?(pageNum=${pages.totalPages-1})}" th:data-page="${pages.totalPages-1}">끝!</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
     <div class="searchDiv p-flex">
       <div>
         <input type="search" class="Susername" placeholder="닉네임" th:value="${userSearch.username}"/>
@@ -106,6 +78,33 @@
     </div>
     </tbody>
   </table>
+  <div>
+    <nav aria-label="Page navigation example">
+      <ul class="pagination"
+          th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                    end=(${(pages.totalPages == 0) ? 1 :
+                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
+
+        <li class="page-item" th:if="${start > 1}">
+          <a class="page-link" th:href="@{/admin/user/users?(pageNum=0)}" th:data-page="0">처음</a>
+        </li>
+        <li class="page-item" th:if="${start > 1}">
+          <a class="page-link" th:href="@{/admin/user/users?(pageNum=${start - maxPage})}" th:data-page="${start - maxPage}">이전</a>
+        </li>
+        <li th:each="page: ${#numbers.sequence(start, end)}">
+          <a th:class="${pages.number eq page -1 ? 'active page-link' : 'page-link'}" th:href="@{/admin/user/users?(pageNum=${page-1})}" th:text="${page}" th:data-page="${page -1}"></a>
+        </li>
+
+        <li th:if="${end < pages.totalPages}">
+          <a class="page-link" th:href="@{/admin/user/users?(pageNum=${start + maxPage -1})}" th:data-page="${start + maxPage -1}">다음</a>
+        </li>
+
+        <li th:if="${end < pages.totalPages}">
+          <a class="page-link" th:href="@{/admin/user/users?(pageNum=${pages.totalPages-1})}" th:data-page="${pages.totalPages-1}">끝!</a>
+        </li>
+      </ul>
+    </nav>
+  </div>
 
 </div>
 
@@ -117,7 +116,7 @@
   <input type="hidden" th:name="userRole" th:value="${param.userRole}">
 </form>
 
-<div th:replace="fragments/admin/admin-footer :: admin-footer"/>
+<div th:replace="fragments/footer :: footer"/>
 <!--<div th:replace="fragments/footer :: footer"/>-->
 </body>
 </html>

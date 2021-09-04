@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/admin/admin-header :: admin-header">
+<head th:replace="fragments/header :: header">
   <meta charset="UTF-8">
   <title>Title</title>
 </head>
 <link href="/my-custom/css/admin/addFood.css?ver=2" rel="stylesheet">
 <link href="/my-custom/css/admin/editFood.css?ver=2" rel="stylesheet">
 <body>
-<div th:replace="fragments/admin/admin-bodyHeader :: admin-bodyHeader"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/adminFrag/admin-bodyHeader :: admin-bodyHeader"/>
 
 <!-- ======= Book A Table Section ======= -->
 <section id="book-a-table" class="book-a-table">
@@ -35,11 +36,11 @@
               method="post" enctype="multipart/form-data"
               class="php-email-form" data-aos="fade-up" data-aos-delay="100">
 
-          <div class="">
+          <div class="row">
             <div class="col-lg-6 col-md-6 form-group">
               <label>분류 1</label>
               <select th:field="${foodItemDto.foodGroups}"
-                      class="ml-auto col-6 form-control">
+                      class="form-control">
                 <option value="">==상품상세구분==</option>
                 <option th:each="group : ${foodGroups}"
                         th:value="${group.name()}"
@@ -50,13 +51,13 @@
             <div class="col-lg-6 col-md-6 form-group">
               <label>분류 2</label>
               <select id="foodKindStatus" name="foodGroupsOfTitle"
-                      class="ml-auto col-6 form-control">
+                      class="form-control">
                 <option value="">select 1 을 먼저 선택 하세요=</option>
               </select>
             </div>
           </div>
 
-          <div class="">
+          <div class="row">
             <div class="col-lg-4 col-md-6 form-group">
               <label>FoodName</label>
               <input type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="상품이름">
@@ -70,7 +71,7 @@
               <input type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="0">
             </div>
           </div>
-          <div>
+          <div class="row">
             <div class="col-lg-12 col-md-6 form-group">
               <label>Explains</label>
               <textarea class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
@@ -97,7 +98,7 @@
 </section><!-- End Book A Table Section -->
 
 
-<div th:replace="fragments/admin/admin-footer :: admin-footer"/>
+<div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
 

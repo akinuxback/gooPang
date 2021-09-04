@@ -32,4 +32,13 @@ class QDCompanyRepositoryImplTest {
         log.info(pages.getContent().size());
         log.info(pages.getTotalElements());
     }
+    
+    @Test
+    public void companyFindFoodItemList() throws Exception{
+        CompanySearch companySearch = new CompanySearch();
+        companySearch.checkNull();
+        qdCompanyRepository.companyFindFoodItemList("111-1111-11", companySearch);
+
+        
+    }
 }

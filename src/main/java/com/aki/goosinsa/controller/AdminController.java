@@ -37,7 +37,12 @@ public class AdminController {
 
     @GetMapping("/adminHome")
     public String adminHome(){
-        return "admin/adminHome";
+        return "adminHome";
+    }
+
+    @GetMapping("/managerHome")
+    public String mangerHome(){
+        return "managerHome";
     }
 
 //    @PostMapping("/addFood")

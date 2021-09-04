@@ -33,3 +33,7 @@ update users set role = 'ROLE_ADMIN' where username = 'admin';
 commit;
 
 select * from item;
+
+select * from COMPANY C, USERS U where U.ID = C.USER_ID;
+
+select * from COMPANY where USER_ID = 1;

@@ -26,7 +26,7 @@ import java.util.List;
 @Builder
 public class User {
 
-    @Id
+    @Id @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ_GEN")
     private Long id;
     @Column(unique = true)
@@ -51,13 +51,25 @@ public class User {
     @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<>();
 
-
     public static User toEntity(UserDto userDto, BCryptPasswordEncoder bCryptPasswordEncoder){
         return User.builder()
                 .role(UserRole.ROLE_USER)
                 .username(userDto.getUsername())
                 .name(userDto.getName())
                 .password(bCryptPasswordEncoder.encode(userDto.getPassword()))
+                .email(userDto.getEmail())
+                .phoneNumber(userDto.getPhoneNumber())
+                .address(new Address(userDto.getAddressDto()))
+                .build();
+    }
+
+    public static User toEntity(UserDto userDto){
+        return User.builder()
+                .id(userDto.getId())
+                .role(UserRole.ROLE_USER)
+                .username(userDto.getUsername())
+                .name(userDto.getName())
+                .password(userDto.getPassword())
                 .email(userDto.getEmail())
                 .phoneNumber(userDto.getPhoneNumber())
                 .address(new Address(userDto.getAddressDto()))

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<link href="/my-custom/css/manager/companyList.css" rel="stylesheet">
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/managerFrag/manager-bodyHeader :: manager-bodyHeader"/>
+<main id="main">
+
+  <!-- ======= Chefs Section ======= -->
+  <section id="chefs" class="chefs">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-title">
+        <h2>내 보유 업체 리스트</h2>
+        <p>My CompanyList - <span>이미지 클릭</span></p>
+      </div>
+
+      <div th:if="${companyList.size()} == 0">
+        <p>등록한 업체가 없습니다.</p>
+        <a href="/admin/company/addCompany">업체 등록 하기 클릭!</a>
+      </div>
+      <div class="row">
+        <th:block th:each="company : ${companyList}">
+          <div class="col-lg-3 col-md-3" th:with="fullPath=${company.uploadFile.fullPath}">
+            <div class="member" data-aos="zoom-in" data-aos-delay="100">
+              <a th:href="@{/manager/company/getCompany/{id}(id = ${company.companyNo})}">
+                <figure>
+                  <img th:if="${fullPath} != null" th:src="|/display?fullPath=${#myFormat.encode(fullPath)}|" class="menu-img" alt=""/>
+                  <img th:if="${fullPath} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+                </figure>
+              </a>
+              <ul class="cpContent">
+                <li th:text="${company.companyName}"></li>
+                <li th:text="${company.status}"></li>
+                <li th:text="${company.user.username}"></li>
+              </ul>
+            </div>
+          </div>
+        </th:block>
+
+      </div> <!-- end row -->
+
+<!--      <div class="row">-->
+<!--      <div th:each="company, i : ${user.companyList}">-->
+
+<!--          <div class="col-lg-4 col-md-6">-->
+<!--            <div class="member" data-aos="zoom-in" data-aos-delay="300">-->
+<!--              <div th:if="${(i.count + 2) % 3} == 0"><h1>start</h1></div>-->
+<!--              <h1 th:text="${i.count}"></h1>-->
+<!--              <img src="/rest/assets/img/chefs/chefs-3.jpg" class="img-fluid" alt="">-->
+<!--              <div class="member-info">-->
+<!--                <div class="member-info-content">-->
+<!--                  <h4>William Anderson</h4>-->
+<!--                  <span>Cook</span>-->
+<!--                </div>-->
+<!--                <div class="social">-->
+<!--                  <a href=""><i class="icofont-twitter"></i></a>-->
+<!--                  <a href=""><i class="icofont-facebook"></i></a>-->
+<!--                  <a href=""><i class="icofont-instagram"></i></a>-->
+<!--                  <a href=""><i class="icofont-linkedin"></i></a>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div th:if="${i.count % 3} == 0"><h1>end</h1></div>-->
+<!--              <div th:if="${i.count} == ${user.companyList.size()}"><h1>end</h1></div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--      </div>-->
+<!--      </div>-->
+
+    </div><!-- End container -->
+  </section><!-- End Chefs Section -->
+
+</main><!-- End #main -->
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>

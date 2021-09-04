@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="fragments/admin/admin-header :: admin-header">
+<head th:replace="fragments/header :: header">
     <meta charset="UTF-8">
     <title>Title</title>
     <!-- my-custom css -->
@@ -9,7 +9,8 @@
 <link href="/my-custom/css/admin/addMenu.css?ver=1" rel="stylesheet">
 
 <body>
-<div th:replace="fragments/admin/admin-bodyHeader :: admin-bodyHeader"/>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/adminFrag/admin-bodyHeader :: admin-bodyHeader"/>
 
 <div class="container tableDiv mt-5 mb-5">
     <!-- 본문 -->

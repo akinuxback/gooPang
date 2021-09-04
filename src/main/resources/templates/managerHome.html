@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/managerFrag/manager-bodyHeader :: manager-bodyHeader"/>
+<main id="main">
+
+  <section class="inner-page">
+    <div class="container">
+      <p>
+        Example inner page template
+      </p>
+    </div>
+  </section>
+
+</main><!-- End #main -->
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
