@@ -18,6 +18,12 @@
   <div class="p-flex">
     <div class="searchDiv p-flex justify-content-center">
       <div>
+        <input type="search" class="ScompanyName" placeholder="업체명" th:value="${foodSearch.companyName}"/>
+      </div>
+      <div>
+        <input type="search" class="ScompanyNo" placeholder="사업자번호" th:value="${foodSearch.companyNo}"/>
+      </div>
+      <div>
         <select id="foodGroups" name="foodGroups" class="foodGroups">
           <option value="">=select1=</option>
           <option th:each="group : ${foodGroups}"
@@ -52,6 +58,7 @@
     <thead>
     <tr>
       <th>인덱스</th>
+      <th>유저네임</th>
       <th>업체명</th>
       <th>사업자번호</th>
       <th>음식이름</th>
@@ -70,6 +77,7 @@
     <div th:each="foodItemDto : ${foodItemDtoList}">
       <tr>
         <td id="deleteId" th:text="${foodItemDto.id}"></td>
+        <td th:text="${foodItemDto.company.user.username}"></td>
         <td th:text="${foodItemDto.company.companyName}"></td>
         <td th:text="${foodItemDto.company.companyNo}"></td>
         <td th:text="${foodItemDto.itemName}"></td>
@@ -128,10 +136,12 @@
 <!--  <input type="hidden" name="price" th:value="${param.price}">-->
 
   <input type="hidden" name="pageNum" value="">
+  <input type="hidden" name="companyName" value="">
+  <input type="hidden" name="companyNo" value="">
   <input type="hidden" name="foodGroups" value="">
   <input type="hidden" name="foodGroupsOfTitle" value="">
-  <input type="hidden" name="foodName" value="">
-  <input type="hidden" name="price" value="">
+<!--  <input type="hidden" name="foodName" value="">-->
+<!--  <input type="hidden" name="price" value="">-->
 </form>
 
 <input id="messageVal" type="hidden" th:value="${message}">
@@ -169,6 +179,8 @@ $(document).ready(function(){
 <script type="application/javascript">
   $(document).ready(function (){
     const $form = $(".foodSearchForm");
+    const $companyName = $("input[name='companyName']");
+    const $companyNo = $("input[name='companyNo']");
     const $pageNum = $("input[name='pageNum']");
     const $foodGroups = $("input[name='foodGroups']");
     const $foodGroupsOfTitle = $("input[name='foodGroupsOfTitle']");
@@ -183,11 +195,15 @@ $(document).ready(function(){
       console.log($pageNum);
       $pageNum.val(pageNum);
 
+      let ScompanyName = $(".ScompanyName").val();
+      let ScompanyNo = $(".ScompanyNo").val();
       let SfoodGroup = $(".foodGroups").val();
       let SfoodGroupsOfTitle = $(".foodGroupsOfTitle").val();
       let SfoodName = $(".SfoodName").val();
       let Sprice = $(".Sprice").val();
 
+      $companyName.val(ScompanyName);
+      $companyNo.val(ScompanyNo);
       $foodGroups.val(SfoodGroup);
       $foodGroupsOfTitle.val(SfoodGroupsOfTitle);
       $foodName.val(SfoodName);

@@ -20,7 +20,7 @@
       </div>
 
       <div th:if="${companyList.size()} == 0">
-        <p>등록한 업체가 없습니다.</p>
+        <p>등록된 업체가 없습니다.</p>
         <a href="/admin/company/addCompany">업체 등록 하기 클릭!</a>
       </div>
       <div class="row">
@@ -79,3 +79,10 @@
 <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
+
+<script th:inline="javascript">
+  let message = [[${message}]];
+  if(message != null){
+    alert(message);
+  }
+</script>

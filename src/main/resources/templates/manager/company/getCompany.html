@@ -16,10 +16,12 @@
     <div class="container">
 
       <table id="table_id" class="table table-striped table-bordered" style="width:100%">
-        <h1 th:text="${company.companyName}"></h1>
-        <a th:href="@{/admin/food/addFood(companyNo=${company.companyNo})}">상품 등록 하기 클릭!!!</a>
-        <div th:if="${foodItemList.size()} == 0">
-          <p>등록된 상품이 없습니다.</p>
+        <div class="d-flex justify-content-between align-items-center">
+          <h1 th:text="${company.companyName}"></h1>
+          <div th:if="${foodItemList.size()} == 0">
+            <strong>등록된 상품이 없습니다.</strong>
+          </div>
+          <span><a th:href="@{/manager/food/addFood(companyNo=${company.companyNo})}">상품 등록 하기 클릭!!! <button class="btn btn-primary">이동</button>  </a></span>
         </div>
         <thead>
         <tr>
@@ -51,8 +53,8 @@
             <td th:text="${foodItem.uploadFile.getClientFileName()}"></td>
             <td th:text="${foodItem.foodGroups}"></td>
             <td th:text="${foodItem.foodGroupsOfTitle}"></td>
-            <td><a th:href="@{/admin/food/{id}/getFood (id=${foodItem.id})}" class="likeabutton showBtn">보기</a></td>
-            <td><a th:href="@{/admin/food/{id}/editFood (id=${foodItem.id})}" class="likeabutton modBtn">수정</a></td>
+            <td><a th:href="@{/manager/food/{id}/getFood (id=${foodItem.id})}" class="likeabutton showBtn">보기</a></td>
+            <td><a th:href="@{/manager/food/{id}/editFood (id=${foodItem.id})}" class="likeabutton modBtn">수정</a></td>
             <td><a href="" class="likeabutton rmBtn">삭제</a></td>
           </tr>
         </div>

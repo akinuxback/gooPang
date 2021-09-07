@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- my-custom css -->
+</head>
+<link href="/my-custom/css/admin/table.css" rel="stylesheet">
+<link href="/my-custom/css/admin/search.css" rel="stylesheet">
+<link href="/my-custom/css/admin/paging.css" rel="stylesheet">
+
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/adminFrag/admin-bodyHeader :: admin-bodyHeader"/>
+
+<div class="container tableDiv mt-5 mb-5">
+    <div class="p-flex">
+        <div class="searchDiv p-flex justify-content-center">
+            <div>
+                <label class="searchLabel">검색조건 선택</label>
+            </div>
+            <div class="searchDiv d-flex justify-content-center">
+                <select id="searchBox" name="">
+                    <option value="companyNo">사업자번호</option>
+                    <option value="companyName">거래처명</option>
+                    <option value="username">회원아이디</option>
+                    <option value="name">회원명</option>
+                </select>
+                <input id="searchInput" type="text" name="companyNo" value="">
+                <button type="submit" class="searchBtn btn btn-success">조회</button>
+            </div>
+        </div>
+    </div>
+    <table id="table_id" class="table table-striped table-bordered" style="width:100%">
+        <thead>
+        <tr>
+            <th>사업자번호</th>
+            <th>업체명</th>
+            <th>약칭</th>
+            <th>업체분류</th>
+            <th>회원아이디</th>
+            <th>ceo</th>
+            <th>연락처</th>
+            <th>주소</th>
+            <th>등록일자</th>
+            <th>수정일자</th>
+            <th>보기</th>
+            <th>수정</th>
+        </tr>
+        </thead>
+        <tbody>
+        <div th:each="company : ${companyList}">
+            <tr>
+                <td id="deleteId" th:text="${company.companyNo}"></td>
+                <td th:text="${company.companyName}"></td>
+                <td th:text="${company.abbr}"></td>
+                <td th:text="${company.status}"></td>
+                <td th:text="${company.user.username}"></td>
+                <td th:text="${company.user.name}"></td>
+                <td th:text="${company.user.phoneNumber}"></td>
+                <td th:text="|${company.address.city}, ${company.address.street}, ${company.address.zipcode}|"></td>
+                <td th:text="${#temporals.format(company.createDate, 'yy-MM-dd')}"></td>
+                <td th:text="${#temporals.format(company.modifyDate, 'yy-MM-dd')}"></td>
+                <td><a th:href="@{/admin/company/getCompany/{companyNo} (companyNo=${company.companyNo})}" class="likeabutton showBtn">보기</a></td>
+                <td><a th:href="@{/admin/company/updateCompany/{companyNo} (companyNo=${company.companyNo})}" class="likeabutton modBtn">수정</a></td>
+            </tr>
+        </div>
+        </tbody>
+    </table>
+    <div>
+        <nav aria-label="Page navigation example">
+            <ul class="pagination"
+                th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                    end=(${(pages.totalPages == 0) ? 1 :
+                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
+
+                <li class="page-item" th:if="${start > 1}">
+                    <a class="page-link" th:data-page="0">처음</a>
+                </li>
+                <li class="page-item" th:if="${start > 1}">
+                    <a class="page-link" th:data-page="${start - maxPage}">이전</a>
+                </li>
+                <li class="page-item" th:each="page: ${#numbers.sequence(start, end)}">
+                    <a th:class="${pages.number eq page -1 ? 'active page-link' : 'page-link'}" th:text="${page}" th:data-page="${page} -1"></a>
+                </li>
+
+                <li class="page-item" th:if="${end < pages.totalPages}">
+                    <a class="page-link" th:data-page="${start + maxPage -1}">다음!</a>
+                </li>
+
+                <li class="page-item" th:if="${end < pages.totalPages}">
+                    <a class="page-link" th:data-page="${pages.totalPages-1}">끝!</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    <form role=deleteForm action="/admin/food/deleteFood" method="post">
+        <input type="hidden" name="deleteId" value="">
+    </form>
+
+</div>
+
+<form role="searchForm" action="">
+    <input class="searchInput" type="hidden" name="companyNo" value="">
+    <input type="hidden" name="page" value="">
+    <input type="hidden" name="size" value="">
+    <input type="hidden" name="maxPage" value="">
+</form>
+
+
+<input id="messageVal" type="hidden" th:value="${message}">
+
+<div th:replace="fragments/footer :: footer"/>
+<!--<div th:replace="fragments/footer :: footer"/>-->
+</body>
+</html>
+
+<script type="application/javascript">
+    const messageVal = $("#messageVal").val();
+    console.log(messageVal);
+    if(messageVal != null && messageVal != '') {
+        alert(messageVal);
+    };
+</script>
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        const deleteForm = $("form[role='deleteForm']");
+        const $deleteHiddenInput = $("input[name='deleteId']");
+
+        $(".rmBtn").on("click", function(e){
+            e.preventDefault();
+            let deleteId = $(this).closest("tr").find("#deleteId").html();
+            $deleteHiddenInput.val(deleteId);
+            if(confirm("해당 [" + deleteId + "] 번을 삭제 하시겠습니까?")){
+                deleteForm.submit();
+            }
+        });
+
+    });
+</script>
+
+<script type="application/javascript">
+    $(document).ready(function(){
+
+        const form = $("form[role='searchForm']");
+
+        $("#searchBox").on("click change", function(){
+            let selectedVal = $(this).find("option:selected").val();
+            $("#searchInput").attr("name", selectedVal);
+        });
+    });
+</script>
+
+<script type="application/javascript">
+    $(document).ready(function(){
+        const searchForm = $("form[role='searchForm']");
+        const inputPage = $("input[name='page']");
+        const IsearchInput = $("#searchInput");
+        const CsearchInput = $(".searchInput");
+
+        $(".searchBtn, .page-link").on("click", function(e){
+            e.preventDefault();
+            let dataPage = $(this).attr("data-page");
+            if(dataPage != null || "") inputPage.val(dataPage);
+
+            let nameVal = IsearchInput.attr("name");
+            let val = IsearchInput.val();
+
+            CsearchInput.attr("name", nameVal).val(val);
+            searchForm.submit();
+
+        });
+
+    });
+</script>

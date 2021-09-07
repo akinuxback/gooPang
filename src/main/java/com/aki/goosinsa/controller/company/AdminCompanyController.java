@@ -9,6 +9,7 @@ import com.aki.goosinsa.domain.entity.user.UserDto;
 import com.aki.goosinsa.repository.company.CompanyRepository;
 import com.aki.goosinsa.repository.company.QDCompanyRepository;
 import com.aki.goosinsa.repository.user.UserRepository;
+import com.aki.goosinsa.service.company.CompanyService;
 import com.aki.goosinsa.service.user.UserService;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -22,6 +23,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/admin/company")
@@ -39,17 +41,24 @@ public class AdminCompanyController {
 
     private final CompanyRepository companyRepository;
     private final QDCompanyRepository qdCompanyRepository;
+    private final CompanyService companyService;
 
-    @GetMapping("/managerEdit")
-    public String edit(Model model, Pageable pageable, CompanySearch companySearch){
+
+    @GetMapping("/companyList")
+    public String edit(Model model, CompanySearch companySearch){
         companySearch.checkNull();
         Page<Company> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
         model.addAttribute("pages", pages);
+        model.addAttribute("companyList", pages.getContent());
         model.addAttribute("maxPage", companySearch.getMaxPage());
         model.addAttribute("contentSize", pages.getContent().size());
-        return "admin/company/managerEdit";
+        return "admin/company/companyList";
     }
 
+    
+    /**
+     * addCompany 에서 사용 - 존재하는 회원유저를 참조하여 company 를 어펜드 한다.
+     * */
     @GetMapping("/findUser/{ph}")
     @ResponseBody
     public ResponseEntity<CreateCompanyByUserDto> findUserByPh(@PathVariable String ph) throws NullPointerException{
@@ -86,6 +95,29 @@ public class AdminCompanyController {
 
         return "redirect:/admin/company/addCompany";
     }
+
+    @GetMapping("/getCompany/{companyNo}")
+    public String getCompany(@PathVariable String companyNo, Model model){
+        CompanyDto companyDto = qdCompanyRepository.companyJoinUserAndUploadFileFindByCompanyNo(companyNo);
+        model.addAttribute("companyDto", companyDto);
+        return "admin/company/getCompany";
+    }
+
+    @GetMapping("/updateCompany/{companyNo}")
+    public String updateCompany(@PathVariable String companyNo, Model model){
+        CompanyDto companyDto = qdCompanyRepository.companyJoinUserAndUploadFileFindByCompanyNo(companyNo);
+        model.addAttribute("companyDto", companyDto);
+        return "admin/company/updateCompany";
+    }
+
+    @PostMapping("/updateCompany/{companyNo}")
+    public String updateCompanyPost(@PathVariable String companyNo, CompanyDto companyDto, RedirectAttributes rttr){
+        Company updateCompany = companyService.updateCompany(companyDto);
+        rttr.addFlashAttribute("message", updateCompany.getCompanyNo() + " 의 업체 정보가수정 되었습니다.");
+        return "redirect:/admin/company/getCompany/" + updateCompany.getCompanyNo();
+    }
+
+
 
 }
 

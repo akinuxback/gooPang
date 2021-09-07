@@ -65,6 +65,13 @@ public class AdminFoodController {
     public String foodList(Model model, @RequestParam(defaultValue = "0") int pageNum,
                            FoodSearch foodSearch){
 
+        log.info("");
+        log.info("===================================================================================");
+        String companyNameaa = foodSearch.getCompanyName();
+        log.info(companyNameaa);
+        log.info("===================================================================================");
+        log.info("");
+
         PageRequest pageable = PageRequest.of(pageNum, 10);
         Page<FoodItemDto> pages = qdItemRepository.findAllPaging(pageable, foodSearch);
         List<FoodItemDto> content = pages.getContent();

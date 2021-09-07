@@ -70,6 +70,18 @@ public class Company {
 
     }
 
+    public void updateCompany(CompanyDto companyDto){
+        this.companyNo = companyDto.getCompanyNo();
+        this.companyName = companyDto.getCompanyName();
+        this.abbr = companyDto.getAbbr();
+        this.status = companyDto.getStatus();
+        this.messageOneYn = companyDto.getMessageOneYn();
+        this.messageOne = companyDto.getMessageOne();
+        this.address = new Address(companyDto.getAddressDto());
+        this.uploadFile = UploadFile.createUploadFile(companyDto.getUploadFileDto());
+        this.modifyDate = LocalDateTime.now();
+    }
+
     public void setCompanyNo(String companyNo) {
         this.companyNo = companyNo;
     }

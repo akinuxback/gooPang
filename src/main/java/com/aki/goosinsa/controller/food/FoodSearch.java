@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class FoodSearch {
 
+    private Long userId;
+    private String companyNo;
+    private String companyName;
     private String foodName;
     private Integer price;
     private String foodGroups;

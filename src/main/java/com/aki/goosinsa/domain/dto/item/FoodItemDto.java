@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@Builder
 public class FoodItemDto extends ItemDto {
 
     private FoodGroups foodGroups; // 음식 종류 - 음료, 면, 탕, 고기

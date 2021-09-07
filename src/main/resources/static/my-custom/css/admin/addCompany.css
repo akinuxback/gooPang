@@ -57,7 +57,7 @@ img {
     align-items: center;
 }
 
-input:read-only, textarea:read-only {
+input:read-only, textarea:read-only, select:disabled {
     background-color: black !important;
     color: #0dcaf0 !important;
 }

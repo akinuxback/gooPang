@@ -13,6 +13,7 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
+@Builder
 public class ItemDto {
 
     private Long id;
