@@ -53,9 +53,14 @@ public class QDCompanyRepositoryImpl implements QDCompanyRepository{
             builder.and(company.companyName.eq(companyName.trim()));
         }
 
-        if(StringUtils.hasText(username)){
-            builder.and(company.user.username.eq(username.trim()));
+        try {
+            if(StringUtils.hasText(username)){
+                builder.and(company.user.username.eq(username.trim()));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
         }
+
 
         if(StringUtils.hasText(name)){
             builder.and(company.user.name.eq(name.trim()));

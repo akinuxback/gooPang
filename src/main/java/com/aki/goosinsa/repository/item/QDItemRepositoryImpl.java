@@ -4,6 +4,7 @@ import com.aki.goosinsa.controller.food.FoodSearch;
 import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
+import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.QItem;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
@@ -21,6 +22,7 @@ import javax.persistence.EntityManager;
 import java.util.List;
 
 import static com.aki.goosinsa.domain.entity.item.QFoodItem.foodItem;
+import static com.aki.goosinsa.domain.entity.item.QItem.item;
 
 @Repository
 @Log4j2
@@ -40,6 +42,19 @@ public class QDItemRepositoryImpl implements QDItemRepository{
                 .where(foodItem.id.eq(id))
                 .fetchOne();
 
+    }
+
+    @Override
+    public Page itemFindAll(FoodSearch foodSearch) {
+
+        QueryResults<FoodItem> foodItemQueryResults = queryFactory
+                .select(foodItem)
+                .from(foodItem)
+                .join(foodItem.company).fetchJoin()
+                .join(foodItem.uploadFile).fetchJoin()
+                .fetchResults();
+
+        return null;
     }
 
     public Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch) {
@@ -65,7 +80,7 @@ public class QDItemRepositoryImpl implements QDItemRepository{
         }
 
         if(StringUtils.hasText(foodName)){
-            builder.and(QItem.item.itemName.eq(foodName.trim()));
+            builder.and(item.itemName.eq(foodName.trim()));
         }
 
         if(price > 0){
@@ -103,5 +118,7 @@ public class QDItemRepositoryImpl implements QDItemRepository{
     public Slice<ItemDto> findAllSlice(Pageable pageable) {
         return null;
     }
+
+
 
 }

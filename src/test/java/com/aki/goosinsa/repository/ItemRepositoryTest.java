@@ -55,10 +55,12 @@ class ItemRepositoryTest {
     @Test
     public void findItem() throws Exception{
 
-        Object o = itemRepository.findById(21L).orElseThrow();
-        log.info(o.getClass().getSimpleName());
-        Object cast = o.getClass().cast(new Passion());
-        log.info(cast.toString());
+        Passion passion = (Passion) itemRepository.findById(21L).orElseThrow();
+        log.info(passion.getDtype());
+
+
+
+
 
         //given
         

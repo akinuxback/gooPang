@@ -45,7 +45,7 @@ public class AdminCompanyController {
 
 
     @GetMapping("/companyList")
-    public String edit(Model model, CompanySearch companySearch){
+    public String companyList(Model model, CompanySearch companySearch){
         companySearch.checkNull();
         Page<Company> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
         model.addAttribute("pages", pages);

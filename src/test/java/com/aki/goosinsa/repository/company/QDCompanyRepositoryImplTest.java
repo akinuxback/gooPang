@@ -1,5 +1,6 @@
 package com.aki.goosinsa.repository.company;
 
+import com.aki.goosinsa.domain.dto.company.CompanyDto;
 import com.aki.goosinsa.domain.dto.company.CompanySearch;
 import com.aki.goosinsa.domain.entity.company.Company;
 import lombok.extern.log4j.Log4j2;
@@ -9,6 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -22,11 +26,14 @@ class QDCompanyRepositoryImplTest {
 
     @Test
     void findAllPaging() {
-        PageRequest pageable = PageRequest.of(0, 5);
         CompanySearch companySearch = new CompanySearch();
-        companySearch.setCompanyName("롯데마트4");
-        companySearch.setName("박보영");
-        Page<Company> pages = qdCompanyRepository.findAllPaging(pageable, companySearch);
+        companySearch.checkNull();
+        Page<Company> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
+        List<CompanyDto> content = pages.getContent().stream().map(c -> new CompanyDto(c)).collect(Collectors.toList());
+
+        content.forEach(c -> {
+            log.info(c.getCompanyName());
+        });
 
         log.info("===================================================");
         log.info(pages.getContent().size());

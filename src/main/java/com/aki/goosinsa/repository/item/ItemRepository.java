@@ -12,7 +12,7 @@ import java.util.List;
 public interface ItemRepository<T extends Item> extends JpaRepository<T, Long> {
 
     @Query(value = "select i from Item i where i.itemName = :itemName")
-    Item findByItemName(String itemName);
+    T findByItemName(String itemName);
 
     @Query(value = "select i from Item i join fetch i.uploadFile u", countQuery = "select count(i) from Item i")
     Page<T> findAllPaging(Pageable pageable);

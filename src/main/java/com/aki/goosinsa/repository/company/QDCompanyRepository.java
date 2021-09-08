@@ -27,4 +27,6 @@ public interface QDCompanyRepository {
 
     public CompanyDto companyJoinUserAndUploadFileFindByCompanyNo(String companyNo);
 
+
+
 }
