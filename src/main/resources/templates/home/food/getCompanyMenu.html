@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <!-- my-custom css -->
+  <link href="/my-custom/css/menu.css" rel="stylesheet">
+  <style>
+    .lilili {
+      list-style: none !important;
+      padding-left: 0px !important;
+    }
+  </style>
+</head>
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Menu Section ======= -->
+<section id="menu" class="mt-5 menu section-bg">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Menu</h2>
+      <p>Check Our Tasty Menu</p>
+    </div>
+
+    <div class="row" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <th:block th:if="${hasNoItem} == ''">
+        <ul id="menu-flters">
+          <h5 data-filter="*" class="filter-active text-warning">등록된 메뉴가 없습니다.</h5>
+        </ul>
+        </th:block>
+      </div>
+    </div>
+
+    <div class="row menu-container" data-aos="fade-up" data-aos-delay="200">
+
+      <div class="col-lg-6 menu-item filter-starters">
+        <img src="/my-custom/images/images.jpg" class="menu-img" alt="">
+        <img src="/my-custom/images/박보영2.jpg" class="menu-img" alt="">
+        <img src="/rest/assets/img/menu/bread-barrel.jpg" class="menu-img" alt="">
+        <div class="menu-content">
+          <a href="#">Lobster Bisque</a><span>$5.95</span>
+        </div>
+        <div class="menu-ingredients">
+          Lorem, deren, trataro, filede, nerada
+        </div>
+      </div>
+
+      <div th:each="food : ${foodList}" class="col-lg-6 menu-item filter-starters">
+        <!--                <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">-->
+        <img th:if="${food.getUploadFileDto().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(food.getUploadFileDto().getFullPath())}|" class="menu-img" alt=""/>
+        <img th:if="${food.getUploadFileDto().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+        <div class="menu-content" th:onclick="|location.href='@{/food/getFood/{id}(id=${food.id})}'|">
+          <a href="#" class="text-warning" th:text="${food.itemName}">Lobster Bisque</a>
+          <span th:text="'₩ ' + ${#numbers.formatInteger(food.price, 0, 'COMMA')}">$5.95</span>
+        </div>
+        <div class="menu-ingredients">
+          <div class="text-success d-flex justify-content-between">
+            <p class="mt-3" th:text="${food.explains}"></p>
+            <button class="mt-2 h-25 w-25 btn btn-dark text-primary"><a th:href="@{/home/food/getFoodItem/{id}(id=${food.id})}">상품보기</a></button>
+          </div>
+<!--          <div class="d-flex justify-content-between mt-2">-->
+<!--            <p th:text="${food.company.companyName}"></p>-->
+<!--            <p th:text="${food.id}"></p>-->
+<!--            <p th:text="${food.foodGroups}"></p>-->
+<!--            <p th:text="${food.foodGroupsOfTitle}"></p>-->
+<!--            <p th:text="${food.stockQuantity}"></p>-->
+<!--          </div>-->
+        </div>
+      </div>
+    </div>
+
+    <div class="row mt-5">
+      <nav aria-label="Page navigation example">
+        <ul class="pagination justify-content-center"
+            th:with="start=${(pages.number/maxPage)*maxPage + 1},
+                    end=(${(pages.totalPages == 0) ? 1 :
+                            (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
+
+          <li class="page-item" th:if="${start > 1}">
+            <a class="page-link" th:href="@{/food/menu?(pageNum=0)}">First</a>
+          </li>
+          <li class="page-item" th:if="${start > 1}">
+            <a class="page-link" th:href="@{/food/menu?(pageNum=${start - maxPage})}">Prevoious</a>
+          </li>
+          <li th:each="page: ${#numbers.sequence(start, end)}">
+            <a class="page-link" th:href="@{/food/menu?(pageNum=${page-1})}" th:text="${page}"></a>
+          </li>
+
+          <li th:if="${end < pages.totalPages}">
+            <a class="page-link" th:href="@{/food/menu?(pageNum=${start + maxPage})}">Next</a>
+          </li>
+
+          <li th:if="${end < pages.totalPages}">
+            <a class="page-link" th:href="@{/food/menu?(pageNum=${pages.totalPages-1})}">Last</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </div>
+</section><!-- End Menu Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+<!--</html>-->

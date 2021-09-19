@@ -1,14 +1,20 @@
 package com.aki.goosinsa.repository.order;
 
+import com.aki.goosinsa.domain.entity.item.FoodItem;
+import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.domain.entity.order.Order;
 import com.aki.goosinsa.domain.entity.order.OrderSearch;
 import com.aki.goosinsa.domain.entity.order.OrderStatus;
 import com.aki.goosinsa.domain.entity.order.QOrder;
 import com.aki.goosinsa.domain.entity.user.User;
+import com.aki.goosinsa.repository.item.ItemRepository;
+import com.aki.goosinsa.repository.user.UserRepository;
+import com.aki.goosinsa.service.order.OrderService;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -26,6 +32,31 @@ class QDOrderRepositoryImplTest {
     @Autowired
     QDOrderRepository qdOrderRepository;
 
+    @Autowired
+    OrderService orderService;
+
+    @Autowired
+    UserRepository userRepository;
+
+    @Autowired
+    ItemRepository itemRepository;
+
+
+
+    @Test
+    @Rollback(value = false)
+    @Transactional
+    public void ttttt() throws Exception{
+
+        //given
+        qdOrderRepository.findByAllJoin(1L);
+
+        //when
+        
+        //then
+        
+    }
+    
     @Test
     public void searchTest() throws Exception{
         OrderSearch orderSearch1 = new OrderSearch();

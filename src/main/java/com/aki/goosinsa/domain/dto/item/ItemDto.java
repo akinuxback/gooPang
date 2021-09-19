@@ -16,13 +16,13 @@ import javax.persistence.OneToOne;
 @Builder
 public class ItemDto {
 
-    private Long id;
-    private String itemName;
-    private Integer price;
-    private Integer stockQuantity;
-    private String explains;
-    private UploadFileDto uploadFileDto;
-    private Company company;
+    protected Long id;
+    protected String itemName;
+    protected Integer price;
+    protected Integer stockQuantity;
+    protected String explains;
+    protected UploadFileDto uploadFileDto;
+    protected Company company;
 
     public ItemDto(Item item) {
         this.id = item.getId();

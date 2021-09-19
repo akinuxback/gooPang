@@ -7,7 +7,6 @@ import com.aki.goosinsa.domain.dto.item.ItemEnums.SizeEnum;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.Item;
-import com.aki.goosinsa.domain.entity.item.Passion;
 import com.aki.goosinsa.repository.item.ItemRepository;
 import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,72 +31,9 @@ class ItemRepositoryTest {
 
     @BeforeEach
     public void beforeEach(){
-        ItemDto nike = ItemDto.builder()
-                .itemName("나이키")
-                .stockQuantity(10)
-                .price(10000)
-                .explains("블라블라")
-                .uploadFileDto(new UploadFileDto())
-                .build();
-
-        Passion nikeTop = Passion.builder()
-                .itemDto(nike)
-                .passionType(PassionType.TOP)
-                .colorEnum(ColorEnum.Black)
-                .sizeEnum(SizeEnum.XL)
-                .build();
-
-        itemRepository.save(nikeTop);
-
 
     }
-    
-    @Test
-    public void findItem() throws Exception{
 
-        Passion passion = (Passion) itemRepository.findById(21L).orElseThrow();
-        log.info(passion.getDtype());
-
-
-
-
-
-        //given
-        
-        //when
-        
-        //then
-        
-    }
-
-    @Rollback(value = false)
-    @Test
-    public void insertPassion() throws Exception{
-
-        ItemDto nike = ItemDto.builder()
-                .itemName("나이키")
-                .stockQuantity(10)
-                .price(10000)
-                .explains("블라블라")
-                .uploadFileDto(new UploadFileDto())
-                .build();
-
-        Passion nikeTop = Passion.builder()
-                .itemDto(nike)
-                .passionType(PassionType.TOP)
-                .colorEnum(ColorEnum.Black)
-                .sizeEnum(SizeEnum.XL)
-                .build();
-
-        itemRepository.save(nikeTop);
-
-        //given
-        
-        //when
-        
-        //then
-        
-    }
     
     @Test
     public void typeSelect() throws Exception{

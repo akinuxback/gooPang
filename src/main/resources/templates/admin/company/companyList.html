@@ -55,10 +55,10 @@
                 <td th:text="${company.companyName}"></td>
                 <td th:text="${company.abbr}"></td>
                 <td th:text="${company.status}"></td>
-                <td th:text="${company.user.username}"></td>
-                <td th:text="${company.user.name}"></td>
-                <td th:text="${company.user.phoneNumber}"></td>
-                <td th:text="|${company.address.city}, ${company.address.street}, ${company.address.zipcode}|"></td>
+                <td th:text="${company.userDto.username}"></td>
+                <td th:text="${company.userDto.name}"></td>
+                <td th:text="${company.userDto.phoneNumber}"></td>
+                <td th:text="|${company.addressDto.city}, ${company.addressDto.street}, ${company.addressDto.zipcode}|"></td>
                 <td th:text="${#temporals.format(company.createDate, 'yy-MM-dd')}"></td>
                 <td th:text="${#temporals.format(company.modifyDate, 'yy-MM-dd')}"></td>
                 <td><a th:href="@{/admin/company/getCompany/{companyNo} (companyNo=${company.companyNo})}" class="likeabutton showBtn">보기</a></td>

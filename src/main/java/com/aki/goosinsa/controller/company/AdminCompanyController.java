@@ -2,6 +2,7 @@ package com.aki.goosinsa.controller.company;
 
 import com.aki.goosinsa.domain.dto.company.CompanyDto;
 import com.aki.goosinsa.domain.dto.company.CompanySearch;
+import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.company.CompanyStatus;
 import com.aki.goosinsa.domain.entity.user.User;
@@ -36,6 +37,11 @@ public class AdminCompanyController {
         return CompanyStatus.values();
     }
 
+    @ModelAttribute("foodGroups")
+    public static FoodGroups[] foodGroups(){
+        return FoodGroups.values();
+    }
+
     private final UserRepository userRepository;
     private final UserService userService;
 
@@ -47,7 +53,7 @@ public class AdminCompanyController {
     @GetMapping("/companyList")
     public String companyList(Model model, CompanySearch companySearch){
         companySearch.checkNull();
-        Page<Company> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
+        Page<CompanyDto> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
         model.addAttribute("pages", pages);
         model.addAttribute("companyList", pages.getContent());
         model.addAttribute("maxPage", companySearch.getMaxPage());

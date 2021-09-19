@@ -2,8 +2,13 @@ package com.aki.goosinsa.repository.company;
 
 import com.aki.goosinsa.domain.dto.company.CompanyDto;
 import com.aki.goosinsa.domain.dto.company.CompanySearch;
+import com.aki.goosinsa.domain.dto.item.FoodGroups;
+import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
+import com.aki.goosinsa.domain.entity.item.QUploadFile;
+import com.aki.goosinsa.domain.entity.user.QUser;
+import com.aki.goosinsa.util.RepositoryHelper;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
@@ -12,6 +17,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -21,6 +27,8 @@ import java.util.List;
 
 import static com.aki.goosinsa.domain.entity.company.QCompany.company;
 import static com.aki.goosinsa.domain.entity.item.QFoodItem.foodItem;
+import static com.aki.goosinsa.domain.entity.item.QUploadFile.uploadFile;
+import static com.aki.goosinsa.domain.entity.user.QUser.user;
 
 @Repository
 @Log4j2
@@ -33,11 +41,19 @@ public class QDCompanyRepositoryImpl implements QDCompanyRepository{
     }
 
     @Override
-    public Page<Company> findAllPaging(Pageable pageable, CompanySearch companySearch) {
+    public Page<CompanyDto> findAllPaging(Pageable pageable, CompanySearch companySearch) {
         log.info("===========================================");
         log.info(pageable.getOffset());
         log.info(pageable.getPageSize());
         log.info(pageable.getPageNumber());
+        log.info(pageable.toString());
+
+        String foodGroups = companySearch.getFoodGroups();
+        try {
+            FoodGroups.valueOf(foodGroups);
+        } catch (Exception e){
+            foodGroups = "";
+        }
 
         String companyNo = companySearch.getCompanyNo();
         String companyName = companySearch.getCompanyName();
@@ -45,6 +61,10 @@ public class QDCompanyRepositoryImpl implements QDCompanyRepository{
         String name = companySearch.getName();
 
         BooleanBuilder builder = new BooleanBuilder();
+        if(StringUtils.hasText(foodGroups)){
+            builder.and(company.foodGroups.eq(FoodGroups.valueOf(foodGroups)));
+        }
+
         if(StringUtils.hasText(companyNo)){
             builder.and(company.companyNo.eq(companyNo.trim()));
         }
@@ -66,20 +86,86 @@ public class QDCompanyRepositoryImpl implements QDCompanyRepository{
             builder.and(company.user.name.eq(name.trim()));
         }
 
-        QueryResults<Company> results = queryFactory
-                .select(company)
+        QueryResults<CompanyDto> results = queryFactory
+                .select(Projections.constructor(CompanyDto.class, company))
+//                .select(company)
                 .from(company)
                 .where(builder)
-                .join(company.user).fetchJoin()
+                .innerJoin(company.user, user).fetchJoin()
+                .innerJoin(company.uploadFile, uploadFile).fetchJoin()
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .orderBy(company.companyNo.desc())
+                .orderBy(company.createDate.desc())
                 .fetchResults();
 
-        List<Company> content = results.getResults();
+        List<CompanyDto> content = results.getResults();
         long total = results.getTotal();
 
         return new PageImpl<>(content, pageable, total);
+    }
+
+    @Override
+    public Slice<CompanyDto> findAllPagingSlice(Pageable pageable, CompanySearch companySearch) {
+        log.info("pageable.toString() =====>" + pageable.toString());
+
+        String foodGroups = companySearch.getFoodGroups();
+//        log.info("===================================================================================");
+//        log.info("===================================================================================");
+//        log.info("===================================================================================");
+//        log.info("===================================================================================");
+//        log.info("===================================================================================");
+//        log.info(foodGroups);
+//        if(companySearch.getFoodGroups() != "All"){
+//            foodGroups = companySearch.getFoodGroups();
+//        }
+
+        String companyNo = companySearch.getCompanyNo();
+        String companyName = companySearch.getCompanyName();
+        String username = companySearch.getUsername();
+        String name = companySearch.getName();
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if(StringUtils.hasText(foodGroups)){
+            builder.and(company.foodGroups.eq(FoodGroups.valueOf(foodGroups)));
+        }
+
+        if(StringUtils.hasText(companyNo)){
+            builder.and(company.companyNo.eq(companyNo.trim()));
+        }
+
+        if(StringUtils.hasText(companyName)){
+            builder.and(company.companyName.eq(companyName.trim()));
+        }
+
+        try {
+            if(StringUtils.hasText(username)){
+                builder.and(company.user.username.eq(username.trim()));
+            }
+        } catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        if(StringUtils.hasText(name)){
+            builder.and(company.user.name.eq(name.trim()));
+        }
+
+        QueryResults<CompanyDto> results = queryFactory
+                .select(Projections.constructor(CompanyDto.class, company))
+//                .select(company)
+                .from(company)
+                .where(builder)
+                .innerJoin(company.user, user).fetchJoin()
+                .innerJoin(company.uploadFile, uploadFile).fetchJoin()
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize() + 1)
+                .orderBy(company.companyNo.desc())
+                .fetchResults();
+
+        List<CompanyDto> content = results.getResults();
+        long total = results.getTotal();
+
+        return RepositoryHelper.toSlice(content, pageable);
     }
 
     @Override

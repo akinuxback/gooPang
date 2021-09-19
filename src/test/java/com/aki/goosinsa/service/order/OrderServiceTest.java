@@ -65,63 +65,63 @@ class OrderServiceTest {
         item5 = (FoodItem) itemRepository.findById(5L).get();
 
     }
-
-    @Test
-    @Rollback(value = false)
-    public void 상품주문() throws Exception{
-        //given
-
-        int orderCount = 2;
-
-        //when
-        Long orderId = orderService.order(user.getId(), item1.getId(), 2);
-        log.info("=============================  orderId ==================================================");
-        log.info(orderId);
-
-        em.flush();
-        em.clear();
-
-        //then
-        Order getOrder = orderRepository.findById(orderId).get();
-        assertEquals(OrderStatus.ORDER, getOrder.getStatus());
-        assertEquals(1, getOrder.getOrderItems().size());
-//        assertEquals(16, item1.getStockQuantity());
-        assertEquals(10000*orderCount, getOrder.getTotalPrice());
-        log.info("======================= getTotalPrice ======================");
-        log.info(getOrder.getTotalPrice());
-
-    }
-
-    /**
-     *  주문한 수량이 재고수량을 초과시 , 예외가 발생 해야 한다.
-     * */
-    @Test
-    public void 상품주문_재고수량초과() throws Exception{
-        log.info(" item1.getStockQuantity()  -------------------->  " + item1.getStockQuantity());
-        int orderCount = item1.getStockQuantity() + 1;  // 현재의 재고 수량보다 1 많게
-        //when
-        assertThrows(NotEnoughStockException.class, () -> {
-            Long order = orderService.order(user.getId(), item1.getId(), orderCount);
-        });
-
-    }
-
-    @Test
-    @Rollback(value = false)
-    public void 주문취소() throws Exception{
-        //given
-        int orderCount = 2;
-        Long orderId = orderService.order(user.getId(), item1.getId(), orderCount);
-
-        //when
-        orderService.cancelOrder(orderId);
-
-        //then
-        Order getOrder = orderRepository.getById(orderId);
-
-        assertEquals("주문 취소시 상태는 cancel 이다", OrderStatus.CANCEL, getOrder.getStatus());
-        assertEquals("주문 취소된 상품은 그만큼 재고가 증가해야 한다.", 6, item1.getStockQuantity());
-
-    }
+//
+//    @Test
+//    @Rollback(value = false)
+//    public void 상품주문() throws Exception{
+//        //given
+//
+//        int orderCount = 2;
+//
+//        //when
+//        Long orderId = orderService.order(user.getId(), item1.getId(), 2);
+//        log.info("=============================  orderId ==================================================");
+//        log.info(orderId);
+//
+//        em.flush();
+//        em.clear();
+//
+//        //then
+//        Order getOrder = orderRepository.findById(orderId).get();
+//        assertEquals(OrderStatus.ORDER, getOrder.getStatus());
+//        assertEquals(1, getOrder.getOrderItems().size());
+////        assertEquals(16, item1.getStockQuantity());
+//        assertEquals(10000*orderCount, getOrder.getTotalPrice());
+//        log.info("======================= getTotalPrice ======================");
+//        log.info(getOrder.getTotalPrice());
+//
+//    }
+//
+//    /**
+//     *  주문한 수량이 재고수량을 초과시 , 예외가 발생 해야 한다.
+//     * */
+//    @Test
+//    public void 상품주문_재고수량초과() throws Exception{
+//        log.info(" item1.getStockQuantity()  -------------------->  " + item1.getStockQuantity());
+//        int orderCount = item1.getStockQuantity() + 1;  // 현재의 재고 수량보다 1 많게
+//        //when
+//        assertThrows(NotEnoughStockException.class, () -> {
+//            Long order = orderService.order(user.getId(), item1.getId(), orderCount);
+//        });
+//
+//    }
+//
+//    @Test
+//    @Rollback(value = false)
+//    public void 주문취소() throws Exception{
+//        //given
+//        int orderCount = 2;
+//        Long orderId = orderService.order(user.getId(), item1.getId(), orderCount);
+//
+//        //when
+//        orderService.cancelOrder(orderId);
+//
+//        //then
+//        Order getOrder = orderRepository.getById(orderId);
+//
+//        assertEquals("주문 취소시 상태는 cancel 이다", OrderStatus.CANCEL, getOrder.getStatus());
+//        assertEquals("주문 취소된 상품은 그만큼 재고가 증가해야 한다.", 6, item1.getStockQuantity());
+//
+//    }
 
 }

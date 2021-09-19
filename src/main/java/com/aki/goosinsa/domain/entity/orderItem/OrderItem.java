@@ -2,6 +2,8 @@ package com.aki.goosinsa.domain.entity.orderItem;
 
 import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.domain.entity.order.Order;
+import com.aki.goosinsa.domain.entity.order.OrderStatus;
+import com.aki.goosinsa.domain.entity.user.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -28,25 +30,38 @@ public class OrderItem {
     @JoinColumn
     private Order order;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
+    private User user;
+
     private int orderPrice;
     private int count;
+
+    @Enumerated(EnumType.STRING)
+    private OrderItemStatus status;
 
     public void setEntityOrderItem(Order order){
         this.order = order;
     }
 
     //== 생성 메서드==//
-    public static OrderItem createOrderItem(Item item, int orderPrice, int count){
+    public static OrderItem createOrderItem(User user, Item item, int orderPrice, int count){
         return OrderItem.builder()
                 .item(item)
+                .user(user)
                 .orderPrice(orderPrice)
                 .count(count)
+                .status(OrderItemStatus.READY)
                 .build();
     }
 
     //== 비즈니스 로직 ==//
     public void cancel() {
         getItem().addStock(count);
+    }
+
+    public void setOrderItemStatusOrder(){
+        this.status = OrderItemStatus.ORDER;
     }
 
     //== 조회 로직 ==//
@@ -57,4 +72,10 @@ public class OrderItem {
         return getOrderPrice() * getCount();
     }
 
+    //== 삭제 로직 ==//
+    public void deleteOrderItem(){
+        this.item = null;
+        this.user = null;
+        this.order = null;
+    }
 }

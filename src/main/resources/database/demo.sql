@@ -6,6 +6,7 @@ select * from ITEM;
 select * from UPLOAD_FILE;
 
 select * from orders;
+select * from ORDER_ITEM;
 
 select * from ORDER_ITEM;
 

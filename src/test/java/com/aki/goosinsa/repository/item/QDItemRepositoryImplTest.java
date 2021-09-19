@@ -85,9 +85,10 @@ class QDItemRepositoryImplTest {
         FoodSearch foodSearch = new FoodSearch();
 //        foodSearch.setFoodGroups("SCHOOLFOOD");
 //        foodSearch.setFoodGroupsOfTitle("튀김");
-        foodSearch.setFoodName("스프링");
+//        foodSearch.setFoodName("스프링");
 //        foodSearch.setPrice(8000);
 
+        foodSearch.setCompanyNo("111-1111-11");
         Page<FoodItemDto> result = qdItemRepository.findAllPaging(PageRequest.of(0, 3), foodSearch);
         List<FoodItemDto> content = result.getContent();
         result.getTotalPages();

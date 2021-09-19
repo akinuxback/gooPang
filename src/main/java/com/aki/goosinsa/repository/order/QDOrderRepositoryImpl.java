@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
 import java.util.List;
 
+import static com.aki.goosinsa.domain.entity.delivery.QDelivery.delivery;
 import static com.aki.goosinsa.domain.entity.order.QOrder.order;
 
 @Repository
@@ -21,6 +22,27 @@ public class QDOrderRepositoryImpl implements QDOrderRepository{
 
     public QDOrderRepositoryImpl(EntityManager em){
         queryFactory = new JPAQueryFactory(em);
+    }
+
+
+
+    @Override
+    public List<Order> findByAllJoin(Long userId) {
+        return queryFactory
+                .select(order)
+                .from(order)
+                .join(order.user).fetchJoin()
+                .join(order.delivery).fetchJoin()
+                .leftJoin(order.orderItems).fetchJoin()
+                .where(order.user.id.eq(userId))
+                .orderBy(order.id.desc())
+                .distinct()
+                .fetch();
+    }
+
+    @Override
+    public int orderItemListTotalCount(Long userId) {
+        return 0;
     }
 
     @Override

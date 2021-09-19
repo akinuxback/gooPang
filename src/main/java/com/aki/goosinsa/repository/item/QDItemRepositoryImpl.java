@@ -4,8 +4,8 @@ import com.aki.goosinsa.controller.food.FoodSearch;
 import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
 import com.aki.goosinsa.domain.dto.item.ItemDto;
-import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.QItem;
+import com.aki.goosinsa.domain.entity.user.QUser;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.QueryResults;
 import com.querydsl.core.types.Projections;
@@ -23,6 +23,7 @@ import java.util.List;
 
 import static com.aki.goosinsa.domain.entity.item.QFoodItem.foodItem;
 import static com.aki.goosinsa.domain.entity.item.QItem.item;
+import static com.aki.goosinsa.domain.entity.user.QUser.user;
 
 @Repository
 @Log4j2
@@ -34,6 +35,7 @@ public class QDItemRepositoryImpl implements QDItemRepository{
         queryFactory = new JPAQueryFactory(em);
     }
 
+    @Override
     public FoodItemDto findByIdJoinUploadFile(Long id){
         return queryFactory
                 .select(Projections.constructor(FoodItemDto.class, foodItem))
@@ -45,9 +47,23 @@ public class QDItemRepositoryImpl implements QDItemRepository{
     }
 
     @Override
+    public FoodItemDto findByIdJoinUploadFileJoinCompany(Long id){
+        return queryFactory
+                .select(Projections.constructor(FoodItemDto.class, foodItem))
+                .from(foodItem)
+                .join(foodItem.uploadFile).fetchJoin()
+                .join(foodItem.company).fetchJoin()
+                .where(foodItem.id.eq(id))
+                .fetchOne();
+
+    }
+
+
+
+    @Override
     public Page itemFindAll(FoodSearch foodSearch) {
 
-        QueryResults<FoodItem> foodItemQueryResults = queryFactory
+        queryFactory
                 .select(foodItem)
                 .from(foodItem)
                 .join(foodItem.company).fetchJoin()
@@ -80,7 +96,7 @@ public class QDItemRepositoryImpl implements QDItemRepository{
         }
 
         if(StringUtils.hasText(foodName)){
-            builder.and(item.itemName.eq(foodName.trim()));
+            builder.and(foodItem.itemName.eq(foodName.trim()));
         }
 
         if(price > 0){

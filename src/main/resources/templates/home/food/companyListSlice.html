@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:div="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+
+  .selectRow {
+    margin-top: 100px !important;
+    margin-bottom: 30px !important;
+  }
+
+  figure{
+    width: 100%;
+    height: 200px;
+  }
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+  }
+
+  .card {
+    padding: 20px;
+    background-color: #ffffff;
+    opacity: 0.7;
+    font-weight: bold;
+    border-radius: 7%;
+    color: darkgoldenrod !important;
+    background-color: black !important;
+  }
+
+  .card-title {
+    color: #0dcaf0;
+    font-size: 15px;
+  }
+
+</style>
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Hero Section ======= -->
+
+<div class="container position-relative text-center text-lg-left mt-5 mb-5" data-aos="zoom-in" data-aos-delay="100">
+
+  <div class="selectRow mt-5 menu section-bg" data-aos="fade-up">
+    <div class="row" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-12 d-flex justify-content-center">
+        <ul id="menu-flters">
+          <a th:href="@{/home/food/companyListSlice}">
+            <li data-filter="*" class="filter-active">All</li>
+          </a>
+          <th:block th:each="group : ${foodGroups}">
+            <a th:href="@{/home/food/companyListSlice(foodGroups=${group.name()})}">
+              <li data-filter="*" class="foodGroups filter-active" th:text="${group.name()}">All</li>
+            </a>
+          </th:block>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row d-flex justify-content-center">
+    <h1 class="col-2 head-category1" th:text="${param.foodGroups} ? ${param.foodGroups} : 'All' "></h1>
+    <h1 class="col-2 head-category2" th:text="${param.page}? ${param.page} : '0'"></h1>
+  </div>
+
+<!-- 서버 요청 바인딩된 html append 할 영역 -->
+  <div class="row lineTag">
+
+  </div>
+<!-- 서버 요청 바인딩된 html append 할 영역 -->
+
+  <div class="addList row mt-5 d-flex justify-content-center">
+    <input type="hidden" class="hiddenFoodGroups" th:value="${param.foodGroups} ? ${param.foodGroups} : 'All'">
+    <input type="hidden" class="hiddenPageNum" value="0">
+    <button type="button" id="moreBtn" class="btn moreBtn btn-primary col-6">더보기</button>
+  </div>
+
+  <div class="row">
+  </div>
+</div>
+
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+<script src="https://twitter.github.io/typeahead.js/js/handlebars.js"></script>
+<script id="entry-template" type="text/x-handlebars-template">
+
+  <div class="cardLine col-3">
+    <a href="/home/food/getCompanyMenu/{{companyNo}}">
+      <p></p>
+      <div class="card text-white bg-primary">
+        <figure>
+          <img src="" data-url="{{uploadFileDto.fullPath}}" class="menu-img fullPath" alt=""/>
+        </figure>
+        <div class="card-header">
+          {{companyName}}
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">{{status}}</h5>
+          <h5 class="card-title">{{foodGroups}}</h5>
+        </div>
+      </div>
+    </a>
+  </div>
+
+</script>
+
+<script type="application/javascript">
+$(document).ready(function(){
+
+  // 파라미터로 넘길 값들
+  let foodGroups = $(".hiddenFoodGroups").val();
+  let pageNum = $(".hiddenPageNum").val();
+
+  ajaxCall(pageNum, foodGroups);
+
+  $(".addList").on("click", function(e){
+    e.preventDefault();
+
+    //파라미터로 넘길 값들
+    let foodGroups = $(".hiddenFoodGroups").val();
+    let pageNum = $(".hiddenPageNum").val();
+
+    ajaxCall(pageNum, foodGroups);
+
+    //더보기 버튼에 현재 페이지 값, 불러올 다음 페이지 값으로 증가 시키기
+    // $(".addList").attr("data-page", parseInt(pageNum) + 1);
+
+  }); // end event
+
+});
+</script>
+
+<script type="application/javascript">
+  function ajaxCall(page, foodGroups){
+    let $addList = $(".addList");
+    let url = '/home/food/companyListAjax&foodGroups=' + foodGroups;
+    if(page != null){
+      url = url + "&page=" + page;
+    }
+
+    $.ajax({
+      method: 'GET',
+      url: '/home/food/companyListAjax?page=' + page + "&foodGroups=" + foodGroups,
+      // data: JSON.stringify({ page : parseInt(page), size : 10}),
+      // contentType: "application/json; charset=utf-8",
+      // dataType:'json',
+      // processData: false, //데이터를 쿼리 문자열로 변환하는 jQuery 형식 방지
+      success: function(data){
+        console.log(this.url);
+        let content = data.content;
+        let last = data.last;
+        console.log("last == " + last);
+
+        // 마지막일때 더보기 버튼 숨기기
+        if(last){
+          $(".moreBtn").hide();
+        }
+
+        // 컨텐트 바인딩 handle bars js 로
+        $.each(content, function(i, company){
+          console.log(i, company.companyName);
+
+          handlerBinding(company);
+
+        });
+
+        // img url 인코딩 처리
+        callEncode();
+
+        //다음에 불러올 페이지 값으로 증가 시키기
+        $(".hiddenPageNum").val(parseInt($(".hiddenPageNum").val()) + 1);
+
+      }, // end success
+      fail : function (){
+        alert("fail");
+      }
+    }); //end ajax
+
+  } // end ajaxCall function
+</script>
+
+<script type="application/javascript">
+  function handlerBinding(companyObj) {
+    //핸들바 템플릿 가져오기
+    var source = $("#entry-template").html();
+
+    //핸들바 템플릿 컴파일
+    var template = Handlebars.compile(source);
+
+    //핸들바 템플릿에 데이터를 바인딩해서 HTML 생성
+    var html = template(companyObj);
+
+    //생성된 HTML을 DOM에 주입
+    $('.lineTag').append(html);
+
+  }
+
+  function callEncode(){
+    $(".fullPath").each( function(i, obj){
+      let dataUrl = $(this).attr("data-url");
+      if(dataUrl == null || dataUrl == "") dataUrl = "/my-custom/images/images.jpg";
+
+      let encodeUrl = encodeURIComponent(dataUrl);
+      $(this).attr("src", "/display?fullPath=" + encodeUrl);
+    });
+  }
+</script>
+
+
+
+

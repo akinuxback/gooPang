@@ -1,0 +1,3 @@
+### GET request with a header
+GET http://localhost:9777/home/food/companyListAjax?page=0&foodGroups=DRINK
+Content-Type: application/json

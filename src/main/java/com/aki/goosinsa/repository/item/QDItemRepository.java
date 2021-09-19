@@ -18,6 +18,10 @@ public interface QDItemRepository {
 
     public FoodItemDto findByIdJoinUploadFile(Long id);
 
+    FoodItemDto findByIdJoinUploadFileJoinCompany(Long id);
+
+//    FoodItemDto findByIdJoinUploadFileJoinCompanyJoinUser(Long userId);
+
     public Page<FoodItemDto> itemFindAll(FoodSearch foodSearch);
 
 }

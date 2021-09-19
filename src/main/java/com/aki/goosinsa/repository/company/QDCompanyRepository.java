@@ -6,12 +6,16 @@ import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
 
 public interface QDCompanyRepository {
 
-    Page<Company> findAllPaging(Pageable pageable, CompanySearch companySearch);
+    Page<CompanyDto> findAllPaging(Pageable pageable, CompanySearch companySearch);
+
+    Slice<CompanyDto> findAllPagingSlice(Pageable pageable, CompanySearch companySearch);
 
 
     /**

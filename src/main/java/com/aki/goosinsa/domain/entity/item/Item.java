@@ -42,6 +42,7 @@ public class Item {
     protected UploadFile uploadFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     protected Company company;
 
     @ManyToMany(mappedBy = "items")
