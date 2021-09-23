@@ -95,8 +95,6 @@
 
                     <!-- ./ end check box -->
 
-                    <div class="text-center"><button type="submit" class="addBtn btn btn-success">Item 등록</button></div>
-
                     <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadFolder}">
                     <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadPath}">
                     <input type="hidden" th:field="${foodItemDto.uploadFileDto.clientFileName}">
@@ -104,6 +102,9 @@
                     <input type="hidden" th:field="${foodItemDto.uploadFileDto.fileType}">
                     <input type="hidden" th:field="${foodItemDto.uploadFileDto.serverFileName}">
                     <input type="hidden" th:field="${foodItemDto.uploadFileDto.fullPath}">
+
+                    <div class="text-center"><button type="submit" class="addBtn btn btn-success">Item 등록</button></div>
+
 
                 </form>
             </div>

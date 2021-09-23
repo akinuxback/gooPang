@@ -38,7 +38,7 @@ public class Item {
     protected String explains;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "id")
+    @JoinColumn
     protected UploadFile uploadFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
