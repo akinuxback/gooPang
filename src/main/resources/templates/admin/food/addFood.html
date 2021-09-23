@@ -46,7 +46,7 @@
                                 <option th:each="company : ${userCompany.getCompanyList()}"
                                         th:selected="${company.companyNo} == ${param.companyNo != null ? param.companyNo.toString() : ''}"
                                         th:value="${company.companyNo}"
-                                        th:text="${company.companyNo}">
+                                        th:text="${company.companyName}">
                                 </option>
                             </select>
                         </div>

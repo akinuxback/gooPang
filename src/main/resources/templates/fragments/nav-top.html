@@ -16,12 +16,18 @@
                     <a class="" href="/joinForm">회원가입</a>
                 </li>
             </ul>
-            <ul sec:authorize="isAuthenticated()" class="d-flex ml-auto">
+            <ul sec:authorize="isAuthenticated()" class="d-flex ml-auto" style="list-style: none">
                 <li class="mr-5">
-                    <span class="" sec:authentication="principal.username"></span>
+                    <strong class="text-warning">회원번호:</strong>
+                    <span class="ml-1 text-success" sec:authentication="principal.id"></span>
                 </li>
                 <li class="mr-5">
-                    <span class="" sec:authentication="principal.id"></span>
+                    <strong class="text-warning">회원 아이디: </strong>
+                    <span class="ml-1 text-success" sec:authentication="principal.username"></span>
+                </li>
+                <li class="mr-5">
+                    <strong class="text-warning">회원명:</strong>
+                    <span class="ml-1 text-success" sec:authentication="principal.name"></span>
                 </li>
                 <li class="mr-5">
                     <a class="" href="/logout">로그아웃</a>
@@ -37,26 +43,31 @@
 
 <!-- ======= Header ======= -->
 <header id="header" class="fixed-top">
-    <div class="container d-flex align-items-center">
+    <div class="container d-flex justify-content-between align-items-center mt-3 mt-2">
+        <div>
+            <h1 class="logo mr-auto"><a href="index.html">GooPang</a></h1>
+<!--         Uncomment below if you prefer to use an image logo-->
+<!--         <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+        </div>
+        <div>
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li><a href="/home/food/companyListSlice"><button class="btn btn-danger">메뉴선택</button></a></li>
+                    <li><a href="/admin/orderItem/getOrderItemList"><button class="btn btn-danger">장바구니</button></a></li>
+                    <li><a href="/admin/order/getOrderList"><button class="btn btn-danger">구매내역</button></a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+        <div>
+            <nav class="nav-menu d-none d-lg-block">
+                <ul>
+                    <li class="book-a-table text-center"><a href="/">HOME</a></li>
+                    <li class="book-a-table text-center"><a href="/admin/managerHome">MANAGER</a></li>
+                    <li class="book-a-table text-center"><a href="/admin/adminHome">ADMIN</a></li>
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
 
-        <h1 class="logo mr-auto"><a href="index.html">Restaurantly</a></h1>
-        <!-- Uncomment below if you prefer to use an image logo -->
-        <!-- <a href="index.html" class="logo mr-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
-
-        <nav class="nav-menu d-none d-lg-block">
-            <ul>
-                <li class="book-a-table text-center"><a href="/">HOME</a></li>
-                <li class="book-a-table text-center"><a href="/admin/managerHome">MANAGER</a></li>
-                <li class="book-a-table text-center"><a href="/admin/adminHome">ADMIN</a></li>
-                <li><a href="#about">회원가입</a></li>
-                <li><a href="/food/menu">Menu</a></li>
-                <li><a href="#specials">Specials</a></li>
-                <li><a href="#events">Events</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#chefs">Chefs</a></li>
-                <li><a href="#contact">Contact</a></li>
-            </ul>
-        </nav><!-- .nav-menu -->
 
     </div>
 </header><!-- End Header -->

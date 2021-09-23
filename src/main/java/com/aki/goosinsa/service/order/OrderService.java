@@ -10,8 +10,13 @@ public interface OrderService {
     /**
      * 주문
      * */
-    public Long order(Long userId, Long itemId, int count);
+    public Long order(Long userId);
 
+    /**
+     * 단건 주문
+     * */
+    public Long orderOne(Long userId, Long id);
+    
     /**
      * 주문 취소
      * */

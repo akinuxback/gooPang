@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="/my-custom/css/admin/addFood.css?ver=2" rel="stylesheet">
+<link href="/my-custom/css/admin/getFood.css?ver=2" rel="stylesheet">
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/managerFrag/manager-bodyHeader :: manager-bodyHeader"/>
+
+<!-- ======= Book A Table Section ======= -->
+<section id="book-a-table" class="book-a-table">
+    <div class="container" data-aos="fade-up">
+
+        <div class="row mt-5">
+            <div class="col-lg-4"
+                 th:with="fullPath=${foodItemDto.uploadFileDto.getFullPath()},
+                          clientFileName=${foodItemDto.uploadFileDto.getClientFileName()}">
+                <div class="fileUploadDiv">
+                    <label>File upload</label></br>
+                </div>
+                <div>
+                    <p th:text="${fullPath == null? '등록한 사진이 없습니다.': clientFileName}"></p>
+                </div>
+                <figure>
+                    <img th:if="${fullPath} != null" th:src="|/display?fullPath=${#myFormat.encode(fullPath)}|" class="menu-img" alt=""/>
+                    <img th:if="${fullPath} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+                </figure>
+            </div>
+            <div class="col-lg-8">
+                <form role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+
+                    <div class="row">
+                        <div class="col-lg-6 form-group">
+                            <label>분류 1</label>
+                            <select th:field="${foodItemDto.foodGroups}"
+                                    class="form-control">
+                                <option th:value="${foodItemDto.foodGroups}"
+                                        th:text="${foodItemDto.foodGroups}">status</option>
+                                <!--th:text="${group.getFoodGroupsName()}">status</option>-->
+                            </select>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <label>분류 2</label>
+                            <select id="foodKindStatus" name="foodGroupsOfTitle"
+                                    class="form-control">
+                                <option th:value="${foodItemDto.foodGroupsOfTitle}"
+                                        th:text="${foodItemDto.foodGroupsOfTitle}">select 1 을 먼저 선택 하세요=</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <label>FoodName</label>
+                            <input readonly type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="상품이름">
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <label>Price</label>
+                            <input readonly type="text" th:field="${foodItemDto.price}" class="form-control" placeholder="0">
+                        </div>
+                        <div class="col-lg-4 col-md-6 form-group">
+                            <label>StockQuantity</label>
+                            <input readonly type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 col-md-6 form-group">
+                            <label>Explains</label>
+                            <textarea readonly class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ./ end check box -->
+
+                    <div class="text-center mt-5">
+                        <button class="editBtn" type="submit"><a class="findHref" th:href="@{/manager/food/{id}/editFood (id=${foodItemDto.id})}">수정</a></button>
+                        <button class="rmBtn" type="submit">삭제</button>
+                    </div>
+
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadFolder}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadPath}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.clientFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.extFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.fileType}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.serverFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.fullPath}">
+                </form>
+
+                <form role=deleteForm action="/admin/food/deleteFood" method="post">
+                    <input type="hidden" name="deleteId" th:value="${foodItemDto.id}">
+                </form>
+            </div>
+        </div> <!-- end row -->
+
+    </div> <!-- end container-->
+</section><!-- End Book A Table Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+<!--<script th:inline="javascript">-->
+<script type="application/javascript">
+$(document).ready(function(){
+    $("button[type='submit']").on("click", function(e){
+        e.preventDefault();
+        let btnClassName = $(this).attr("class");
+        let thisHref = $(this).find(".findHref").attr("href");
+        console.log(thisHref);
+        if(btnClassName == "editBtn"){
+            location.href = thisHref;
+        }
+
+        if(btnClassName == "rmBtn"){
+            if(confirm("정말로 삭제 하시겠습니까?")){
+                $("form[role=deleteForm]").submit();
+            }
+        }
+    }); // .end edit btn event
+
+});
+</script>
+
+
+
+

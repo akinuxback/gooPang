@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="/my-custom/css/admin/addCompany.css?ver=2" rel="stylesheet">
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/adminFrag/admin-bodyHeader :: admin-bodyHeader"/>
+
+<main id="main">
+
+    <!-- ======= Book A Table Section ======= -->
+    <section id="book-a-table" class="book-a-table">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>Admin 관리자 페이지</h2>
+                <p>update - Company</p>
+            </div>
+
+            <!--      <div class="divLabel">-->
+            <!--        <label>등록 유저 검색</label>-->
+            <!--      </div>-->
+            <div class="col-lg-12 col-md-6 form-group searchDiv">
+                <input type="text" class="form-control findUser col-lg-4" placeholder="010-0000-0000" data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                       readonly th:value="${companyDto.userDto.phoneNumber}">
+                <!--        <button class="findUserBtn btn btn-success col-2"><p>검색</p></button>-->
+                <!--        <label class="col-6">핸드폰 번호로 회원을 우선 조회 하여야 합니다.</label>-->
+                <div class="validate"></div>
+            </div>
+
+            <div class="col-lg-12 col-md-6 form-group">
+
+            </div>
+
+            <form th:action th:method="post" th:object="${companyDto}" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                <div class="form-row">
+                    <div class="col-lg-6 col-md-6 form-group"
+                         th:with="fullPath=${companyDto.uploadFileDto.getFullPath()},
+                          clientFileName=${companyDto.uploadFileDto.getClientFileName()}">
+                        <div class="divLabel">
+                            <label>업체 사진 등록</label></br>
+                        </div>
+                        <div>
+                            <input type="file" name="singleFile"></br>
+                        </div>
+                        <figure>
+                            <img th:if="${fullPath} != null" th:src="|/display?fullPath=${#myFormat.encode(fullPath)}|" class="displaySingleFile menu-img" alt=""/>
+                            <img th:if="${fullPath} == null" th:src="|/my-custom/images/images.jpg|" class="displaySingleFile menu-img" alt=""/>
+                            <!--              <img th:src="@{/my-custom/images/images.jpg}" id="displaySingleFile" class="mb-3"/>-->
+                        </figure>
+                    </div>
+                    <div class="col-lg-6 col-md-6 form-group pppp">
+                        <div class="col-lg-12 col-md-6 form-group">
+                            <div class="divLabel">
+                                <label>ceo user id</label>
+                            </div>
+                            <input type="text" class="form-control userId" name="userDto.id" placeholder="userId" data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                                   readonly th:value="${companyDto.userDto.id}">
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 form-group">
+                            <div class="divLabel">
+                                <label>ceo user username</label>
+                            </div>
+                            <input type="text" class="form-control username" placeholder="username" data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                                   readonly th:value="${companyDto.userDto.username}">
+                            <div class="validate"></div>
+                        </div>
+                        <div class="col-lg-12 col-md-6 form-group">
+                            <div class="divLabel">
+                                <label>ceo user name</label>
+                            </div>
+                            <input type="text" class="form-control name" placeholder="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                                   readonly th:value="${companyDto.userDto.name}">
+                            <div class="validate"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>업종 분류</label>
+                        </div>
+                        <select class="form-select formSelect" name="status" id="">
+                            <option class="form-control-plaintext formOption"
+                                    th:each="status : ${companyStatus}"
+                                    th:value="${status}"
+                                    th:text="${status}"
+                                    th:selected="${status} == ${companyDto.status}">
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>사업자번호</label>
+                        </div>
+                        <input type="text" class="form-control" name="companyNo" placeholder="000-0000-0" data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                               readonly th:value="${companyDto.companyNo}">
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>업체명</label>
+                        </div>
+                        <input type="text" class="form-control" name="companyName" placeholder="XXX" data-rule="email" data-msg="Please enter a valid email"
+                               th:value="${companyDto.companyName}">
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>약칭</label>
+                        </div>
+                        <input type="text" class="form-control" name="abbr" placeholder="XXX" data-rule="minlen:4" data-msg="Please enter at least 4 chars"
+                               th:value="${companyDto.abbr}">
+                        <div class="validate"></div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>우편번호</label><input type="button" value="검색" id="btnAddr">
+                        </div>
+                        <div class="divInput">
+                            <input type="text" class="form-control" size="5" value="" name="addressDto.zipcode" id="zip"
+                                   th:value="${companyDto.addressDto.zipcode}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>주소</label>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" name="addressDto.city" id="addr1" size="50"
+                                   th:value="${companyDto.addressDto.city}">
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>상세주소</label>
+                        </div>
+                        <div>
+                            <input type="text" class="form-control" name="addressDto.street" id="addr2" size="10"
+                                   th:value="${companyDto.addressDto.street}">
+                        </div>
+                    </div>
+                </div>
+
+                <!--                <div class="col-lg-3 col-md-6 form-group">-->
+                <!--                    <input type="text" class="form-control" name="time" id="time" placeholder="Time" data-rule="minlen:4" data-msg="Please enter at least 4 chars">-->
+                <!--                    <div class="validate"></div>-->
+                <!--                </div>-->
+                <!--                <div class="col-lg-3 col-md-6 form-group">-->
+                <!--                    <input type="number" class="form-control" name="people" id="people" placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars">-->
+                <!--                    <div class="validate"></div>-->
+                <!--                </div>-->
+                <!--                <div class="col-lg-6 col-md-6 form-group">-->
+                <!--                    <input type="number" class="form-control" name="people" id="people" placeholder="# of people" data-rule="minlen:1" data-msg="Please enter at least 1 chars">-->
+                <!--                    <div class="validate"></div>-->
+                <!--                </div>-->
+
+                <div class="form-row">
+                    <div class="col-lg-12 col-md-6 form-group">
+                        <div class="divLabel">
+                            <label>약관 동의</label>
+                            <input type="checkbox" class="yn" name="messageOneYn" th:field="*{messageOneYn}">
+                            <input type="hidden" class="yn" name="_messageOneYn">
+                        </div>
+                        <textarea class="form-control" name="messageOne" rows="5" placeholder="Message"
+                                  readonly th:value="${companyDto.messageOne}">
+                        무조건 채용을 약속 합니다.ㅋ
+                    </textarea>
+                        <div class="validate"></div>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <div class="loading">Loading</div>
+                    <div class="error-message"></div>
+                    <div class="sent-message">Your booking request was sent. We will call back or send an Email to confirm your reservation. Thank you!</div>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="text-center"><button class="ml-3 btn btn-info" type="submit">수정 하기</button></div>
+                </div>
+
+
+                <input type="hidden" name="uploadFileDto.uploadFolder" th:value="${companyDto.uploadFileDto.uploadFolder}">
+                <input type="hidden" name="uploadFileDto.uploadPath" th:value="${companyDto.uploadFileDto.uploadPath}">
+                <input type="hidden" name="uploadFileDto.clientFileName" th:value="${companyDto.uploadFileDto.clientFileName}">
+                <input type="hidden" name="uploadFileDto.extFileName" th:value="${companyDto.uploadFileDto.extFileName}">
+                <input type="hidden" name="uploadFileDto.fileType" th:value="${companyDto.uploadFileDto.fileType}">
+                <input type="hidden" name="uploadFileDto.serverFileName" th:value="${companyDto.uploadFileDto.serverFileName}">
+                <input type="hidden" name="uploadFileDto.fullPath" th:value="${companyDto.uploadFileDto.fullPath}">
+
+            </form>
+
+        </div>
+    </section><!-- End Book A Table Section -->
+
+</main>
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+<script type="application/javascript" th:inline="javascript">
+    $(document).ready(function(){
+
+        const inputUserId = $(".userId");
+        const inputUsername = $(".username");
+        const inputName = $(".name");
+
+        $(".findUserBtn").on("click", function(e){
+            e.preventDefault();
+
+            let phVal = $(".findUser").val();
+
+            $.ajax({
+                type : "GET",
+                url : "/admin/company/findUser/"+phVal,
+                // data : {id : idVal},
+                success : function(data){
+                    ajaxDataCall(data);
+                },// end .success
+                error : function(jqXHR, status, e) {
+                    console.error(status + " : " + e);
+                    alert("입력값 [ "+ phVal +" ] 조회 결과가 없습니다.")
+                }
+            }); //end .ajax
+        }); //end findUserBtn event
+
+
+        function ajaxDataCall (data){
+            inputUserId.val(data.id);
+            inputUsername.val(data.username);
+            inputName.val(data.name);
+        }
+
+    });
+</script>
+
+<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+<script th:inline="javascript">
+    $(document).ready(function(){
+
+        $("#btnAddr").click(function(){
+            new daum.Postcode({
+                oncomplete: function(data) {
+                    // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+                    // 각 주소의 노출 규칙에 따라 주소를 조합한다.
+                    // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+                    var fullAddr = ''; // 최종 주소 변수
+                    var extraAddr = ''; // 조합형 주소 변수
+
+                    // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+                    if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+                        fullAddr = data.roadAddress;
+
+                    } else { // 사용자가 지번 주소를 선택했을 경우(J)
+                        fullAddr = data.jibunAddress;
+                    }
+
+                    // 사용자가 선택한 주소가 도로명 타입일때 조합한다.
+                    if(data.userSelectedType === 'R'){
+                        //법정동명이 있을 경우 추가한다.
+                        if(data.bname !== ''){
+                            extraAddr += data.bname;
+                        }
+                        // 건물명이 있을 경우 추가한다.
+                        if(data.buildingName !== ''){
+                            extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                        }
+                        // 조합형주소의 유무에 따라 양쪽에 괄호를 추가하여 최종 주소를 만든다.
+                        fullAddr += (extraAddr !== '' ? ' ('+ extraAddr +')' : '');
+                    }
+
+                    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+                    document.getElementById('zip').value = data.zonecode; //5자리 새우편번호 사용
+                    document.getElementById('addr1').value = fullAddr;
+
+                    // 커서를 상세주소 필드로 이동한다.
+                    document.getElementById('addr2').focus();
+                }
+            }).open();
+        });
+
+
+    });
+</script>
+
+<!--<script th:inline="javascript">-->
+<script type="application/javascript">
+    $(document).ready(function(){
+
+        /**
+         * file 을 업로드 하면 사용자에 바로 이미지를 보여주도록 한다. rest 방식으로 응답값을 받아온다.
+         * */
+        $("input[name='singleFile']").on("change", function(){
+            var formData = new FormData();
+            var singleFile = $("input[name='singleFile']"); // 배열로 담는구나
+            var file = singleFile[0].files; // 배열로 담는구나
+
+            formData.append("singleFile", file[0]);
+
+            $.ajax({
+                type: "POST",
+                url: "/singleFileUpload",
+                enctype : "multipart/form-data",
+                processData : false,
+                contentType : false,
+                data : formData,
+                dataType : "json",
+                success :function(result){
+
+                    showSingleFile(result);
+                    formAppendUploadFileDtoValues(result);
+
+                }
+            }); // end ajax
+
+        }); // end singleFile upload event
+
+
+// 싱글파일 이미지 보여주기 - rest 응답
+        function showSingleFile(result){
+
+            var encodeFullPath =  encodeURIComponent(result.fullPath);
+            console.log("encodeFullPath = " + encodeFullPath);
+
+            $(".displaySingleFile").attr("src","/display?fullPath="+encodeFullPath);
+
+        }
+
+// form 에 uploadFileDto 값들을 append 해서 db 에 저장해야 한다.
+        function formAppendUploadFileDtoValues(result) {
+            $("input[name='uploadFileDto.uploadFolder']").val(result.uploadFolder);
+            $("input[name='uploadFileDto.uploadPath']").val(result.uploadPath);
+            $("input[name='uploadFileDto.clientFileName']").val(result.clientFileName);
+            $("input[name='uploadFileDto.extFileName']").val(result.extFileName);
+            $("input[name='uploadFileDto.fileType']").val(result.fileType);
+            $("input[name='uploadFileDto.uploadFolder']").val(result.uploadFolder);
+            $("input[name='uploadFileDto.serverFileName']").val(result.serverFileName);
+            $("input[name='uploadFileDto.fullPath']").val(result.fullPath);
+        }
+
+    }); // end document
+</script>

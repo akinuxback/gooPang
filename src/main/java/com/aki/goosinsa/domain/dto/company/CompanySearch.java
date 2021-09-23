@@ -17,6 +17,8 @@ public class CompanySearch {
     private String username;
     private String name;
 
+    private String foodGroups;
+
     public void checkNull(){
         if(this.page == null) this.page = 0;
         if(this.size == null) this.size = 5;

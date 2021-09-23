@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:div="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<style>
+
+  .selectRow {
+    margin-top: 100px !important;
+    margin-bottom: 30px !important;
+  }
+
+  figure{
+    width: 100%;
+    height: 200px;
+  }
+
+  img {
+    width: 100%;
+    max-width: 300px;
+    height: 100%;
+  }
+
+  .card {
+    padding: 20px;
+    background-color: #ffffff;
+    opacity: 0.7;
+    font-weight: bold;
+    border-radius: 7%;
+    color: darkgoldenrod !important;
+    background-color: black !important;
+  }
+
+  .card-title {
+    color: #0dcaf0;
+    font-size: 15px;
+  }
+
+</style>
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Hero Section ======= -->
+
+  <div class="container position-relative text-center text-lg-left mt-5 mb-5" data-aos="zoom-in" data-aos-delay="100">
+
+      <div class="selectRow mt-5 menu section-bg" data-aos="fade-up">
+        <div class="row" data-aos="fade-up" data-aos-delay="100">
+          <div class="col-lg-12 d-flex justify-content-center">
+            <ul id="menu-flters">
+                <a th:href="@{/home/food/companyList}">
+                  <li data-filter="*" class="filter-active">All</li>
+                </a>
+              <th:block th:each="group : ${foodGroups}">
+                <a th:href="@{/home/food/companyList(foodGroups=${group.name()})}">
+                  <li data-filter="*" class="filter-active" th:text="${group.name()}">All</li>
+                </a>
+              </th:block>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    <div class="row">
+      <th:block th:each="company : ${companyList}">
+        <div class="cardLine col-3" th:with="fullPath=${company.uploadFileDto.fullPath}">
+          <a th:href="@{/home/food/getCompany/{companyNo}(companyNo=${company.companyNo})}">
+            <p></p>
+            <div class="card text-white bg-primary">
+              <figure>
+                <img th:if="${fullPath} != null" th:src="|/display?fullPath=${#myFormat.encode(fullPath)}|" class="menu-img" alt=""/>
+                <img th:if="${fullPath} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+              </figure>
+              <div class="card-header" th:text="${company.companyName}">
+                My Card
+              </div>
+              <div class="card-body">
+                <h5 class="card-title" th:text="${company.status}">Lorem</h5>
+                <h5 class="card-title" th:text="${company.foodGroups}">Lorem</h5>
+  <!--              <p class="card-text" th:text="${companyDto.address.city}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam egestas sed sem ut malesuada.</p>-->
+              </div>
+            </div>
+          </a>
+        </div>
+      </th:block>
+      <div class="row">
+      </div>
+    </div>
+<!--      <div class="col-4">-->
+<!--        <p>Card</p>-->
+<!--        <div class="card text-white bg-success">-->
+<!--          <div class="card-header">-->
+<!--            My Card-->
+<!--          </div>-->
+<!--          <div class="card-body">-->
+<!--            <h5 class="card-title">Lorem</h5>-->
+<!--            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam egestas sed sem ut malesuada.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+<!--      </div>-->
+
+    <div class="row">
+    </div>
+  </div>
+
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+
+<script id="entry-template" type="text/x-handlebars-template">
+  <div class="row">
+    <th:block th:each="company : ${companyList}">
+      <div class="cardLine col-3" th:with="fullPath=${company.uploadFileDto.fullPath}">
+        <a th:href="@{/home/food/getCompany/{companyNo}(companyNo=${company.companyNo})}">
+          <p></p>
+          <div class="card text-white bg-primary">
+            <figure>
+              <img th:if="${fullPath} != null" th:src="|/display?fullPath=${#myFormat.encode(fullPath)}|" class="menu-img" alt=""/>
+              <img th:if="${fullPath} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+            </figure>
+            <div class="card-header" th:text="${company.companyName}">
+              My Card
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" th:text="${company.status}">Lorem</h5>
+              <h5 class="card-title" th:text="${company.foodGroups}">Lorem</h5>
+              <!--              <p class="card-text" th:text="${companyDto.address.city}">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam egestas sed sem ut malesuada.</p>-->
+            </div>
+          </div>
+        </a>
+      </div>
+    </th:block>
+  </div>
+</script>
+

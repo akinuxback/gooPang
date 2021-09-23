@@ -70,6 +70,7 @@ public class Order {
         order.setEntityUser(user);
         order.setEntityDelivery(delivery);
         for (OrderItem orderItem : orderItems) {
+            orderItem.setOrderItemStatusOrder();
             order.addEntityOrderItem(orderItem);
         }
         order.status = OrderStatus.ORDER;

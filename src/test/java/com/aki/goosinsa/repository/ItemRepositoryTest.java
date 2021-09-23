@@ -1,8 +1,14 @@
 package com.aki.goosinsa.repository;
 
+import com.aki.goosinsa.domain.dto.item.ItemDto;
+import com.aki.goosinsa.domain.dto.item.ItemEnums.ColorEnum;
+import com.aki.goosinsa.domain.dto.item.ItemEnums.PassionType;
+import com.aki.goosinsa.domain.dto.item.ItemEnums.SizeEnum;
+import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import com.aki.goosinsa.domain.entity.item.Item;
 import com.aki.goosinsa.repository.item.ItemRepository;
+import lombok.extern.log4j.Log4j2;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +16,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Slice;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @SpringBootTest
 @Transactional
+@Log4j2
 class ItemRepositoryTest {
 
     @Autowired
@@ -24,7 +32,18 @@ class ItemRepositoryTest {
     @BeforeEach
     public void beforeEach(){
 
+    }
 
+    
+    @Test
+    public void typeSelect() throws Exception{
+        
+        //given
+        itemRepository.findByDtype("F");
+        //when
+        
+        //then
+        
     }
 
     @Test

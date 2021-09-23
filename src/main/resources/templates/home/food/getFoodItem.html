@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<!-- my-custom css -->
+<link href="/my-custom/css/home/getFoodItem.css" rel="stylesheet">
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Events Section ======= -->
+<section id="events" class="events mt-5 mb-5">
+  <div class="container mb-5 mt-5" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>FoodItem</h2>
+      <p>Organize Your Events in our Restaurant</p>
+    </div>
+
+
+
+      <div class="row event-item mt-4 mb-5">
+        <div class="col-lg-6">
+          <img src="assets/img/event-birthday.jpg" class="img-fluid" alt="">
+          <img th:if="${foodItemDto.getUploadFileDto().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(foodItemDto.getUploadFileDto().getFullPath())}|" class="img-fluid" alt=""/>
+          <img th:if="${foodItemDto.getUploadFileDto().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="img-fluid" alt=""/>
+        </div>
+        <div class="col-lg-1">
+        </div>
+        <div class="mt-5 col-lg-5 pt-4 pt-lg-0 content">
+          <h3 th:text="${foodItemDto.itemName}">Birthday Parties</h3>
+          <div class="price mt-4">
+            <p><span th:text="'₩ ' + ${#numbers.formatInteger(foodItemDto.price, 0, 'COMMA')}">$189</span></p>
+          </div>
+          <p class="font-italic mt-4" th:text="${foodItemDto.explains}">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+            magna aliqua.
+          </p>
+          <ul class="mt-4">
+            <li><i class="icofont-check-circled"></i> <strong th:text="|상품분류1 - ${foodItemDto.foodGroups}|">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</strong></li>
+            <li><i class="icofont-check-circled"></i> <strong th:text="|상품분류2 - ${foodItemDto.foodGroupsOfTitle}|">Ullamco laboris nisi ut aliquip ex ea commodo consequat.</strong></li>
+            <li><i class="icofont-check-circled"></i> <strong class="stock" th:text="|재고수량 - ${foodItemDto.stockQuantity}|">Duis aute irure dolor in reprehenderit in voluptate velit.</strong></li>
+          </ul>
+          <div class="mt-4 d-flex justify-content-left">
+            <form action="/admin/orderItem/orderItemPost" method="post">
+              <input type="hidden" name="itemId" th:value="${foodItemDto.id}">
+              <input type="number" class="form-control" name="count" value="1"
+                     min="1" max="10"
+                     id="people" placeholder="# 수량" data-rule="minlen:1" data-msg="Please enter at least 1 chars">
+              <div class="mt-3">
+                <button type="submit" class="btn-dark text-warning">장바구니</button>
+                <button class="btn-dark text-warning" onclick="alertKidding()">결제하기</button>
+              </div>
+            </form>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+</section><!-- End Events Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+<!--</html>-->
+
+<script th:inline="javascript">
+  /*<![CDATA[*/
+  var message = /*[[ ${message} ]]*/;
+  /*]]*/
+
+  if (message != null) alert(message);
+
+</script>
+
+<script>
+  function alertKidding(){
+    let stockQuantity = $(".stock").html();
+    if(stockQuantity == "재고수량 - 0"){
+      alert("재고 수량 부족");
+    } else {
+      let str = "상품의 " + stockQuantity+ "개를 구매 하셨습니다. 구매 이후 취소는 불가 합니다.  고객님의 신한은행 계좌에서 결제 처리 되었습니다.";
+      $(".stock").html("재고수량 - 0")
+      alert(str);
+    }
+  }
+</script>

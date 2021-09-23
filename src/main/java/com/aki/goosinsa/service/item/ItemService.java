@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface ItemService {
+public interface ItemService<T extends Item> {
 
 //    public Page<Item> itemAllPage(int pageNum);
 
     Page<FoodItemDto> findAllPaging(Pageable pageable, FoodSearch foodSearch);
 
-    public Item findById(Long id);
+    public T findById(Long id);
 
     public void saveItem(Item item);
 

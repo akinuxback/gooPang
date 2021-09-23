@@ -27,6 +27,9 @@ import java.util.List;
 @Getter
 public class Item {
 
+    @Column(insertable = false, updatable = false)
+    private String dtype;
+
     @Id @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ITEM_SEQ_GEN")
     protected Long id;
     protected String itemName;
@@ -39,6 +42,7 @@ public class Item {
     protected UploadFile uploadFile;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn
     protected Company company;
 
     @ManyToMany(mappedBy = "items")

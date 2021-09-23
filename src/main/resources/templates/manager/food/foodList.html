@@ -52,6 +52,7 @@
         <thead>
         <tr>
             <th>인덱스</th>
+            <th>유저네임</th>
             <th>업체명</th>
             <th>사업자번호</th>
             <th>음식이름</th>
@@ -70,6 +71,7 @@
         <div th:each="foodItemDto : ${foodItemDtoList}">
             <tr>
                 <td id="deleteId" th:text="${foodItemDto.id}"></td>
+                <td th:text="${foodItemDto.company.user.username}"></td>
                 <td th:text="${foodItemDto.company.companyName}"></td>
                 <td th:text="${foodItemDto.company.companyNo}"></td>
                 <td th:text="${foodItemDto.itemName}"></td>
@@ -79,8 +81,8 @@
                 <td th:text="${foodItemDto.uploadFileDto.getClientFileName()}"></td>
                 <td th:text="${foodItemDto.foodGroups}"></td>
                 <td th:text="${foodItemDto.foodGroupsOfTitle}"></td>
-                <td><a th:href="@{/admin/food/{id}/getFood (id=${foodItemDto.id})}" class="likeabutton showBtn">보기</a></td>
-                <td><a th:href="@{/admin/food/{id}/editFood (id=${foodItemDto.id})}" class="likeabutton modBtn">수정</a></td>
+                <td><a th:href="@{/manager/food/{id}/getFood (id=${foodItemDto.id})}" class="likeabutton showBtn">보기</a></td>
+                <td><a th:href="@{/manager/food/{id}/editFood (id=${foodItemDto.id})}" class="likeabutton modBtn">수정</a></td>
                 <td><a href="" class="likeabutton rmBtn">삭제</a></td>
             </tr>
         </div>
@@ -114,13 +116,13 @@
         </nav>
     </div>
 
-    <form role=deleteForm action="/admin/food/deleteFood" method="post">
+    <form role=deleteForm action="/manager/food/deleteFood" method="post">
         <input type="hidden" name="deleteId" value="">
     </form>
 
 </div>
 
-<form class="foodSearchForm" th:action="@{/admin/food/foodList}" method="get">
+<form class="foodSearchForm" th:action="@{/manager/food/foodList}" method="get">
     <!--  <input type="hidden" name="pageNum" th:value="${param.pageNum}">-->
     <!--  <input type="hidden" name="foodGroups" th:value="${param.foodGroups}">-->
     <!--  <input type="hidden" name="foodGroupsOfTitle" th:value="${param.foodGroupsOfTitle}">-->
@@ -142,7 +144,7 @@
 </html>
 
 <script type="application/javascript">
-    const messageVal = $("#messageVal").val();
+    let messageVal = $("#messageVal").val();
     console.log(messageVal);
     if(messageVal != null && messageVal != '') {
         alert(messageVal);

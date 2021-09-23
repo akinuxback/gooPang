@@ -6,6 +6,7 @@ select * from ITEM;
 select * from UPLOAD_FILE;
 
 select * from orders;
+select * from ORDER_ITEM;
 
 select * from ORDER_ITEM;
 
@@ -32,8 +33,11 @@ select * from users;
 update users set role = 'ROLE_ADMIN' where username = 'admin';
 commit;
 
-select * from item;
+select * from item where DTYPE = 'P';
 
 select * from COMPANY C, USERS U where U.ID = C.USER_ID;
 
 select * from COMPANY where USER_ID = 1;
+
+select * from COMPANY;
+select * from COMPANY where COMPANY_NAME = '롯데전자1';

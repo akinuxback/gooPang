@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<!-- my-custom css -->
+<link href="/my-custom/css/home/getFoodItem.css" rel="stylesheet">
+<style>
+    .spanDate {
+        font-size: 15px !important;
+    }
+
+    .itemRow {
+        border: 1px solid greenyellow;
+        padding: 10px;
+    }
+
+    .borderLineHead {
+        border-bottom: 3px solid darkgoldenrod;
+    }
+
+    .borderLineContent {
+        border-bottom: 1px solid gray;
+    }
+
+    .borderLineTop {
+        border-top: 3px solid darkgoldenrod;
+    }
+
+    .aaaa {
+        text-align: center;
+        padding: 20px;
+        border: 1px solid gray;
+    }
+
+    .list-group-item-action {
+        list-style: none;
+    }
+
+    .itemHead {
+        text-decoration:underline;
+    }
+
+    table {
+        text-align: center;
+    }
+</style>
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/bodyHeader :: bodyHeader"/>
+
+<!-- ======= Why Us Section ======= -->
+<section id="why-us" class="why-us">
+  <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+      <h2>Why Us</h2>
+      <p>Why Choose Our Restaurant</p>
+    </div>
+
+    <div class="row">
+      <th:block th:each="order, num : ${orderList}">
+        <div class="col-lg-4">
+<!--          <img th:if="${orderItem.item.getUploadFileDto().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(orderItem.item.getUploadFileDto().getFullPath())}|" class="menu-img" alt=""/>-->
+<!--          <img th:if="${orderItem.item.getUploadFileDto().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>-->
+          <div class="box mt-3" data-aos="zoom-in" data-aos-delay="100">
+            <div class="row d-flex justify-content-between borderLineHead">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span th:text="${num.index} + 1">01</span>
+                    <span class="spanDate" th:text="${#temporals.format(order.createDate, 'yyyy-MM-dd HH:mm')}">01</span>
+                </div>
+            </div>
+            <div class="row mt-3 d-flex justify-content-between borderLineContent">
+                <div class="d-flex">
+                    <div class="d-flex">
+                        <label>주문가격&nbsp;&nbsp;-&nbsp;&nbsp;</label>
+                        <p th:text="'₩ ' + ${#numbers.formatInteger(order.totalPrice, 0, 'COMMA')}">Lorem Ipsum</p>
+                    </div>
+                    <div class="ml-3 d-flex">
+                        <label>배송상태&nbsp;&nbsp;-&nbsp;&nbsp;</label>
+                        <p th:text="${order.status} != 'ORDER' ? '배송중' : '배송완료'"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-3 d-flex justify-content-between borderLineContent">
+                <div class="d-flex">
+                    <div class="">
+                        <label>배송지</label>
+                        <p th:text="|${order.delivery.address.city}  ${order.delivery.address.street}  ${order.delivery.address.zipcode}|">123</p>
+                        <p th:text="|받는사람 : ${order.user.name}|"></p>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-5 d-flex justify-content-center borderLineTop">
+                <span>구매상품내역</span>
+            </div>
+<!--            <div class="col-lg-6 menu-item filter-starters">-->
+                <th:block th:each="orderItem, num : ${order.orderItems}">
+                <div class="aaaa">
+                    <div class="d-flex justify-content-center">
+                        <h6 class="text-warning" th:text="|구매 상품 - ${orderItem.item.itemName}|">구매 아이템</h6>
+                    </div>
+                    <div class="row d-flex">
+                        <table>
+                            <thead>
+                                <td>No</td>
+                                <td>수량</td>
+                                <td>가격</td>
+                            </thead>
+                            <tbody>
+                                <td th:text="${num.index + 1}">1</td>
+                                <td th:text="${orderItem.count}">2</td>
+                                <td th:text="'₩ ' + ${#numbers.formatInteger(orderItem.totalPrice, 0, 'COMMA')}">3</td>
+                            </tbody>
+                        </table>
+                    </div>
+                    <a th:href="@{/home/food/getFoodItem/{itemId}(itemId=${orderItem.item.id})}">
+                        <div class="row ml-1 mt-1 itemRow col-lg-12 d-flex justify-content-left">
+                            <div class="col-6">
+                                <ul class="list-group">
+                                    <li class="list-group-item-action itemHead">상품 정보</li>
+                                    <li class="list-group-item-action" th:text="|번호 : ${orderItem.item.id}|"></li>
+                                    <li class="list-group-item-action" th:text="|재고수량 : ${orderItem.item.stockQuantity}|"></li>
+                                    <li class="list-group-item-action" th:text="'₩ ' + ${#numbers.formatInteger(orderItem.item.price, 0, 'COMMA')}"></li>
+                                </ul>
+                            </div>
+                            <div class="col-6">
+                                <img th:if="${orderItem.item.uploadFile.serverFileName} != null" th:src="|/display?fullPath=${#myFormat.encode(orderItem.item.uploadFile.fullPath)}|" class="menu-img" alt=""/>
+                                <img th:if="${orderItem.item.uploadFile.serverFileName} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+                </th:block>
+<!--            </div>-->
+          </div>
+        </div>
+      </th:block>
+    </div>
+
+  </div>
+</section><!-- End Why Us Section -->
+
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+<!--</html>-->
+

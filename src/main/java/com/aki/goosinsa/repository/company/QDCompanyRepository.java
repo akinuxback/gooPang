@@ -6,12 +6,16 @@ import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Slice;
+import org.springframework.data.jpa.repository.EntityGraph;
 
 import java.util.List;
 
 public interface QDCompanyRepository {
 
-    Page<Company> findAllPaging(Pageable pageable, CompanySearch companySearch);
+    Page<CompanyDto> findAllPaging(Pageable pageable, CompanySearch companySearch);
+
+    Slice<CompanyDto> findAllPagingSlice(Pageable pageable, CompanySearch companySearch);
 
 
     /**
@@ -21,8 +25,12 @@ public interface QDCompanyRepository {
     public List<Company> companyOfUserAndUploadFileJoin(Long userId);
 
     /**
-    *  companyNo로 조회한 company 의 아이템리스트 가져오기
+    *  companyNo로 조회한 company 의 검색조건 해당하는 아이템리스트 가져오기
     * */
     public Page<FoodItem> companyFindFoodItemList(String companyNo, CompanySearch companySearch);
+
+    public CompanyDto companyJoinUserAndUploadFileFindByCompanyNo(String companyNo);
+
+
 
 }

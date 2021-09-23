@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/header :: header">
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link href="/my-custom/css/admin/addFood.css?ver=2" rel="stylesheet">
+<link href="/my-custom/css/admin/editFood.css?ver=2" rel="stylesheet">
+<body>
+<div th:replace="fragments/nav-top :: nav-top"/>
+<div th:replace="fragments/managerFrag/manager-bodyHeader :: manager-bodyHeader"/>
+
+
+<!-- ======= Book A Table Section ======= -->
+<section>
+    <div class="container" data-aos="fade-up">
+        <div class="row mt-5">
+            <div class="col-lg-4">
+                <div>
+                    <label>File upload</label></br>
+                </div>
+                <div>
+                    <input type="file" name="singleFile"></br>
+                </div>
+                <figure>
+                    <img th:src="@{/my-custom/images/images.jpg}" id="displaySingleFile" class="mb-3"/>
+                </figure>
+            </div>
+            <div class="col-lg-8">
+                <form role="form" th:action th:object="${foodItemDto}"
+                      method="post" enctype="multipart/form-data"
+                      class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+                    <div class="row">
+                        <div class="col-lg-4 p-div form-group">
+                            <label>회원 ID</label>
+                            <input type="text" th:value="${userCompany.username}" readonly>
+                        </div>
+                        <div class="col-lg-4 p-div form-group">
+                            <label>회원명</label>
+                            <input type="text" th:value="${userCompany.name}" readonly>
+                        </div>
+                        <div class="col-lg-4 p-div form-group">
+                            <label>업체명 선택은 필수 입니다.</label>
+                            <select th:disabled="${not #strings.isEmpty(param.companyNo)}"
+                                    name="companyNo" id=""
+                                    class="form-control">
+                                <option value="">선택하세요</option>
+                                <option th:each="company : ${userCompany.getCompanyList()}"
+                                        th:selected="${company.companyNo} == ${param.companyNo != null ? param.companyNo.toString() : ''}"
+                                        th:value="${company.companyNo}"
+                                        th:text="${company.companyName}">
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-6 p-div form-group">
+                            <label>분류 1</label>
+                            <select th:field="${foodItemDto.foodGroups}"
+                                    class="form-control">
+                                <option value="">==상품상세구분==</option>
+                                <option th:each="group : ${foodGroups}"
+                                        th:value="${group.name()}"
+                                        th:text="${group.name()}">status</option>
+                                <!--th:text="${group.getFoodGroupsName()}">status</option>-->
+                            </select>
+                        </div>
+                        <div class="col-lg-6 p-div form-group">
+                            <label>분류 2</label>
+                            <select id="foodKindStatus" name="foodGroupsOfTitle"
+                                    class="form-control">
+                                <option value="">select 1 을 먼저 선택 하세요=</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 p-div form-group">
+                            <label>FoodName</label>
+                            <input type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="상품이름">
+                        </div>
+                        <div class="col-lg-4 p-div form-group">
+                            <label>Price</label>
+                            <input type="text" th:field="${foodItemDto.price}" class="form-control" placeholder="0">
+                        </div>
+                        <div class="col-lg-4 p-div form-group">
+                            <label>StockQuantity</label>
+                            <input type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="0">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-12 p-div form-group">
+                            <label>Explains</label>
+                            <textarea class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ./ end check box -->
+
+                    <div class="text-center"><button type="submit" class="addBtn btn btn-success">Item 등록</button></div>
+
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadFolder}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.uploadPath}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.clientFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.extFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.fileType}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.serverFileName}">
+                    <input type="hidden" th:field="${foodItemDto.uploadFileDto.fullPath}">
+
+                </form>
+            </div>
+        </div> <!-- end row -->
+
+    </div> <!-- end container-->
+</section><!-- End Book A Table Section -->
+
+
+<div th:replace="fragments/footer :: footer"/>
+</body>
+</html>
+
+<!--<script th:inline="javascript">-->
+<script type="application/javascript">
+$(document).ready(function(){
+
+    /**
+     * file 을 업로드 하면 사용자에 바로 이미지를 보여주도록 한다. rest 방식으로 응답값을 받아온다.
+     * */
+    $("input[name='singleFile']").on("change", function(){
+        var formData = new FormData();
+        var singleFile = $("input[name='singleFile']"); // 배열로 담는구나
+        var file = singleFile[0].files; // 배열로 담는구나
+
+        formData.append("singleFile", file[0]);
+
+        $.ajax({
+            type: "POST",
+            url: "/singleFileUpload",
+            enctype : "multipart/form-data",
+            processData : false,
+            contentType : false,
+            data : formData,
+            dataType : "json",
+            success :function(result){
+
+                showSingleFile(result);
+                formAppendUploadFileDtoValues(result);
+
+            }
+        }); // end ajax
+
+    }); // end singleFile upload event
+
+
+    /**
+     * FoodController 에  /food/getValues 요청시 enum 리스트를 받아서 select 박스를 구현한다.
+     * select 1 을 선택해야 select 2 의 목록의 리스트가 생성된다.
+     */
+    $('#foodGroups').on("change", function(e){
+        let val = $("#foodGroups option:selected").val();
+
+        $.ajax({
+            type : "GET",
+            url : "/food/getValues",
+            data : {foodGroupsName: val},
+            success : function(data){
+                console.log("ajax 서버응답 data : " + data);
+                let str = "";
+                str += "<option value='"+ val+ "'>" + "상품을 선택하세요" + "</option>";
+                $.each(data, function(index, val){
+                    str += "<option value='"+ val+ "'>" + val+ "</option>";
+                });
+
+                //console.log(str);
+                $("#foodKindStatus").html(str);
+
+            }// end .success
+        }); //end .ajax
+    }); // end change event
+
+
+// 싱글파일 이미지 보여주기 - rest 응답
+    function showSingleFile(result){
+
+        var encodeFullPath =  encodeURIComponent(result.fullPath);
+        console.log("encodeFullPath = " + encodeFullPath);
+
+        $("#displaySingleFile").attr("src","/display?fullPath="+encodeFullPath);
+
+    }
+
+// form 에 uploadFileDto 값들을 append 해서 db 에 저장해야 한다.
+    function formAppendUploadFileDtoValues(result) {
+        $("input[name='uploadFileDto.uploadFolder']").val(result.uploadFolder);
+        $("input[name='uploadFileDto.uploadPath']").val(result.uploadPath);
+        $("input[name='uploadFileDto.clientFileName']").val(result.clientFileName);
+        $("input[name='uploadFileDto.extFileName']").val(result.extFileName);
+        $("input[name='uploadFileDto.fileType']").val(result.fileType);
+        $("input[name='uploadFileDto.uploadFolder']").val(result.uploadFolder);
+        $("input[name='uploadFileDto.serverFileName']").val(result.serverFileName);
+        $("input[name='uploadFileDto.fullPath']").val(result.fullPath);
+    }
+
+}); // end document
+</script>
+
+<!--<script th:inline="javascript">-->
+<!--    let result = [[${customErrors}]];-->
+<!--    let bidingResult = [[${foodItemDto}]];-->
+<!--    if(!result.empty || !bidingResult.empty){-->
+<!--        alert("모든 필드의 값을 다 채우셔야 합니다.");-->
+<!--    }-->
+<!--</script>-->
+
+
+
