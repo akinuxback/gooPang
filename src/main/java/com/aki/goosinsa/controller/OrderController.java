@@ -52,6 +52,22 @@ public class OrderController {
         return "redirect:/admin/order/getOrderList";
     }
 
+    @PostMapping("/orderOnePost")
+    public String orderOnePost(Model model, RedirectAttributes rttr, Long orderItemId){
+        User loginUser = getLoginUser();
+        log.info("===============================================");
+        log.info(orderItemId);
+        try {
+            // order 생성
+            Long orderId = orderService.orderOne(loginUser.getId(), orderItemId);
+        } catch (NotFoundItemException e) {
+            e.getMessage();
+            rttr.addFlashAttribute("error1", "단일 장바구니에 상품이 없습니다.");
+            return "redirect:/admin/orderItem/getOrderItemList";
+        }
+        return "redirect:/admin/order/getOrderList";
+    }
+
     @GetMapping("/getOrderList")
     public String orderList(Model model){
         User loginUser = getLoginUser();

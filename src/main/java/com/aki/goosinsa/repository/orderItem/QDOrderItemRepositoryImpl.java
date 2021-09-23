@@ -43,6 +43,17 @@ public class QDOrderItemRepositoryImpl implements QDOrderItemRepository {
     }
 
     @Override
+    public OrderItem findByIdAndStatusReadyJoinItemJoinUser(Long orderItemId) {
+        return queryFactory
+                .select(orderItem)
+                .from(orderItem)
+                .join(orderItem.item)
+                .join(orderItem.user)
+                .where(orderItem.id.eq(orderItemId).and(orderItem.status.eq(OrderItemStatus.READY)))
+                .fetchOne();
+    }
+
+    @Override
     public List<OrderItem> findListByIdAndStatusOrderJoinItemJoinUser(Long userId) {
         return queryFactory
                 .select(orderItem)

@@ -9,6 +9,8 @@ public interface QDOrderItemRepository {
     //장바구니 상태 보여줄 리스트
     public List<OrderItem> findListByIdAndStatusReadyJoinItemJoinUser(Long userId);
 
+    public OrderItem findByIdAndStatusReadyJoinItemJoinUser(Long orderItemId);
+
     // 장바구니 상품 구매 등록시 처리할 로직
     public List<OrderItem> findListByIdAndStatusOrderJoinItemJoinUser(Long userId);
 

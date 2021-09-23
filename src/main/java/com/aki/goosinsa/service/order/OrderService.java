@@ -13,6 +13,11 @@ public interface OrderService {
     public Long order(Long userId);
 
     /**
+     * 단건 주문
+     * */
+    public Long orderOne(Long userId, Long id);
+    
+    /**
      * 주문 취소
      * */
     public void cancelOrder(Long orderId);

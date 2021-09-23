@@ -3,6 +3,7 @@ package com.aki.goosinsa.controller.food;
 import com.aki.goosinsa.asecurity.auth.PrincipalDetails;
 import com.aki.goosinsa.domain.dto.item.FoodGroups;
 import com.aki.goosinsa.domain.dto.item.FoodItemDto;
+import com.aki.goosinsa.domain.dto.item.ItemDto;
 import com.aki.goosinsa.domain.dto.uploadFile.UploadFileDto;
 import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.FoodItem;
@@ -21,10 +22,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -170,5 +174,6 @@ public class ManagerFoodController {
         User userCompany = qdUserRepository.userLeftJoinCompanyFindById(user.getId());
         return userCompany;
     }
+
 
 }

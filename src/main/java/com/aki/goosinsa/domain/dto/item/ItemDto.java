@@ -5,9 +5,15 @@ import com.aki.goosinsa.domain.entity.company.Company;
 import com.aki.goosinsa.domain.entity.item.Item;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.*;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import java.util.HashMap;
 
 @Data
 @AllArgsConstructor
@@ -17,11 +23,23 @@ import javax.persistence.OneToOne;
 public class ItemDto {
 
     protected Long id;
+
+    @NotBlank
     protected String itemName;
+
+    @NotNull
+    @Range(min = 500, max = 1000000)
     protected Integer price;
+
+    @NotNull
+    @Max(9999)
     protected Integer stockQuantity;
+
+    @NotBlank
     protected String explains;
+    @NotNull
     protected UploadFileDto uploadFileDto;
+
     protected Company company;
 
     public ItemDto(Item item) {
@@ -38,4 +56,7 @@ public class ItemDto {
     public void setCompany(Company company) {
         this.company = company;
     }
+    
+
+
 }

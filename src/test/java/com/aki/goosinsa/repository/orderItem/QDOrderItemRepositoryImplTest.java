@@ -30,4 +30,9 @@ class QDOrderItemRepositoryImplTest {
         List<OrderItem> ol = qdOrderItemRepository.findListByIdAndStatusOrderJoinItemJoinUserJoinOrder(1L);
     }
 
+    @Test
+    public void 구매내역_페이지123() throws Exception{
+        qdOrderItemRepository.findByIdAndStatusReadyJoinItemJoinUser(19L);
+    }
+
 }

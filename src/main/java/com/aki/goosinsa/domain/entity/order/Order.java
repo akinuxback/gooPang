@@ -65,7 +65,7 @@ public class Order {
 
 
     //==생성 메서드==//
-    public static Order createOrder(User user, Delivery delivery,  List<OrderItem> orderItems){
+    public static Order createOrder(User user, Delivery delivery,  OrderItem... orderItems){
         Order order = new Order();
         order.setEntityUser(user);
         order.setEntityDelivery(delivery);

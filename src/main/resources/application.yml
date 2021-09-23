@@ -1,6 +1,9 @@
 server:
   port: 9777
 spring:
+  messages:
+    basename: errors
+
   datasource:
 #    url: jdbc:oracle:thin:@localhost:1521/orcl
 #    driver-class-name: oracle.jdbc.OracleDriver
@@ -11,7 +14,7 @@ spring:
   #    driver-class-name: oracle.jdbc.driver.OracleDriver - 9버전 이후로 이름 변경됨
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
       # show_sql: true

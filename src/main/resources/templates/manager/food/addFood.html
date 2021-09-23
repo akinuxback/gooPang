@@ -10,6 +10,7 @@
 <div th:replace="fragments/nav-top :: nav-top"/>
 <div th:replace="fragments/managerFrag/manager-bodyHeader :: manager-bodyHeader"/>
 
+
 <!-- ======= Book A Table Section ======= -->
 <section>
     <div class="container" data-aos="fade-up">
@@ -203,6 +204,13 @@ $(document).ready(function(){
 }); // end document
 </script>
 
+<!--<script th:inline="javascript">-->
+<!--    let result = [[${customErrors}]];-->
+<!--    let bidingResult = [[${foodItemDto}]];-->
+<!--    if(!result.empty || !bidingResult.empty){-->
+<!--        alert("모든 필드의 값을 다 채우셔야 합니다.");-->
+<!--    }-->
+<!--</script>-->
 
 
 

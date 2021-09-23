@@ -36,7 +36,7 @@ public class OrderServiceImpl implements OrderService{
     private final ItemRepository itemRepository;
 
     /**
-     * 주문
+     * 전체 주문
      * */
     @Override
     @Transactional
@@ -65,7 +65,7 @@ public class OrderServiceImpl implements OrderService{
         delivery.setAddress(user.getAddress());
         
 
-        Order order = Order.createOrder(user, delivery, orderItemList);
+        Order order = Order.createOrder(user, delivery, orderItemList.toArray(OrderItem[]::new));
         log.info("=====================       order        ==============================");
         log.info(order.getStatus());
         Order save = orderRepository.save(order);
@@ -76,7 +76,48 @@ public class OrderServiceImpl implements OrderService{
         log.info(save.getId());
         return order.getId();
     }
-    
+
+    /**
+     * 단건 주문
+     * */
+    @Override
+    @Transactional
+    public Long orderOne(Long userId, Long orderItemId) {
+
+        // 엔티티 조회
+        User user = userRepository.findById(userId).get();
+
+        // 장바구니 상품들 가져오기
+        OrderItem orderItem = qdOrderItemRepository.findByIdAndStatusReadyJoinItemJoinUser(orderItemId);
+
+        // 장바구니에 상품이 없을경우 예외처리
+        if(orderItem == null){
+            throw new NotFoundItemException();
+        }
+
+        // 장바구니에 담긴 아이템의 재고 수량 에서 - 주문한 아이템 만큼의 수량 빼기
+        orderItem.getItem().removeStock(orderItem.getCount());
+
+
+
+        // 배송정보 생성
+        Delivery delivery = new Delivery();
+
+        delivery.setAddress(user.getAddress());
+
+
+        Order order = Order.createOrder(user, delivery, orderItem);
+        log.info("=====================       order        ==============================");
+        log.info(order.getStatus());
+        Order save = orderRepository.save(order);
+
+
+
+        log.info("===========================================================");
+        log.info(save.getId());
+        return order.getId();
+    }
+
     /**
      *  주문 취소
      * */
