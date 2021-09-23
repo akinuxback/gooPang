@@ -37,7 +37,11 @@ public class ItemDto {
 
     @NotBlank
     protected String explains;
+<<<<<<< HEAD
 
+=======
+    @NotNull
+>>>>>>> 78be9d60652860a91310ef5b9fe86178681ef71c
     protected UploadFileDto uploadFileDto;
 
     protected Company company;
