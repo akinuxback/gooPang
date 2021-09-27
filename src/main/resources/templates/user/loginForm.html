@@ -3,19 +3,77 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
+    <link rel="stylesheet" href="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.css"/>
+    <script src="https://cdn.datatables.net/t/bs-3.3.6/jqc-1.12.0,dt-1.10.11/datatables.min.js"></script>
+    <style> body { background: #C5E1A5; } form { width: 60%; margin: 60px auto; background: #efefef; padding: 60px 120px 80px 120px; text-align: center; -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1); box-shadow: 2px 2px 3px rgba(0,0,0,0.1); } label { display: block; position: relative; margin: 40px 0px; } .label-txt { position: absolute; top: -1.6em; padding: 10px; font-family: sans-serif; font-size: .8em; letter-spacing: 1px; color: rgb(120,120,120); transition: ease .3s; } .input { width: 100%; padding: 10px; background: transparent; border: none; outline: none; }  .input:focus + .line-box .line { width: 100%; } .label-active { top: -3em; } button { display: inline-block; padding: 12px 24px; background: rgb(220,220,220); font-weight: bold; color: rgb(120,120,120); border: none; outline: none; border-radius: 3px; cursor: pointer; transition: ease .3s; } button:hover { background: #8BC34A; color: #ffffff; } </style>
 </head>
 <body>
-<h1>로그인 페이지</h1>
-<hr/>
-<form action="/login" method="post">
-    <input type="text" name="username" placeholder="Username"/><br/>
-    <input type="password" name="password" placeholder="Password"/><br/>
-    <button>로그인</button>
-</form>
-<a href="/oauth2/authorization/google">구글 로그인</a>
-<a href="/oauth2/authorization/facebook">페이스북 로그인</a>
-<a href="/oauth2/authorization/naver">네이버 로그인</a>
-<a href="/oauth2/authorization/kakao">카카오 로그인</a>
-<a href="/joinForm">회원가입</a>
+<!--<h1>로그인 페이지</h1>-->
+<!--<hr/>-->
+<!--<form action="/login" method="post">-->
+<!--    <input type="text" name="username" placeholder="Username"/><br/>-->
+<!--    <input type="password" name="password" placeholder="Password"/><br/>-->
+<!--    <button>로그인</button>-->
+<!--</form>-->
+<!--<a href="/oauth2/authorization/google">구글 로그인</a>-->
+<!--<a href="/oauth2/authorization/facebook">페이스북 로그인</a>-->
+<!--<a href="/oauth2/authorization/naver">네이버 로그인</a>-->
+<!--<a href="/oauth2/authorization/kakao">카카오 로그인</a>-->
+<!--<a href="/joinForm">회원가입</a>-->
+
+<div class="container">
+    <div class="row">
+        <form action="/login" method="post">
+            <h2>Login</h2>
+            <label>
+                <p class="label-txt mb-3">아이디</p>
+                <div class="line-box">
+                    <input class="form-control col-4" type="text" name="username" value=""/>
+                </div>
+            </label>
+            <label>
+                <p class="label-txt mb-3">비밀번호</p>
+                <div class="line-box">
+                    <input class="form-control" type="password" name="password" value=""/>
+                </div>
+            </label>
+            <button class="btn btn-success" type="submit">로그인</button>
+            <button class="btn btn-info aaa" type="submit">회원가입</button>
+        </form>
+    </div>
+
+    <form action="">
+    <div class="row">
+        <div class="col-8">
+            <h1 class="text-primary">참고 사항</h1>
+            <ul class="list-group">
+                <li class="list-group-item active"><strong style="color: #31d2f2">ADMIN</strong> 권한의 <strong style="color: #31d2f2">aki01</strong> 유저로 접속하시면, <br>생성된 데이터들을 기반으로 사이트를 둘러 보실수 있습니다.</li>
+                <li class="list-group-item">aki01 접속 정보</li>
+                <li class="list-group-item">
+                    <p>아이디</p>
+                    <strong style="color: #18d26e">aki01</strong>
+                </li>
+                <li class="list-group-item">
+                    <p>비밀번호</p>
+                    <strong style="color: #18d26e">1111</strong>
+                </li>
+            </ul>
+        </div>
+    </div>
+    </form>
+</div>
+
+
+
+<script>
+$(document).ready(function(){
+    $(".aaa").on("click", function(e){
+        e.preventDefault();
+        location.href = "/joinForm";
+    });
+});
+</script>
+
 </body>
 </html>
+

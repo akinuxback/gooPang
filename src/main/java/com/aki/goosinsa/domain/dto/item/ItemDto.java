@@ -24,11 +24,10 @@ public class ItemDto {
 
     protected Long id;
 
-    @NotBlank
+    @NotBlank(message = "상품이름 입력")
     protected String itemName;
 
     @NotNull
-    @Range(min = 500, max = 1000000)
     protected Integer price;
 
     @NotNull

@@ -96,11 +96,33 @@ public class ManagerFoodController {
      * UploadFileDto 의 값들만 받아서 db에 저장만 하면된다.
      * */
     @PostMapping("/addFood")
-    public String addFood(RedirectAttributes rttr, String companyNo, @ModelAttribute FoodItemDto foodItemDto) throws IOException {
-        log.info("============================ >  " + companyNo);
-        // 유저 정보로 찾은 companyNo 만 파라미터로 받은후, company 테이블에서 찾아서 반환하기
-        log.info(foodItemDto.getUploadFileDto().toString());
-        Company company = companyRepository.findById(companyNo).get();
+    public String addFood(@Validated @ModelAttribute FoodItemDto foodItemDto, BindingResult bindingResult, RedirectAttributes rttr, Model model) throws IOException {
+        User userCompany = getLoginUserJoinCompany();
+        if(userCompany.getCompanyList().size() == 0){
+            rttr.addFlashAttribute("message", "등록된 업체가 없습니다. 관리자 문의를 통하여, 업체를 우선 등록 하세요");
+            return "redirect:/manager/company/companyList";
+        }
+        model.addAttribute("userCompany", userCompany);
+
+        // 단순히 model 로 넘겼다 일단, 업체 선택시 넘어오는 companyNo
+        model.addAttribute("companyNo", foodItemDto.getCompany().getCompanyNo());
+
+        log.info(bindingResult);
+
+        log.info("=======================================================================foodItemDto.getCompany().getCompanyNo() ====================");
+        log.info(foodItemDto.getCompany().getCompanyNo());
+
+        if(foodItemDto.getCompany().getCompanyNo() == null){
+            model.addAttribute("message", "업체명 선택은 필수 입니다.");
+            return "manager/food/addFood";
+        }
+
+        Company company = companyRepository.findById(foodItemDto.getCompany().getCompanyNo()).orElseThrow();
+
+        if(bindingResult.hasErrors()){
+            return "manager/food/addFood";
+        }
+
         foodItemDto.setCompany(company);
         FoodItem foodItem = new FoodItem(foodItemDto);
         itemRepository.save(foodItem);

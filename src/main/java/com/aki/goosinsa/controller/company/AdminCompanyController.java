@@ -23,6 +23,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -83,23 +86,50 @@ public class AdminCompanyController {
 
     @GetMapping("/addCompany")
     public String addCompany(Model model){
-        model.addAttribute("company", new Company());
+        model.addAttribute("companyDto", new CompanyDto());
         return "admin/company/addCompany";
     }
 
     @PostMapping("/addCompany")
-    public String addCompanyPost(CompanyDto companyDto) throws Exception {
-
-        if(companyDto.getMessageOneYn() == false){
-            companyDto.setMessageOne("");
+    public String addCompanyPost(@Validated @ModelAttribute CompanyDto companyDto, BindingResult bindingResult, Model model) throws Exception {
+        log.info(companyDto.getAbbr());
+        if(companyDto.getUserDto().getId() == null){
+            model.addAttribute("errorMessage", "상단의 핸드폰 번호 조회는 필수 입니다.");
+            return "admin/company/addCompany";
         }
+
+        if(companyDto.getStatus() != CompanyStatus.Food){
+            model.addAttribute("errorMessage", "죄송합니다. 업종분류의 Food 이외는 현재 선택이 불가합니다. (개발중)");
+            return "admin/company/addCompany";
+        }
+
+        if(bindingResult.hasErrors()){
+            log.info(bindingResult);
+            return "admin/company/addCompany";
+        }
+
+        if(companyRepository.findByCompanyNo(companyDto.getCompanyNo()) != null){
+            bindingResult.rejectValue("companyNo", "invalid.companyNo",
+                    new Object[]{companyDto.getCompanyNo()}, "동일한 사업자 번호가 존재 합니다.");
+            return "admin/company/addCompany";
+        };
+
+        if(!StringUtils.hasText(companyDto.getAddressDto().getCity()) || !StringUtils.hasText(companyDto.getAddressDto().getStreet()) || !StringUtils.hasText(companyDto.getAddressDto().getZipcode())){
+            model.addAttribute("addressError", "주소를 입력 하여 주세요");
+            return "admin/company/addCompany";
+        };
+
+//        if(companyDto.getMessageOneYn() == false){
+//            companyDto.setMessageOne("");
+//        }
+
         log.info(companyDto.toString());
         User user = userRepository.findById(companyDto.getUserDto().getId()).get();
         companyDto.setUserDto(UserDto.toDto(user));
 
         companyRepository.save(new Company(companyDto));
 
-        return "redirect:/admin/company/addCompany";
+        return "redirect:/admin/company/companyList";
     }
 
     @GetMapping("/getCompany/{companyNo}")

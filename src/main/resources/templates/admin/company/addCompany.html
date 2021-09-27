@@ -34,7 +34,7 @@
 
         </div>
 
-        <form th:action method="post" th:object="${company}" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
+        <form th:action method="post" th:object="${companyDto}" role="form" class="php-email-form" data-aos="fade-up" data-aos-delay="100">
             <div class="form-row">
                 <div class="col-lg-6 col-md-6 form-group">
                     <div class="divLabel">
@@ -52,21 +52,21 @@
                         <div class="divLabel">
                             <label>read-only</label>
                         </div>
-                        <input type="text" class="form-control userId" name="userDto.id" readonly placeholder="userId" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                        <input type="text" class="form-control userId" th:field="*{userDto.id}" readonly placeholder="userId" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="col-lg-12 col-md-6 form-group">
                         <div class="divLabel">
                             <label>read-only</label>
                         </div>
-                        <input type="text" class="form-control username" readonly placeholder="username" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                        <input type="text" class="form-control username" th:field="*{userDto.username}" readonly placeholder="username" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                         <div class="validate"></div>
                     </div>
                     <div class="col-lg-12 col-md-6 form-group">
                         <div class="divLabel">
                             <label>read-only</label>
                         </div>
-                        <input type="text" class="form-control name" readonly placeholder="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                        <input type="text" class="form-control name" th:field="*{userDto.name}" readonly placeholder="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
                         <div class="validate"></div>
                     </div>
                 </div>
@@ -77,18 +77,26 @@
                         <label>업종 분류</label>
                     </div>
                     <select class="form-select formSelect" name="status" id="">
-                        <option value="">업종 분류를 선택하세요</option>
+                        <div th:if="*{status} == null">
+                            <option value="">업종 분류를 선택하세요</option>
+                        </div>
+                        <div th:if="*{status} != null">
+                            <option th:value="*{status}" th:text="*{status}">업종 분류를 선택하세요</option>
+                        </div>
                         <option class="form-control-plaintext formOption"
                                 th:each="status : ${companyStatus}"
                                 th:value="${status}"
                                 th:text="${status}">=======</option>
                     </select>
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('status')}" th:errors="*{status}"></label>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <div class="divLabel">
                         <label>대표 상품 선택</label>
                     </div>
-                    <select th:field="${company.foodGroups}"
+                    <select th:field="${companyDto.foodGroups}"
                             class="form-select formSelect">
                         <option value="">==상품상세구분==</option>
                         <option class="form-control-plaintext formOption"
@@ -97,6 +105,9 @@
                                 th:text="${group.name()}">status</option>
                         <!--th:text="${group.getFoodGroupsName()}">status</option>-->
                     </select>
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('foodGroups')}" th:errors="*{foodGroups}"></label>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <div class="divLabel">
@@ -104,38 +115,57 @@
                     </div>
                     <select id="foodKindStatus" name="foodGroupsOfTitle"
                             class="form-select formSelect">
-                        <option class="form-control-plaintext formOption" value="">
-                            select 1 을 먼저 선택 하세요=
-                        </option>
+                        <div th:if="*{foodGroupsOfTitle} == null">
+                            <option class="form-control-plaintext formOption" value="">
+                                select 1 을 먼저 선택 하세요=
+                            </option>
+                        </div>
+                        <div th:if="*{foodGroupsOfTitle} != null">
+                            <option class="form-control-plaintext formOption" th:value="*{foodGroupsOfTitle}" th:text="*{foodGroupsOfTitle}">
+                                select 1 을 먼저 선택 하세요=
+                            </option>
+                        </div>
                     </select>
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('foodGroupsOfTitle')}" th:errors="*{foodGroupsOfTitle}"></label>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <div class="divLabel">
                         <label>사업자번호</label>
                     </div>
-                    <input type="text" class="form-control" name="companyNo" placeholder="000-0000-0" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                    <div class="validate"></div>
+                    <input type="text" class="form-control" th:field="*{companyNo}" placeholder="000-0000-0" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('companyNo')}" th:errors="*{companyNo}"></label>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <div class="divLabel">
                         <label>업체명</label>
                     </div>
-                    <input type="text" class="form-control" name="companyName" placeholder="XXX" data-rule="email" data-msg="Please enter a valid email">
-                    <div class="validate"></div>
+                    <input type="text" class="form-control" th:field="*{companyName}" placeholder="XXX" data-rule="email" data-msg="Please enter a valid email">
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('companyName')}" th:errors="*{companyName}"></label>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <div class="divLabel">
                         <label>약칭</label>
                     </div>
-                    <input type="text" class="form-control" name="abbr" placeholder="XXX" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
-                    <div class="validate"></div>
+                    <input type="text" class="form-control" th:field="*{abbr}" placeholder="XXX" data-rule="minlen:4" data-msg="Please enter at least 4 chars">
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('abbr')}" th:errors="*{abbr}"></label>
+                    </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
                     <div class="divLabel">
                         <label>우편번호</label><input type="button" value="검색" id="btnAddr">
                     </div>
                     <div class="divInput">
-                        <input type="text" class="form-control" size="5" value="" name="addressDto.zipcode" id="zip">
+                        <input type="text" class="form-control" size="5" value="" th:field="*{addressDto.zipcode}" id="zip">
+                    </div>
+                    <div class="divLabel text-danger">
+                        <label th:if="${addressError} != null" th:text="${addressError}"></label>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
@@ -143,7 +173,10 @@
                         <label>주소</label>
                     </div>
                     <div>
-                        <input type="text" class="form-control" name="addressDto.city" id="addr1" size="50">
+                        <input type="text" class="form-control" th:field="*{addressDto.city}" id="addr1" size="50">
+                    </div>
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('addressDto.city')}" th:errors="*{addressDto.city}"></label>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 form-group">
@@ -151,7 +184,10 @@
                         <label>상세주소</label>
                     </div>
                     <div>
-                        <input type="text" class="form-control" name="addressDto.street" id="addr2" size="10">
+                        <input type="text" class="form-control" th:field="*{addressDto.street}" id="addr2" size="10">
+                    </div>
+                    <div class="divLabel text-danger">
+                        <label th:if="${#fields.hasErrors('addressDto.street')}" th:errors="*{addressDto.street}"></label>
                     </div>
                 </div>
             </div>
@@ -173,8 +209,11 @@
                 <div class="col-lg-12 col-md-6 form-group">
                     <div class="divLabel">
                         <label>약관 동의</label>
-                        <input type="checkbox" class="yn" name="messageOneYn">
-                        <input type="hidden" class="yn" name="_messageOneYn">
+                        <input type="checkbox" class="yn" th:field="*{messageOneYn}">
+<!--                        <input type="hidden" class="yn" name="_messageOneYn">-->
+                        <div class="divLabel text-danger">
+                            <label th:if="${#fields.hasErrors('messageOneYn')}" th:errors="*{messageOneYn}"></label>
+                        </div>
                     </div>
                     <textarea class="form-control" readonly name="messageOne" rows="5" placeholder="Message">
                         무조건 채용을 약속 합니다.ㅋ
@@ -207,6 +246,13 @@
 <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
+
+<script th:inline="javascript">
+    let errorMessage = [[${errorMessage}]];
+    if(errorMessage != null){
+        alert(errorMessage);
+    }
+</script>
 
 <script type="application/javascript" th:inline="javascript">
 $(document).ready(function(){

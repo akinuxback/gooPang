@@ -52,7 +52,13 @@
               <label>분류 2</label>
               <select id="foodKindStatus" name="foodGroupsOfTitle"
                       class="form-control">
-                <option value="">select 1 을 먼저 선택 하세요=</option>
+                <div th:if="${foodItemDto.foodGroupsOfTitle} == null">
+                  <option value="">select 1 을 먼저 선택 하세요=</option>
+                </div>
+                <div th:if="${foodItemDto.foodGroupsOfTitle} != null">
+                  <option th:value="${foodItemDto.foodGroupsOfTitle}"
+                          th:text="${foodItemDto.foodGroupsOfTitle}">status</option>
+                </div>
               </select>
             </div>
           </div>

@@ -41,12 +41,11 @@
                         </div>
                         <div class="col-lg-4 p-div form-group">
                             <label>업체명 선택은 필수 입니다.</label>
-                            <select th:disabled="${not #strings.isEmpty(param.companyNo)}"
-                                    name="companyNo" id=""
+                            <select name="company.companyNo" id=""
                                     class="form-control">
-                                <option value="">선택하세요</option>
+                                <option value="" text="">선택하세요</option>
                                 <option th:each="company : ${userCompany.getCompanyList()}"
-                                        th:selected="${company.companyNo} == ${param.companyNo != null ? param.companyNo.toString() : ''}"
+                                        th:selected="${company.companyNo} == ${companyNo != null ? companyNo : ''}"
                                         th:value="${company.companyNo}"
                                         th:text="${company.companyName}">
                                 </option>
@@ -58,12 +57,18 @@
                             <label>분류 1</label>
                             <select th:field="${foodItemDto.foodGroups}"
                                     class="form-control">
-                                <option value="">==상품상세구분==</option>
+                                <div th:if="${foodItemDto.foodGroups} == null">
+                                    <option value="">==상품상세구분==</option>
+                                </div>
+                                <div th:if="${foodItemDto.foodGroups} != null">
+                                    <option th:value="${foodItemDto.foodGroups}" th:text="${foodItemDto.foodGroups}">==상품상세구분==</option>
+                                </div>
                                 <option th:each="group : ${foodGroups}"
                                         th:value="${group.name()}"
                                         th:text="${group.name()}">status</option>
                                 <!--th:text="${group.getFoodGroupsName()}">status</option>-->
                             </select>
+                            <label><p class="text-danger mt-2" th:if="${#fields.hasErrors('foodGroups')}" th:errors="*{foodGroups}"></p></label>
                         </div>
                         <div class="col-lg-6 p-div form-group">
                             <label>분류 2</label>
@@ -71,27 +76,32 @@
                                     class="form-control">
                                 <option value="">select 1 을 먼저 선택 하세요=</option>
                             </select>
+                            <label><p class="text-danger mt-2" th:if="${#fields.hasErrors('foodGroupsOfTitle')}" th:errors="*{foodGroupsOfTitle}"></p></label>
                         </div>
                     </div>
 
                     <div class="row">
-                        <div class="col-lg-4 p-div form-group">
+                        <div class="col-lg-4 p-div form-group" th:field="*{itemName}">
                             <label>FoodName</label>
                             <input type="text" th:field="${foodItemDto.itemName}" class="form-control" placeholder="상품이름">
+                            <label><p class="text-danger mt-2" th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}"></p></label>
                         </div>
                         <div class="col-lg-4 p-div form-group">
                             <label>Price</label>
                             <input type="text" th:field="${foodItemDto.price}" class="form-control" placeholder="0">
+                            <label><p class="text-danger mt-2" th:if="${#fields.hasErrors('price')}" th:errors="${foodItemDto.price}"></p></label>
                         </div>
                         <div class="col-lg-4 p-div form-group">
                             <label>StockQuantity</label>
                             <input type="text" th:field="${foodItemDto.stockQuantity}" class="form-control" placeholder="0">
+                            <label><p class="text-danger mt-2" th:if="${#fields.hasErrors('stockQuantity')}" th:errors="${foodItemDto.stockQuantity}"></p></label>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12 p-div form-group">
                             <label>Explains</label>
                             <textarea class="form-control" th:field="${foodItemDto.explains}" rows="5" placeholder="Message"></textarea>
+                            <label><p class="text-danger mt-2" th:if="${#fields.hasErrors('explains')}" th:errors="${foodItemDto.explains}"></p></label>
                         </div>
                     </div>
 
@@ -118,6 +128,18 @@
 <div th:replace="fragments/footer :: footer"/>
 </body>
 </html>
+
+<script th:inline="javascript">
+    let message = [[${message}]];
+    if(message != null){
+        alert(message);
+    }
+
+    let valid = [[${valid}]];
+    if(valid != null){
+        alert(valid);
+    }
+</script>
 
 <!--<script th:inline="javascript">-->
 <script type="application/javascript">

@@ -15,6 +15,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -25,18 +29,29 @@ import java.util.stream.Collectors;
 @Builder
 public class CompanyDto {
 
+    @NotBlank
     private String companyNo;
+    @NotBlank
     private String companyName;
+    @NotBlank
     private String abbr;
+    @NotNull(message = "선택 하세요")
     private FoodGroups foodGroups;
+    @NotBlank(message = "선택1을 다시 선택 하세요")
     private String foodGroupsOfTitle; //세부 종류
+    @NotNull(message = "선택 하세요")
     private CompanyStatus status;
+    @NotNull
     private AddressDto addressDto;
+    @AssertTrue(message = "약관에 동의 하셔야 합니다.")
     private Boolean messageOneYn;
+    @NotBlank
     private String messageOne;
+
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
     private UploadFileDto uploadFileDto;
+    @NotNull
     private UserDto userDto;
     private List<ItemDto> itemDtoList;
 
