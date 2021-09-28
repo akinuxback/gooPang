@@ -79,6 +79,10 @@
 </body>
 </html>
 
+<script th:inline="javascript">
+    let errorMessage = [[${errorMessage}]];
+    if(errorMessage != null) alert(errorMessage);
+</script>
 
 <script type="application/javascript">
 

@@ -137,15 +137,22 @@ public class ManagerFoodController {
     }
 
     @PostMapping("/addMenu")
-    public String addMenuPost(String companyNo, AddMenuForm addMenuForm){
+    public String addMenuPost(String companyNo, AddMenuForm addMenuForm, RedirectAttributes rttr){
         // 유저 정보로 찾은 companyNo 만 파라미터로 받은후, company 테이블에서 찾아서 반환하기
-        Company company = companyRepository.findById(companyNo).get();
-        List<FoodItemDto> foodItemDtoList = addMenuForm.getFoodItemDtoList();
-        foodItemDtoList.forEach(foodItemDto -> {
-            foodItemDto.setCompany(company);
-            FoodItem foodItem = new FoodItem(foodItemDto);
-            itemRepository.save(foodItem);
-        });
+
+        try {
+            Company company = companyRepository.findById(companyNo).get();
+            List<FoodItemDto> foodItemDtoList = addMenuForm.getFoodItemDtoList();
+            foodItemDtoList.forEach(foodItemDto -> {
+                foodItemDto.setCompany(company);
+                FoodItem foodItem = new FoodItem(foodItemDto);
+                itemRepository.save(foodItem);
+            });
+        } catch (Exception e) {
+            e.getMessage();
+            rttr.addFlashAttribute("errorMessage", "모든 값을 채우셔야 합니다.");
+            return "redirect:/manager/food/addMenu";
+        }
 
         return "redirect:/manager/food/foodList";
     }

@@ -53,8 +53,8 @@
         <!--                <img src="assets/img/menu/lobster-bisque.jpg" class="menu-img" alt="">-->
         <img th:if="${food.getUploadFileDto().getServerFileName()} != null" th:src="|/display?fullPath=${#myFormat.encode(food.getUploadFileDto().getFullPath())}|" class="menu-img" alt=""/>
         <img th:if="${food.getUploadFileDto().getServerFileName()} == null" th:src="|/my-custom/images/images.jpg|" class="menu-img" alt=""/>
-        <div class="menu-content" th:onclick="|location.href='@{/food/getFood/{id}(id=${food.id})}'|">
-          <a href="#" class="text-warning" th:text="${food.itemName}">Lobster Bisque</a>
+        <div class="menu-content">
+          <a href="#" class="text-warning" th:text="|${food.itemName} - ${food.id}|">Lobster Bisque</a>
           <span th:text="'₩ ' + ${#numbers.formatInteger(food.price, 0, 'COMMA')}">$5.95</span>
         </div>
         <div class="menu-ingredients">
@@ -81,21 +81,21 @@
                             (start + (maxPage - 1) < pages.totalPages ? start + (maxPage -1) : pages.totalPages)})">
 
           <li class="page-item" th:if="${start > 1}">
-            <a class="page-link" th:href="@{/food/menu?(pageNum=0)}">First</a>
+            <a class="page-link" th:href="@{/home/food/getCompanyMenu/__${companyNo}__?(pageNum=0)}">First</a>
           </li>
           <li class="page-item" th:if="${start > 1}">
-            <a class="page-link" th:href="@{/food/menu?(pageNum=${start - maxPage})}">Prevoious</a>
+            <a class="page-link" th:href="@{/home/food/getCompanyMenu/__${companyNo}__?(pageNum=${start - maxPage})}">Prevoious</a>
           </li>
           <li th:each="page: ${#numbers.sequence(start, end)}">
-            <a class="page-link" th:href="@{/food/menu?(pageNum=${page-1})}" th:text="${page}"></a>
+            <a class="page-link" th:href="@{/home/food/getCompanyMenu/__${companyNo}__?(pageNum=${page-1})}" th:text="${page}"></a>
           </li>
 
           <li th:if="${end < pages.totalPages}">
-            <a class="page-link" th:href="@{/food/menu?(pageNum=${start + maxPage})}">Next</a>
+            <a class="page-link" th:href="@{/home/food/getCompanyMenu/__${companyNo}__?(pageNum=${start + maxPage})}">Next</a>
           </li>
 
           <li th:if="${end < pages.totalPages}">
-            <a class="page-link" th:href="@{/food/menu?(pageNum=${pages.totalPages-1})}">Last</a>
+            <a class="page-link" th:href="@{/home/food/getCompanyMenu/__${companyNo}__?(getCompanyMenu=${pages.totalPages-1})}">Last</a>
           </li>
         </ul>
       </nav>

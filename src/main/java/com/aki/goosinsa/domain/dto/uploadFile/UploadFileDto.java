@@ -108,4 +108,44 @@ public class UploadFileDto {
         return uuid + "." + clientFileName;
     }
 
+
+
+    /**
+     * 더미 데이터 생성용
+     * */
+    public  UploadFileDto(MultipartFile mf, String UPLOAD_FOLDER, String originalFilename, FileType fileType) throws IOException {
+
+        createUploadFileDto(UPLOAD_FOLDER, originalFilename);
+        if(this.fileType != fileType){
+            log.info("fileType = {}", this.fileType);
+            throw new AccessDeniedException("이미지 파일만 업로드 가능 합니다.");
+        }
+
+        if(!mf.isEmpty()) {
+            File uploadFolderPath = new File(uploadFolder, uploadPath);
+            if (uploadFolderPath.exists() == false) {
+                uploadFolderPath.mkdirs();
+            }
+
+            File saveFile = new File(uploadFolderPath, File.separator + serverFileName);
+            this.fullPath = saveFile.getPath();
+            log.info("fulPath ============================= {} ", fullPath);
+            //file save
+            mf.transferTo(saveFile);
+        }
+    }
+
+    private void createUploadFileDto(String UPLOAD_FOLDER, String originalFileName) {
+        this.uploadFolder = UPLOAD_FOLDER; // 기본저장폴더 경로
+        this.uploadPath = makeSubFolders(); // 추가경로만들기 21/07/05/
+        this.clientFileName = originalFileName; // 박보영.jpg - 업로드한 사용자에게 보여줄 파일이름
+        this.extFileName = makeExtFileName(clientFileName); // 확장자명 추출 jpg
+        this.fileType = makeFileExtType(this.extFileName); // 파일 확장자 타입 enum
+        this.serverFileName = makeServerFileName(extFileName); // uuid + extFileName -> uuid + .jpg
+    }
+    
+    /**
+     *  end 더미데이터 생성용
+     * */
+
 }

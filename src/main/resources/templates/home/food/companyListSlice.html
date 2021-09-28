@@ -160,6 +160,13 @@ $(document).ready(function(){
         let last = data.last;
         console.log("last == " + last);
 
+        // 응답 컨텐트가 0개 일때 등록한 업체가 없습니다. 보여주기
+        let contentLength = content.length;
+        if(contentLength == 0){
+          $('.lineTag').append("<div class='d-flex justify-content-center text-warning'><h3>등록된 업체가 없습니다.</h3></div>");
+        }
+
+
         // 마지막일때 더보기 버튼 숨기기
         if(last){
           $(".moreBtn").hide();
@@ -207,10 +214,17 @@ $(document).ready(function(){
   function callEncode(){
     $(".fullPath").each( function(i, obj){
       let dataUrl = $(this).attr("data-url");
-      if(dataUrl == null || dataUrl == "") dataUrl = "/my-custom/images/images.jpg";
 
       let encodeUrl = encodeURIComponent(dataUrl);
+      console.log(encodeUrl);
+
       $(this).attr("src", "/display?fullPath=" + encodeUrl);
+
+      if(dataUrl == null || dataUrl == "") {
+        dataUrl = "/my-custom/images/images.jpg";
+        $(this).attr("src", dataUrl);
+      };
+
     });
   }
 </script>
