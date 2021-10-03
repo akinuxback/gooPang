@@ -16,7 +16,7 @@ class ItemServiceImplTest {
 
     @Test
     public void update() throws Exception{
-        itemRepository.findById(1L);
+//        itemRepository.findById(1L);
         //given
 
         //when

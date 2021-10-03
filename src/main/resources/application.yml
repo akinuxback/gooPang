@@ -1,17 +1,31 @@
 server:
-  port: 9777
+  port: 8080
 spring:
   messages:
     basename: errors
 
   datasource:
+    #   // 배포용 dataSource
+    driver-class-name: oracle.jdbc.OracleDriver
+#    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=/var/lib/tomcat9/OracleCloud
+#    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=./src/main/resources/OracleCloud
+    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=C:\\akinux\\연습\\goosinsa\\src\\main\\resources\\OracleCloud
+    username: admin
+    password: '@Velpare1004'
+    #   // 배포용 .end
+
 #    url: jdbc:oracle:thin:@localhost:1521/orcl
 #    driver-class-name: oracle.jdbc.OracleDriver
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    url: jdbc:log4jdbc:oracle:thin:@localhost:1521/ORCL
-    username: shop
-    password: shop
+
+#    // 개발용 datasource
+#    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+#    url: jdbc:log4jdbc:oracle:thin:@localhost:1521/ORCL
+#    username: shop
+#    password: shop
+#    // 개발용 .end
+
   #    driver-class-name: oracle.jdbc.driver.OracleDriver - 9버전 이후로 이름 변경됨
+
   jpa:
     hibernate:
       ddl-auto: create

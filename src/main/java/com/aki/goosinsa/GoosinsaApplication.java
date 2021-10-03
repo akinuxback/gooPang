@@ -20,7 +20,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.builder.SpringApplicationBuilder;
+import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -34,7 +37,7 @@ import java.util.stream.IntStream;
 
 @SpringBootApplication
 @RequiredArgsConstructor
-public class GoosinsaApplication implements CommandLineRunner {
+public class GoosinsaApplication extends SpringBootServletInitializer implements CommandLineRunner {
 
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -43,6 +46,11 @@ public class GoosinsaApplication implements CommandLineRunner {
 	private final EntityManager em;
 
 	private String UPLOAD_FOLDER = System.getProperty("user.home") + File.separator + "upload" + File.separator;
+
+	@Override
+	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
+		return builder.sources(GoosinsaApplication.class);
+	}
 
 	public static void main(String[] args) {
 		SpringApplication.run(GoosinsaApplication.class, args);
@@ -368,7 +376,7 @@ public class GoosinsaApplication implements CommandLineRunner {
 
 				FoodItem foodItem14 = new FoodItem(foodItemDto14);
 				itemRepository.save(foodItem14);
-				
+
 
 				FoodItemDto foodItemDto15 = new FoodItemDto("멕시칸양념", i * 5000, j * 10, "상품설명 블라블라", uploadFileDtoFood15, company8,
 						FoodGroups.CHICKEN, "순살");

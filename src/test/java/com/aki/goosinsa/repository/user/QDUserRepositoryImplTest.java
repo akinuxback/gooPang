@@ -1,14 +1,8 @@
 package com.aki.goosinsa.repository.user;
 
 import com.aki.goosinsa.controller.user.UserSearch;
-import com.aki.goosinsa.domain.domain.Address;
-import com.aki.goosinsa.domain.dto.item.FoodItemDto;
-import com.aki.goosinsa.domain.entity.item.FoodItem;
-import com.aki.goosinsa.domain.entity.user.User;
 import com.aki.goosinsa.domain.entity.user.UserDto;
-import com.aki.goosinsa.domain.entity.user.UserRole;
 import lombok.extern.log4j.Log4j2;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +13,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @SpringBootTest
 @Transactional
@@ -59,10 +51,10 @@ class QDUserRepositoryImplTest {
 
     @Test
     public void findUsers() throws Exception{
-        List<User> users = qdUserRepository.findUsers();
-        List<UserDto> userDtoList = users.stream()
-                .map(u -> UserDto.toDto(u))
-                .collect(Collectors.toList());
+//        List<User> users = qdUserRepository.findUsers();
+//        List<UserDto> userDtoList = users.stream()
+//                .map(u -> UserDto.toDto(u))
+//                .collect(Collectors.toList());
 
     }
 
@@ -73,13 +65,13 @@ class QDUserRepositoryImplTest {
 
     @Test
     public void findByUsername() throws Exception{
-        User username1 = qdUserRepository.findByUsername("username1");
-        log.info("return =====> " + username1.getUsername());
+//        User username1 = qdUserRepository.findByUsername("username1");
+//        log.info("return =====> " + username1.getUsername());
     }
 
     @Test
     public void findLoginUserById() throws Exception{
-        User loginUserById = qdUserRepository.userLeftJoinCompanyFindById(1L);
+//        User loginUserById = qdUserRepository.userLeftJoinCompanyFindById(1L);
     }
 
     @Test
@@ -97,12 +89,12 @@ class QDUserRepositoryImplTest {
         });
     }
 
-    @Test
-    public void userList(){
-        List<User> all = userRepository.findAll();
-        all.forEach(u -> log.info("user All " + u.getUsername()));
-        
-    }
+//    @Test
+//    public void userList(){
+//        List<User> all = userRepository.findAll();
+//        all.forEach(u -> log.info("user All " + u.getUsername()));
+//
+//    }
     
 
 }

@@ -29,8 +29,8 @@ class QDCompanyRepositoryImplTest {
     public void findFoodGroups() throws Exception{
         
         //given
-        FoodGroups all = FoodGroups.valueOf("All");
-        log.info(all);
+//        FoodGroups all = FoodGroups.valueOf("All");
+//        log.info(all);
         //when
         
         //then
@@ -40,18 +40,18 @@ class QDCompanyRepositoryImplTest {
     
     @Test
     void findAllPaging() {
-        CompanySearch companySearch = new CompanySearch();
-        companySearch.checkNull();
-        Page<CompanyDto> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
-//        List<CompanyDto> content = pages.getContent().stream().map(c -> new CompanyDto(c)).collect(Collectors.toList());
-        List<CompanyDto> content = pages.getContent();
-        content.forEach(c -> {
-            log.info(c.getCompanyName());
-        });
-
-        log.info("===================================================");
-        log.info(pages.getContent().size());
-        log.info(pages.getTotalElements());
+//        CompanySearch companySearch = new CompanySearch();
+//        companySearch.checkNull();
+//        Page<CompanyDto> pages = qdCompanyRepository.findAllPaging(companySearch.getPageable(), companySearch);
+////        List<CompanyDto> content = pages.getContent().stream().map(c -> new CompanyDto(c)).collect(Collectors.toList());
+//        List<CompanyDto> content = pages.getContent();
+//        content.forEach(c -> {
+//            log.info(c.getCompanyName());
+//        });
+//
+//        log.info("===================================================");
+//        log.info(pages.getContent().size());
+//        log.info(pages.getTotalElements());
     }
     
     @Test
