@@ -8,8 +8,8 @@ spring:
     #   // 배포용 dataSource
     driver-class-name: oracle.jdbc.OracleDriver
 #    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=/var/lib/tomcat9/OracleCloud
-#    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=./src/main/resources/OracleCloud
-    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=C:\\akinux\\연습\\goosinsa\\src\\main\\resources\\OracleCloud
+    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=./src/main/resources/OracleCloud
+#    url: jdbc:oracle:thin:@db202109281822_high?TNS_ADMIN=C:\\akinux\\연습\\goosinsa\\src\\main\\resources\\OracleCloud
     username: admin
     password: '@Velpare1004'
     #   // 배포용 .end
