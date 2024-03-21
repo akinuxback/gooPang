@@ -9,7 +9,7 @@ public class Test_Class {
     }
 
     public String getString(){
-        return "AKINUX";
+        return "asdasdasd";
     }
 
 }
