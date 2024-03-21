@@ -39,9 +39,9 @@ class CompanyRepositoryTest {
                     .username("user" + i)
                     .name("박보영")
                     .password("1111")
-                    .email("akinux@gmail.com")
-                    .phoneNumber("010-6455-9777")
-                    .addressDto(new AddressDto("서울시 송파구 방이동", "102-5 601호", "111-111"))
+                    .email("google@gmail.com")
+                    .phoneNumber("010-0000-1111")
+                    .addressDto(new AddressDto("ㅁㄴㅇㅁㄴㅇㅁㄴㅇ"))
                     .build();
 
             User user = User.toEntity(userDto, bCryptPasswordEncoder);
@@ -52,8 +52,8 @@ class CompanyRepositoryTest {
 
         Company company = Company.builder()
                 .companyNo("111-1111-111")
-                .companyName("롯데마트")
-                .abbr("롯데")
+                .companyName("qweqweqwe")
+                .abbr("qwe")
                 .user(findUser)
                 .build();
 
